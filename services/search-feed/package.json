@@ -1,5 +1,5 @@
 {
-  "name": "@ecco/api-edge",
+  "name": "@ecco/search-feed",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -10,7 +10,8 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@ecco/platform-libs": "workspace:*"
+    "@ecco/platform-libs": "workspace:*",
+    "@google-cloud/secret-manager": "^5.6.0"
   },
   "devDependencies": {
     "typescript": "^5.5.0"

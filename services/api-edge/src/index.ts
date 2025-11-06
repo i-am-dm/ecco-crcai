@@ -1,13 +1,11 @@
 import http from "node:http";
 import url from "node:url";
-import { GcsStorage, listManifests, makeSnapshotPath, writeHistory, validateJson, cloudTraceFromHeader, logJSON } from "@ecco/platform-libs";
+import { GcsStorage, listManifests, makeSnapshotPath, writeHistory, validateJson, cloudTraceFromHeader, logJSON, enforceRBAC } from "@ecco/platform-libs";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const PORT = Number(process.env.PORT || 8080);
 const BUCKET = process.env.DATA_BUCKET || "";
-
-type Role = "Admin" | "Leadership" | "Lead" | "Contributor" | "Investor" | "Advisor";
 
 function parseRoles(req: http.IncomingMessage): Role[] {
   const hdr = (req.headers["x-roles"] as string | undefined) || "";
@@ -15,27 +13,6 @@ function parseRoles(req: http.IncomingMessage): Role[] {
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean) as Role[];
-}
-
-function enforceRBAC(req: http.IncomingMessage, entity?: string, method?: string, env?: string): { allowed: boolean; reason?: string } {
-  const roles = new Set(parseRoles(req));
-  const m = method || req.method || "GET";
-
-  // Admin-like roles: allow all
-  if (["Admin", "Leadership", "Lead", "Contributor"].some((r) => roles.has(r as Role))) {
-    return { allowed: true };
-  }
-
-  // Investor/Advisor: read-only; limited entities
-  if (roles.has("Investor") || roles.has("Advisor")) {
-    if (m !== "GET") return { allowed: false, reason: "read_only" };
-    if (env && env !== "prod") return { allowed: false, reason: "env_restricted" };
-    if (entity && !["venture", "cap_table", "round"].includes(entity)) return { allowed: false, reason: "entity_restricted" };
-    return { allowed: true };
-  }
-
-  // Default deny if roles missing
-  return { allowed: false, reason: "unauthorized" };
 }
 
 function send(res: http.ServerResponse, code: number, body: any) {
@@ -61,7 +38,7 @@ function readBody(req: http.IncomingMessage): Promise<any> {
 }
 
 async function handleList(req: http.IncomingMessage, res: http.ServerResponse, entity: string, env: string) {
-  const r = enforceRBAC(req, entity, "GET", env);
+  const r = enforceRBAC(parseRoles(req), entity, "GET", env);
   if (!r.allowed) {
     send(res, 403, { error: "forbidden", reason: r.reason });
     return;
@@ -72,7 +49,7 @@ async function handleList(req: http.IncomingMessage, res: http.ServerResponse, e
 }
 
 async function handleGet(req: http.IncomingMessage, res: http.ServerResponse, entity: string, id: string, env: string) {
-  const r = enforceRBAC(req, entity, "GET", env);
+  const r = enforceRBAC(parseRoles(req), entity, "GET", env);
   if (!r.allowed) {
     send(res, 403, { error: "forbidden", reason: r.reason });
     return;
@@ -92,7 +69,7 @@ async function handleHistory(req: http.IncomingMessage, res: http.ServerResponse
   const env = String(body?.env || "");
   const entity = String(body?.entity || "");
   const id = String(body?.id || "");
-  const r = enforceRBAC(req, entity, "POST", env);
+  const r = enforceRBAC(parseRoles(req), entity, "POST", env);
   if (!r.allowed) {
     send(res, 403, { error: "forbidden", reason: r.reason });
     return;
@@ -155,4 +132,3 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, () => {
   logJSON({ message: `api-edge listening on :${PORT}`, severity: "INFO" });
 });
-

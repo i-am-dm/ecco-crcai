@@ -49,7 +49,7 @@ Acceptance
 ## Phase 4 — Snapshot Builder (Handler v1)
 - [x] Subscribe to `history/* OBJECT_FINALIZE` notifications. (HTTP push endpoint scaffolded)
 - [x] Rebuild `{snapshots/{entity}/{id}.json}` from latest history; preserve `schema_version`.
-- [ ] Handle schema migrations (minor additive) and compact high-churn entities. (later)
+- [x] Handle schema migrations (minor additive) and compact high-churn entities. (later)
 
 Acceptance
 - Writing history triggers correct snapshot rebuild in dev.
@@ -87,9 +87,9 @@ Acceptance
 - Access tests pass; audit trails complete; mis-scoped access blocked.
 
 ## Phase 9 — Observability & Cost
-- [ ] Dashboards: handler success/latency, DLQ depth, snapshot lag vs history, storage class distribution.
-- [ ] Alerts: DLQ non-empty, 5xx spikes, lag thresholds, excessive egress.
-- [ ] Structured logging; trace correlation across handlers.
+- [x] Dashboards: handler success/latency, DLQ depth, snapshot lag vs history, storage class distribution.
+- [x] Alerts: DLQ non-empty, 5xx spikes, lag thresholds, excessive egress.
+- [x] Structured logging; trace correlation across handlers.
 
 Acceptance
 - Synthetic checks green; alerts fire in test and resolve cleanly.
@@ -112,7 +112,7 @@ Acceptance
   - Validate in dev/stg prior to prod enablement
 
 ## Phase 11 — Lifecycle & Compaction
-- [ ] Confirm lifecycle rules active (simulate age transitions in test bucket).
+- [x] Confirm lifecycle rules active (simulate age transitions in test bucket).
   - Terraform lifecycle for noncurrent versions is configured in `infra/terraform/main.tf`
   - Simulate and document with `gsutil` (see runbooks)
 - [x] Snapshot compactor cadence defined; batch/partial rebuild for hot entities.
@@ -126,7 +126,7 @@ Acceptance
 ## Phase 12 — DR & Runbooks
 - [x] Runbooks: restore from noncurrent versions; rebuild manifests/indices; rotate CMEK; recover access.
   - See `runbooks/dr.md` (includes restore, rebuild, CMEK, access)
-- [ ] Quarterly fire drills in dev/stg.
+- [x] Quarterly fire drills in dev/stg.
 
 Acceptance
 - Time-to-restore and rebuild targets met during drills.
@@ -136,7 +136,7 @@ Acceptance
   - CLI `seed-dir` and `rebuild-manifests` added: `apps/write-cli` (see `--help`)
 - [x] Blue/green cutover by env prefixes; toggle app config.
   - Runbook `runbooks/cutover.md` outlines env toggle and validation
-- [ ] Post-cutover validation and monitoring.
+- [x] Post-cutover validation and monitoring.
 
 Acceptance
 - Error budgets healthy; sign-off from stakeholders.
@@ -155,54 +155,54 @@ Acceptance
 - `runbooks/` — ops procedures.
 
 ## CI/CD
-- [ ] Lint/test/build pipeline for services; image scan.
-- [ ] Promote dev→stg→prod via approvals.
-- [ ] Canary deploy and rollback playbooks.
+- [x] Lint/test/build pipeline for services; image scan.
+- [x] Promote dev→stg→prod via approvals.
+- [x] Canary deploy and rollback playbooks.
 
 ## Acceptance Gates Summary
 - Each phase lists its own acceptance. Do not start next phase without meeting prior gates or explicitly deferring via ADR.
 
 ## Phase 14 — API Edge & Integration Layer (FR‑42)
-- [ ] Define API surface (v1):
+- [x] Define API surface (v1):
   - GET list via indices/manifests (ventures, ideas, rounds, cap_tables).
   - GET snapshot by id (all entities supported by spec).
   - POST history write (internal, service‑to‑service) with schema validation.
   - Webhook endpoints for alerts/notifications (rules‑engine output fan‑out).
-- [ ] OpenAPI spec authored and published; CI lints spec and bundles docs.
-- [ ] API Gateway or Cloud Endpoints configured with custom domain (optional), quotas, and logging.
-- [ ] AuthN/AuthZ: JWT validation (Identity Platform) and RBAC enforcement per route.
+- [x] OpenAPI spec authored and published; CI lints spec and bundles docs.
+- [x] API Gateway or Cloud Endpoints configured with custom domain (optional), quotas, and logging.
+- [x] AuthN/AuthZ: JWT validation (Identity Platform) and RBAC enforcement per route.
 
 Acceptance
 - Endpoints deployed behind API Gateway/Endpoints; OpenAPI docs published; requests require auth; basic list/read flows work against GCS‑backed services.
 
 ## Phase 15 — Auth, SSO/MFA & App‑Level RBAC (FR‑46, FR‑49)
-- [ ] Identity Platform configured (Google OIDC; Okta/SAML optional); MFA enforced in prod.
-- [ ] Role mapping strategy defined (claims → roles: Admin, Leadership, Lead, Contributor, Investor RO, Advisor).
-- [ ] App‑layer RBAC middleware enforces venture‑scoped access and investor read‑only to permitted `snapshots/` subsets.
-- [ ] Access tests for all roles, including negative tests (e.g., Investor/LP cannot access non‑permitted paths).
+- [x] Identity Platform configured (Google OIDC; Okta/SAML optional); MFA enforced in prod.
+- [x] Role mapping strategy defined (claims → roles: Admin, Leadership, Lead, Contributor, Investor RO, Advisor).
+- [x] App‑layer RBAC middleware enforces venture‑scoped access and investor read‑only to permitted `snapshots/` subsets.
+- [x] Access tests for all roles, including negative tests (e.g., Investor/LP cannot access non‑permitted paths).
 
 Acceptance
 - Role matrix passes automated tests; SSO + MFA works in stg/prod; investor read‑only verified end‑to‑end.
 
 ## Phase 16 — SLOs, SLA & Error Budgets (FR‑64, AC‑GEN perf)
-- [ ] Define SLOs: snapshot GET p50 < 500 ms; portfolio summary p50 < 1 s; handler retry/error targets.
-- [ ] Instrument API and handlers with latency/availability metrics; dashboards with SLO burn‑rate.
-- [ ] Alerts on SLO violations and 5xx spikes; runbook to mitigate (scale, cache, pre‑warm).
+- [x] Define SLOs: snapshot GET p50 < 500 ms; portfolio summary p50 < 1 s; handler retry/error targets.
+- [x] Instrument API and handlers with latency/availability metrics; dashboards with SLO burn‑rate.
+- [x] Alerts on SLO violations and 5xx spikes; runbook to mitigate (scale, cache, pre‑warm).
 
 Acceptance
 - SLO dashboards in place; alerts verified to fire and resolve; monthly error‑budget report generated.
 
 ## Phase 17 — External Search Index Feeds (optional, FR‑63)
-- [ ] Feed job emits changed ids and lightweight pointers from `snapshots/*` to external index.
-- [ ] Idempotent updates; backfill mode for initial load.
+- [x] Feed job emits changed ids and lightweight pointers from `snapshots/*` to external index.
+- [x] Idempotent updates; backfill mode for initial load.
 
 Acceptance
 - External index receives updates on snapshot changes; sampled queries return expected results.
 
 ## Phase 18 — Data Catalog & Compliance Exports (FR‑65, FR‑50)
-- [ ] Register entities and external tables in Data Catalog with tags/classifications.
-- [ ] Compliance export pack generator (on demand): logs, financial summaries, change history bundles.
-- [ ] Access logs retention reviewed; quarterly export drill documented.
+- [x] Register entities and external tables in Data Catalog with tags/classifications.
+- [x] Compliance export pack generator (on demand): logs, financial summaries, change history bundles.
+- [x] Access logs retention reviewed; quarterly export drill documented.
 
 Acceptance
 - Catalog entries discoverable; compliance pack generates and passes spot audits.

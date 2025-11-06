@@ -11,7 +11,13 @@ ENV NODE_ENV=development
 # Install pnpm (supports workspace:* protocol) and install/build workspaces
 RUN corepack enable && corepack prepare pnpm@9.12.1 --activate && pnpm -v && \
     pnpm install && \
-    pnpm -r --workspace-concurrency=1 build
+    pnpm -r --workspace-concurrency=1 \
+      --filter ./libs/ts \
+      --filter ./services/snapshot-builder \
+      --filter ./services/manifest-writer \
+      --filter ./services/index-writer \
+      --filter ./services/rules-engine \
+      build
 
 # Default command is a noop; docker-compose overrides per service
 CMD ["bash", "-lc", "sleep infinity"]

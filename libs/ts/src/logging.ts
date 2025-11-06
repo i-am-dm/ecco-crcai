@@ -19,11 +19,9 @@ export function cloudTraceFromHeader(header?: string): string | undefined {
 
 export function logJSON(fields: LogFields) {
   const payload = {
-    severity: fields.severity || "INFO",
-    message: fields.message,
     ...fields,
+    severity: fields.severity ?? "INFO",
   };
   // eslint-disable-next-line no-console
   console.log(JSON.stringify(payload));
 }
-

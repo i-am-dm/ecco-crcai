@@ -14,4 +14,5 @@ export * from "./rules.js";
 export * from "./secrets.js";
 export * from "./logging.js";
 export * from "./migrate.js";
+export * from "./rbac.js";
 export * from "./readers.js";

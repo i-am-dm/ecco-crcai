@@ -1,9 +1,8 @@
 import { GcsStorage, StorageClient } from "./gcs/storage.js";
 import { ulid } from "./ulid.js";
-import { EnvelopeBase } from "./envelope.js";
+import type { EnvelopeBase, Env } from "./envelope.js";
 
 export type Entity = EnvelopeBase["entity"];
-export type Env = "dev" | "stg" | "prod";
 
 export interface WritePathOptions {
   storage?: StorageClient;

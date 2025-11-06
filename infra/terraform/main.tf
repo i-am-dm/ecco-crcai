@@ -9,6 +9,7 @@ resource "google_project_service" "apis" {
     "cloudkms.googleapis.com",
     "run.googleapis.com",
     "secretmanager.googleapis.com",
+    "identitytoolkit.googleapis.com",
   ])
   service                    = each.key
   disable_dependent_services = false
@@ -277,6 +278,50 @@ locals {
           "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/reports/alerts/.*\")",
           "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/rules/_state/.*\")"
         ])
+      }
+      needs_secret_access = true
+    }
+
+    api_edge = {
+      image           = var.api_edge_image
+      topic_type      = "history" # not used
+      subscription_id = "api-edge-sub" # placeholder
+      service_name    = "api-edge"
+      env = [
+        {
+          name  = "DATA_BUCKET"
+          value = google_storage_bucket.data.name
+        }
+      ]
+      bucket_role = "roles/storage.objectViewer"
+      bucket_condition = {
+        title       = "ApiReadOnly"
+        description = "Allow API to read snapshots/manifests/indices"
+        expression  = join(" || ", [
+          "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/snapshots/.*\")",
+          "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/manifests/.*\")",
+          "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/indices/.*\")"
+        ])
+      }
+      needs_secret_access = false
+    }
+
+    search_feed = {
+      image           = var.search_feed_image
+      topic_type      = "snapshot"
+      subscription_id = "search-feed-sub"
+      service_name    = "search-feed"
+      env = [
+        {
+          name  = "DATA_BUCKET"
+          value = google_storage_bucket.data.name
+        }
+      ]
+      bucket_role = "roles/storage.objectViewer"
+      bucket_condition = {
+        title       = "SnapshotRead"
+        description = "Allow reads of snapshots"
+        expression  = "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/snapshots/.*\")"
       }
       needs_secret_access = true
     }

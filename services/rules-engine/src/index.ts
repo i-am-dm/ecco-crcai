@@ -80,7 +80,17 @@ async function resolveSecret(target: string): Promise<string> {
         throw new Error("No project configured for secret resolution");
       })();
   const [version] = await secretClient.accessSecretVersion({ name: secretPath });
-  const payload = version.payload?.data?.toString("utf8");
+  const data = version?.payload?.data as unknown;
+  let payload: string | undefined;
+  if (typeof data === "string") {
+    payload = Buffer.from(data, "base64").toString("utf8");
+  } else if (data instanceof Uint8Array) {
+    payload = Buffer.from(data).toString("utf8");
+  } else if (data && (Buffer as any).isBuffer?.(data)) {
+    payload = (data as Buffer).toString("utf8");
+  } else if (data != null) {
+    payload = String(data);
+  }
   if (!payload) throw new Error(`Secret ${secretPath} has no payload`);
   return payload.trim();
 }

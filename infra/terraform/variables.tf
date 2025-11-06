@@ -116,3 +116,15 @@ variable "rules_engine_image" {
   description = "Container image for the rules-engine Cloud Run service. Leave blank to skip creation."
   default     = ""
 }
+
+variable "api_edge_image" {
+  type        = string
+  description = "Container image for the api-edge Cloud Run service. Leave blank to skip creation."
+  default     = ""
+}
+
+variable "search_feed_image" {
+  type        = string
+  description = "Container image for the search-feed Cloud Run service. Leave blank to skip creation."
+  default     = ""
+}

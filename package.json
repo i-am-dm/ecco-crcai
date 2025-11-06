@@ -10,6 +10,9 @@
     "services/manifest-compactor",
     "services/index-writer",
     "services/rules-engine",
+    "services/search-feed",
+    "tools/search-backfill",
+    "tools/compliance-export",
     "tools/secret-pull"
   ]
 }
