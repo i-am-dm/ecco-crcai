@@ -10,6 +10,12 @@ variable "github_repo" {
   default     = "ecco-crcai"
 }
 
+variable "enable_github_triggers" {
+  type        = bool
+  description = "Create GitHub-backed Cloud Build triggers (requires repo connection)"
+  default     = false
+}
+
 variable "default_branch" {
   type        = string
   description = "Default branch to trigger builds on push"
@@ -160,6 +166,7 @@ resource "google_service_account_iam_member" "cb_impersonate_deployer" {
 
 # CI: Node build/test for libs and build images for services
 resource "google_cloudbuild_trigger" "ci_push" {
+  count = var.enable_github_triggers ? 1 : 0
   name = "ci-push"
 
   github {
@@ -192,6 +199,7 @@ resource "google_cloudbuild_trigger" "ci_push" {
 
 # Terraform plan on infra changes
 resource "google_cloudbuild_trigger" "tf_plan" {
+  count = var.enable_github_triggers ? 1 : 0
   name = "terraform-plan"
 
   github {
@@ -219,6 +227,7 @@ resource "google_cloudbuild_trigger" "tf_plan" {
 
 # OpenAPI lint when spec changes
 resource "google_cloudbuild_trigger" "openapi_lint" {
+  count = var.enable_github_triggers ? 1 : 0
   name = "openapi-lint"
 
   github {
@@ -239,6 +248,7 @@ resource "google_cloudbuild_trigger" "openapi_lint" {
 
 # Sync TODOs to GitHub Issues on changes to TODO.md
 resource "google_cloudbuild_trigger" "sync_todos" {
+  count = var.enable_github_triggers ? 1 : 0
   name = "sync-todos"
 
   github { owner = var.github_owner name = var.github_repo push { branch = var.default_branch } }
@@ -257,6 +267,7 @@ resource "google_cloudbuild_trigger" "sync_todos" {
 
 # Deploy triggers per environment (build, push, apply images via Terraform)
 resource "google_cloudbuild_trigger" "deploy_dev" {
+  count = var.enable_github_triggers ? 1 : 0
   name = "deploy-dev"
   github { owner = var.github_owner name = var.github_repo push { branch = var.default_branch } }
   substitutions = { _AR_REGION = var.region, _AR_REPO = var.artifact_repository }
@@ -326,6 +337,7 @@ resource "google_cloudbuild_trigger" "deploy_dev" {
 }
 
 resource "google_cloudbuild_trigger" "deploy_stg" {
+  count = var.enable_github_triggers ? 1 : 0
   name = "deploy-stg"
   github { owner = var.github_owner name = var.github_repo push { branch = var.default_branch } }
   substitutions = { _AR_REGION = var.region, _AR_REPO = var.artifact_repository }
@@ -335,6 +347,7 @@ resource "google_cloudbuild_trigger" "deploy_stg" {
 }
 
 resource "google_cloudbuild_trigger" "deploy_prod" {
+  count = var.enable_github_triggers ? 1 : 0
   name = "deploy-prod"
   github { owner = var.github_owner name = var.github_repo push { branch = var.default_branch } }
   substitutions = { _AR_REGION = var.region, _AR_REPO = var.artifact_repository }
