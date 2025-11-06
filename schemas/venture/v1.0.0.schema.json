@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Venture",
+  "type": "object",
+  "required": [
+    "id",
+    "entity",
+    "env",
+    "schema_version",
+    "created_at",
+    "updated_at",
+    "status"
+  ],
+  "properties": {
+    "id": {"type": "string"},
+    "entity": {"const": "venture"},
+    "env": {"enum": ["dev","stg","prod"]},
+    "schema_version": {"type": "string"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "lead": {"type": "string"},
+    "status": {"type": "string"},
+    "milestones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["milestoneId","title","dueDate","status"],
+        "properties": {
+          "milestoneId": {"type": "string"},
+          "title": {"type": "string"},
+          "dueDate": {"type": "string", "format": "date"},
+          "status": {"type": "string"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "budget": {
+      "type": "object",
+      "properties": {
+        "plannedUSD": {"type": "number", "minimum": 0},
+        "spentUSD": {"type": "number", "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "kpis": {
+      "type": "object",
+      "properties": {
+        "MRR": {"type": "number", "minimum": 0},
+        "userCount": {"type": "number", "minimum": 0},
+        "churnRate": {"type": "number", "minimum": 0, "maximum": 1}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
+

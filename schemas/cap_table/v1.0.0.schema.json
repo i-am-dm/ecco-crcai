@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CapTable",
+  "type": "object",
+  "required": [
+    "id",
+    "entity",
+    "env",
+    "schema_version",
+    "created_at",
+    "updated_at",
+    "ventureId",
+    "asOf",
+    "holders"
+  ],
+  "properties": {
+    "id": {"type": "string"},
+    "entity": {"const": "cap_table"},
+    "env": {"enum": ["dev","stg","prod"]},
+    "schema_version": {"type": "string"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "ventureId": {"type": "string"},
+    "asOf": {"type": "string", "format": "date"},
+    "holders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["holderId","name","security","quantity","pctFullyDiluted"],
+        "properties": {
+          "holderId": {"type": "string"},
+          "name": {"type": "string"},
+          "security": {"enum": ["COMMON","PREF","SAFE","NOTE","OPTION"]},
+          "quantity": {"type": "number", "minimum": 0},
+          "pctFullyDiluted": {"type": "number", "minimum": 0, "maximum": 1}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}
+

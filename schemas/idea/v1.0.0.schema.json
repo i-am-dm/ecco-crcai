@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Idea",
+  "type": "object",
+  "required": [
+    "id",
+    "entity",
+    "env",
+    "schema_version",
+    "created_at",
+    "updated_at",
+    "title",
+    "status"
+  ],
+  "properties": {
+    "id": {"type": "string"},
+    "entity": {"const": "idea"},
+    "env": {"enum": ["dev","stg","prod"]},
+    "schema_version": {"type": "string"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "title": {"type": "string"},
+    "problemStatement": {"type": "string"},
+    "marketSizeUSD": {"type": "number", "minimum": 0},
+    "estimatedResources": {
+      "type": "object",
+      "properties": {
+        "peopleMonths": {"type": "number", "minimum": 0},
+        "budgetUSD": {"type": "number", "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "teamProfile": {"type": "array", "items": {"type": "string"}},
+    "techStack": {"type": "array", "items": {"type": "string"}},
+    "status": {"type": "string"},
+    "score": {"type": "number", "minimum": 0, "maximum": 100}
+  },
+  "additionalProperties": true
+}
+

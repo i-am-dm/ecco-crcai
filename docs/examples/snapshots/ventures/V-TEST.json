@@ -1,0 +1,17 @@
+{
+  "id": "V-TEST",
+  "entity": "venture",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2025-11-06T00:00:00Z",
+  "updated_at": "2025-11-06T00:00:00Z",
+  "title": "Test Venture Low MRR",
+  "lead": "Bob",
+  "status": "Pilot",
+  "milestones": [
+    { "milestoneId": "M1", "title": "Build MVP", "dueDate": "2026-02-01", "status": "InProgress" }
+  ],
+  "budget": { "plannedUSD": 100000, "spentUSD": 1000 },
+  "kpis": { "MRR": 8000, "userCount": 120, "churnRate": 0.02 }
+}
+

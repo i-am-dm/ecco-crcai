@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en" class="h-full bg-slate-50">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ecco Studio Platform</title>
+    <meta name="color-scheme" content="light dark" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script>
+      // Tailwind Play CDN config
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol']
+            },
+            colors: {
+              brand: {
+                50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc', 400: '#818cf8',
+                500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81', 950: '#1e1b4b'
+              },
+              accent: {
+                50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0', 300: '#6ee7b7', 400: '#34d399',
+                500: '#10b981', 600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b', 950: '#022c22'
+              },
+              warn: { 50:'#fffbeb',100:'#fef3c7',200:'#fde68a',300:'#fcd34d',400:'#fbbf24',500:'#f59e0b',600:'#d97706',700:'#b45309',800:'#92400e',900:'#78350f' },
+              danger: { 50:'#fff1f2',100:'#ffe4e6',200:'#fecdd3',300:'#fda4af',400:'#fb7185',500:'#f43f5e',600:'#e11d48',700:'#be123c',800:'#9f1239',900:'#881337' }
+            },
+            boxShadow: {
+              subtle: '0 1px 2px 0 rgb(0 0 0 / 0.03), 0 1px 1px -1px rgb(0 0 0 / 0.02)'
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root { --header-h: 56px; }
+      .backdrop-grid {
+        background-image: radial-gradient(circle at 1px 1px, rgb(2 6 23 / .06) 1px, transparent 0);
+        background-size: 24px 24px;
+      }
+      .dark .backdrop-grid {
+        background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / .06) 1px, transparent 0);
+      }
+    </style>
+  </head>
+  <body class="h-full text-slate-900 dark:text-slate-100">
+    <div id="app" class="min-h-full">
+      <!-- Header -->
+      <header class="fixed inset-x-0 top-0 z-40 h-[var(--header-h)] bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200/70 dark:border-slate-700/60">
+        <div class="mx-auto max-w-7xl h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="h-8 w-8 rounded-lg bg-brand-600 text-white grid place-items-center shadow-subtle">
+              <span class="font-semibold">E</span>
+            </div>
+            <div class="leading-tight">
+              <div class="text-sm font-semibold tracking-tight">Ecco Studio</div>
+              <div class="text-xs text-slate-500 dark:text-slate-400">Venture Platform</div>
+            </div>
+            <nav class="hidden md:flex items-center ml-8 gap-4 text-sm">
+              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Ideas</a>
+              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Ventures</a>
+              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Talent</a>
+              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Experiments</a>
+              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Rounds</a>
+              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Cap Tables</a>
+              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Reports</a>
+            </nav>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="themeToggle" class="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+              <svg class="h-4 w-4 text-slate-700 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+              <svg class="h-4 w-4 text-slate-300 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              <span class="hidden md:inline">Theme</span>
+            </button>
+            <button class="hidden sm:inline-flex items-center gap-2 text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 active:bg-brand-800 px-3 py-1.5 rounded-lg shadow-subtle">
+              <span>New Venture</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page -->
+      <main class="pt-[var(--header-h)]">
+        <div class="backdrop-grid">
+          <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Hero / Summary -->
+            <div class="rounded-2xl bg-white/90 dark:bg-slate-900/80 border border-slate-200/70 dark:border-slate-700/60 shadow-subtle overflow-hidden">
+              <div class="p-6 sm:p-8 bg-gradient-to-r from-brand-50 to-accent-50 dark:from-slate-900 dark:to-slate-900 border-b border-slate-200/70 dark:border-slate-700/60">
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                  <div>
+                    <h1 class="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">Portfolio Overview</h1>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Serverless JSON-in-GCS persistence with realtime manifests and indices.</p>
+                  </div>
+                  <div class="inline-flex rounded-lg bg-white/70 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/60 overflow-hidden">
+                    <button class="px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Dev</button>
+                    <button class="px-3 py-1.5 text-xs font-medium bg-brand-600 text-white">Prod</button>
+                  </div>
+                </div>
+              </div>
+              <!-- KPIs -->
+              <div class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4">
+                  <div class="text-xs text-slate-500">Active Ventures</div>
+                  <div class="mt-2 text-2xl font-semibold">12</div>
+                  <div class="mt-1 text-xs text-emerald-600 dark:text-emerald-400">+2 this month</div>
+                </div>
+                <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4">
+                  <div class="text-xs text-slate-500">MRR</div>
+                  <div class="mt-2 text-2xl font-semibold">$82k</div>
+                  <div class="mt-1 text-xs text-emerald-600 dark:text-emerald-400">+8% MoM</div>
+                </div>
+                <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4">
+                  <div class="text-xs text-slate-500">Rounds in Flight</div>
+                  <div class="mt-2 text-2xl font-semibold">5</div>
+                  <div class="mt-1 text-xs text-amber-600 dark:text-amber-400">2 closing in 30d</div>
+                </div>
+                <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4">
+                  <div class="text-xs text-slate-500">Runway (median)</div>
+                  <div class="mt-2 text-2xl font-semibold">13 mo</div>
+                  <div class="mt-1 text-xs text-slate-500">target ≥ 12 mo</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Main Content -->
+        <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Ventures Table -->
+            <div class="lg:col-span-2 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 shadow-subtle">
+              <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <h2 class="text-sm font-semibold tracking-tight">Ventures</h2>
+                <div class="text-xs text-slate-500">by status</div>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                  <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300">
+                    <tr>
+                      <th class="text-left font-medium px-6 py-3">ID</th>
+                      <th class="text-left font-medium px-6 py-3">Lead</th>
+                      <th class="text-left font-medium px-6 py-3">Status</th>
+                      <th class="text-left font-medium px-6 py-3">Next Milestone</th>
+                      <th class="text-right font-medium px-6 py-3">MRR</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/50">
+                      <td class="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">V001</td>
+                      <td class="px-6 py-3">Bob</td>
+                      <td class="px-6 py-3"><span class="inline-flex items-center gap-1 rounded-md bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-300 px-2 py-0.5 text-xs font-medium ring-1 ring-inset ring-brand-200/70 dark:ring-brand-800/60">Pilot</span></td>
+                      <td class="px-6 py-3">Build MVP — 2026‑02‑01</td>
+                      <td class="px-6 py-3 text-right">$12k</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/50">
+                      <td class="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">V002</td>
+                      <td class="px-6 py-3">Sara</td>
+                      <td class="px-6 py-3"><span class="inline-flex items-center gap-1 rounded-md bg-emerald-50 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 px-2 py-0.5 text-xs font-medium ring-1 ring-inset ring-emerald-200/70 dark:ring-emerald-800/60">Scale</span></td>
+                      <td class="px-6 py-3">Expand GTM — 2025‑12‑15</td>
+                      <td class="px-6 py-3 text-right">$35k</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/50">
+                      <td class="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">V003</td>
+                      <td class="px-6 py-3">Alex</td>
+                      <td class="px-6 py-3"><span class="inline-flex items-center gap-1 rounded-md bg-amber-50 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 px-2 py-0.5 text-xs font-medium ring-1 ring-inset ring-amber-200/70 dark:ring-amber-800/60">Pivot</span></td>
+                      <td class="px-6 py-3">Reposition — 2025‑11‑30</td>
+                      <td class="px-6 py-3 text-right">$8k</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Activity / Events -->
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 shadow-subtle">
+              <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <h2 class="text-sm font-semibold tracking-tight">Recent Changes</h2>
+                <span class="text-xs text-slate-500">history events</span>
+              </div>
+              <ul class="divide-y divide-slate-100 dark:divide-slate-800">
+                <li class="px-6 py-4">
+                  <p class="text-sm"><span class="font-medium">V001</span> snapshot updated</p>
+                  <p class="text-xs text-slate-500">2025‑11‑06T10:21:23Z</p>
+                </li>
+                <li class="px-6 py-4">
+                  <p class="text-sm"><span class="font-medium">CT‑V001</span> cap table updated</p>
+                  <p class="text-xs text-slate-500">2025‑11‑06T10:35:00Z</p>
+                </li>
+                <li class="px-6 py-4">
+                  <p class="text-sm"><span class="font-medium">Round‑R12</span> target increased (+$250k)</p>
+                  <p class="text-xs text-slate-500">2025‑11‑06T09:02:11Z</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="border-t border-slate-200/70 dark:border-slate-800 py-6 text-xs text-slate-500">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <span>© <span id="year"></span> Ecco Studio</span>
+          <span class="text-slate-400">JSON-in-GCS • Cloud Run • BigQuery</span>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Dark mode toggle with localStorage
+      const root = document.documentElement;
+      const key = 'theme';
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const saved = localStorage.getItem(key);
+      if ((saved === 'dark') || (!saved && prefersDark)) root.classList.add('dark');
+      document.getElementById('themeToggle')?.addEventListener('click', () => {
+        root.classList.toggle('dark');
+        localStorage.setItem(key, root.classList.contains('dark') ? 'dark' : 'light');
+      });
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+  </html>

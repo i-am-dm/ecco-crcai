@@ -1,0 +1,23 @@
+{
+  "id": "RULE-LOW-MRR",
+  "entity": "rule",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2025-11-06T00:00:00Z",
+  "updated_at": "2025-11-06T00:00:00Z",
+  "match": {
+    "entity": "venture",
+    "conditions": [
+      { "path": "kpis.MRR", "op": "lt", "value": 10000 },
+      { "path": "status", "op": "eq", "value": "Pilot" }
+    ]
+  },
+  "action": {
+    "type": "alert",
+    "channel": "webhook",
+    "severity": "warn",
+    "target": "sm://slack_webhook"
+  },
+  "description": "Alert when ventures in Pilot stage drop below 10k MRR"
+}
+

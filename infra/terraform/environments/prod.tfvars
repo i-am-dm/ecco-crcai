@@ -1,0 +1,8 @@
+project_id = "YOUR_PROD_PROJECT"
+region     = "us-central1"
+location   = "US"
+bucket_name = "ecco-studio-platform-data"
+snapshot_builder_image = "us-docker.pkg.dev/YOUR_PROD_PROJECT/handlers/snapshot-builder:prod"
+manifest_writer_image  = "us-docker.pkg.dev/YOUR_PROD_PROJECT/handlers/manifest-writer:prod"
+index_writer_image     = "us-docker.pkg.dev/YOUR_PROD_PROJECT/handlers/index-writer:prod"
+rules_engine_image     = "us-docker.pkg.dev/YOUR_PROD_PROJECT/handlers/rules-engine:prod"

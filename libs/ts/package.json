@@ -1,0 +1,28 @@
+{
+  "name": "@ecco/platform-libs",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "node --test"
+  },
+  "peerDependencies": {
+    "@google-cloud/storage": "^7.11.0",
+    "@google-cloud/secret-manager": "^5.6.0",
+    "ajv": "^8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@google-cloud/storage": { "optional": true },
+    "@google-cloud/secret-manager": { "optional": true },
+    "ajv": { "optional": true }
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}

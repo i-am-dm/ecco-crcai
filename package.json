@@ -1,0 +1,14 @@
+{
+  "name": "ecco-studio-platform",
+  "private": true,
+  "workspaces": [
+    "libs/ts",
+    "apps/write-cli",
+    "services/snapshot-builder",
+    "services/manifest-writer",
+    "services/manifest-compactor",
+    "services/index-writer",
+    "services/rules-engine",
+    "tools/secret-pull"
+  ]
+}

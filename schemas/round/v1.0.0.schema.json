@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FundraisingRound",
+  "type": "object",
+  "required": [
+    "id",
+    "entity",
+    "env",
+    "schema_version",
+    "created_at",
+    "updated_at",
+    "ventureId",
+    "stage",
+    "targetUSD",
+    "committedUSD",
+    "closeDate"
+  ],
+  "properties": {
+    "id": {"type": "string"},
+    "entity": {"const": "round"},
+    "env": {"enum": ["dev","stg","prod"]},
+    "schema_version": {"type": "string"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "ventureId": {"type": "string"},
+    "stage": {"enum": ["PRESEED","SEED","SERIES_A","SERIES_B","OTHER"]},
+    "targetUSD": {"type": "number", "minimum": 0},
+    "committedUSD": {"type": "number", "minimum": 0},
+    "closeDate": {"type": "string", "format": "date"},
+    "investors": {"type": "array", "items": {"type": "string"}},
+    "terms": {"type": "object"}
+  },
+  "additionalProperties": true
+}
+
