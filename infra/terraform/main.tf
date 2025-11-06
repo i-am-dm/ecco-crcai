@@ -64,6 +64,44 @@ resource "google_storage_bucket" "data" {
     }
   }
 
+  # Delete non-current snapshot versions older than 30 days
+  lifecycle_rule {
+    action { type = "Delete" }
+    condition {
+      is_live       = false
+      age           = 30
+      matches_prefix = [
+        "env/prod/snapshots/",
+        "env/stg/snapshots/",
+        "env/dev/snapshots/",
+      ]
+    }
+  }
+
+  # Transition history objects to Nearline after 30 days, Coldline after 180 days
+  dynamic "lifecycle_rule" {
+    for_each = [
+      {
+        class           = "NEARLINE"
+        age             = 30
+      },
+      {
+        class           = "COLDLINE"
+        age             = 180
+      }
+    ]
+    content {
+      action {
+        type          = "SetStorageClass"
+        storage_class = lifecycle_rule.value.class
+      }
+      condition {
+        age = lifecycle_rule.value.age
+        matches_prefix = local.history_prefixes
+      }
+    }
+  }
+
   # Optionally set storage class for history after some time (documented in runbooks; refine later)
 }
 
@@ -248,6 +286,44 @@ locals {
     for key, cfg in local.handler_configs : key => cfg
     if length(trim(cfg.image)) > 0
   }
+}
+
+# History object prefixes across envs/entities for lifecycle transitions
+locals {
+  history_entities = [
+    "ideas",
+    "ventures",
+    "resources",
+    "budgets",
+    "kpis",
+    "investors",
+    "partners",
+    "services",
+    "talent",
+    "experiments",
+    "rounds",
+    "cap_tables",
+    "playbooks",
+    "benchmarks",
+    "reports",
+    "models",
+    "simulations",
+  ]
+  history_prefixes = flatten([
+    for e in ["dev", "stg", "prod"] : [
+      for seg in local.history_entities : "env/${e}/${seg}/"
+    ]
+  ])
+}
+
+# Enable Cloud Audit Logs (Admin + Data Access)
+resource "google_project_iam_audit_config" "all_services" {
+  project = var.project_id
+  service = "allServices"
+
+  audit_log_config { log_type = "ADMIN_READ" }
+  audit_log_config { log_type = "DATA_READ" }
+  audit_log_config { log_type = "DATA_WRITE" }
 }
 
 resource "google_service_account" "handler" {

@@ -20,11 +20,11 @@ Acceptance
 
 ## Phase 1 — Infra Foundation (Terraform)
 - [x] Provision GCS bucket(s) + prefixes `env/{dev,stg,prod}` with UBLA, PAP, Versioning.
-- [ ] Lifecycle: history → Nearline/Coldline; snapshots keep last N=10 and delete noncurrent after 30 days.
+- [x] Lifecycle: history → Nearline/Coldline; snapshots keep last N=10 and delete noncurrent after 30 days.
 - [x] Pub/Sub topics + subscriptions with DLQs for `history/` and `snapshots/` notifications.
 - [x] Service accounts per service; IAM Conditions restricting path scopes.
 - [x] Optional CMEK key (KMS) + bindings; rotation schedule.
-- [ ] CI job for `terraform validate/plan` and manual `apply` gates.
+- [x] CI job for `terraform validate/plan` and manual `apply` gates.
 
 Acceptance
 - Buckets, topics, SAs exist; object finalize events trigger messages; IAM scoped by path.
@@ -57,7 +57,7 @@ Acceptance
 ## Phase 5 — Manifests
 - [x] Realtime per-id manifest writer on snapshot events: `manifests/{entity}/by-id/{id}.json`.
 - [x] Periodic compactor builds `_index.ndjson` shards (e.g., `_index_shard=00..FF.ndjson`).
-- [ ] Reader utilities to list via shards; fall back to per-id when needed.
+- [x] Reader utilities to list via shards; fall back to per-id when needed.
 
 Acceptance
 - Listing uses shards; compactor idempotent; hot update path avoids single-file contention.
@@ -81,7 +81,7 @@ Acceptance
 ## Phase 8 — Security Hardening
 - [x] Enforce IAM Conditions for path-scoped access (e.g., investor read-only to `snapshots/`).
 - [x] Enable CMEK if chosen; rotate keys; verify access paths.
-- [ ] Cloud Audit Logs (Admin + Data Access) enabled and reviewed.
+- [x] Cloud Audit Logs (Admin + Data Access) enabled and reviewed.
 
 Acceptance
 - Access tests pass; audit trails complete; mis-scoped access blocked.

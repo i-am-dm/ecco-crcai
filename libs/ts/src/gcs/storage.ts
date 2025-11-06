@@ -3,6 +3,7 @@ import type { DeleteOptions, ListedObject, ObjectMetadata, WriteOptions, WriteRe
 export interface StorageClient {
   writeJson(path: string, data: unknown, opts?: WriteOptions): Promise<WriteResult>;
   readJson<T = unknown>(path: string): Promise<T>;
+  readText(path: string): Promise<string>;
   stat(path: string): Promise<ObjectMetadata>;
   delete(path: string, opts?: DeleteOptions): Promise<void>;
   list(prefix: string): Promise<ListedObject[]>;
@@ -53,6 +54,14 @@ export class GcsStorage implements StorageClient {
     const file = bucket.file(path);
     const [buf] = await file.download();
     return JSON.parse(buf.toString("utf8")) as T;
+  }
+
+  async readText(path: string): Promise<string> {
+    const storage = await this.getStorage();
+    const bucket = storage.bucket(this.bucketName);
+    const file = bucket.file(path);
+    const [buf] = await file.download();
+    return buf.toString("utf8");
   }
 
   async stat(path: string): Promise<ObjectMetadata> {
