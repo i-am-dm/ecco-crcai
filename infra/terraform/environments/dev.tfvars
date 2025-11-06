@@ -1,8 +1,10 @@
-project_id = "YOUR_DEV_PROJECT"
+project_id = "crcai-477403"
 region     = "us-central1"
 location   = "US"
 bucket_name = "ecco-studio-platform-data-dev"
-snapshot_builder_image = "us-docker.pkg.dev/YOUR_DEV_PROJECT/handlers/snapshot-builder:dev"
-manifest_writer_image  = "us-docker.pkg.dev/YOUR_DEV_PROJECT/handlers/manifest-writer:dev"
-index_writer_image     = "us-docker.pkg.dev/YOUR_DEV_PROJECT/handlers/index-writer:dev"
-rules_engine_image     = "us-docker.pkg.dev/YOUR_DEV_PROJECT/handlers/rules-engine:dev"
+# Image vars usually set by Cloud Build deploy trigger via -var overrides.
+# Leave blank to skip service creation until images are supplied.
+snapshot_builder_image = ""
+manifest_writer_image  = ""
+index_writer_image     = ""
+rules_engine_image     = ""
