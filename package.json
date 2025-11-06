@@ -12,6 +12,7 @@
     "services/rules-engine",
     "services/search-feed",
     "tools/search-backfill",
+    "tools/sync-todos",
     "tools/compliance-export",
     "tools/secret-pull"
   ]

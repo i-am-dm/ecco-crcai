@@ -1,0 +1,17 @@
+{
+  "name": "@ecco/sync-todos",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "sync-todos": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}
+
