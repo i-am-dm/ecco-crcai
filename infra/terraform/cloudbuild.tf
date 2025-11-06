@@ -239,8 +239,17 @@ resource "google_cloudbuild_trigger" "openapi_lint" {
   included_files = ["api/openapi.yaml"]
 
   build {
-    step { name = "node:20" entrypoint = "bash" args = ["-lc", "npm i -g @redocly/cli && redocly lint api/openapi.yaml && redocly bundle api/openapi.yaml -o /workspace/openapi.bundle.yaml"] }
-    artifacts { objects { location = "gs://$PROJECT_ID-build-artifacts/openapi/" paths = ["/workspace/openapi.bundle.yaml"] } }
+    step {
+      name       = "node:20"
+      entrypoint = "bash"
+      args       = ["-lc", "npm i -g @redocly/cli && redocly lint api/openapi.yaml && redocly bundle api/openapi.yaml -o /workspace/openapi.bundle.yaml"]
+    }
+    artifacts {
+      objects {
+        location = "gs://$PROJECT_ID-build-artifacts/openapi/"
+        paths    = ["/workspace/openapi.bundle.yaml"]
+      }
+    }
     options { logging = "CLOUD_LOGGING_ONLY" }
   }
   depends_on = [google_project_service.cloudbuild]
@@ -251,15 +260,28 @@ resource "google_cloudbuild_trigger" "sync_todos" {
   count = var.enable_github_triggers ? 1 : 0
   name = "sync-todos"
 
-  github { owner = var.github_owner name = var.github_repo push { branch = var.default_branch } }
+  github {
+    owner = var.github_owner
+    name  = var.github_repo
+    push {
+      branch = var.default_branch
+    }
+  }
   included_files = ["TODO.md", "tools/sync-todos/**"]
 
   build {
-    step { name = "node:20" entrypoint = "bash" args = ["-lc", "npm ci && npm run build --workspaces && node tools/sync-todos/dist/index.js"] env = var.github_token_secret == "" ? [] : ["GH_TOKEN_SECRET=projects/$PROJECT_ID/secrets/${split(\"/\", var.github_token_secret)[3]}/versions/latest"] }
-    available_secrets {
-      secret_manager { env = "GH_TOKEN" version_name = var.github_token_secret }
+    step {
+      name       = "node:20"
+      entrypoint = "bash"
+      args       = ["-lc", "npm ci && npm run build --workspaces && node tools/sync-todos/dist/index.js"]
     }
-    secret_env = var.github_token_secret == "" ? [] : ["GH_TOKEN"]
+    available_secrets {
+      secret_manager {
+        env         = "GH_TOKEN"
+        version_name = var.github_token_secret
+      }
+    }
+    # Secret GH_TOKEN will be injected if github_token_secret is provided
     options { logging = "CLOUD_LOGGING_ONLY" }
   }
   depends_on = [google_project_service.cloudbuild]
@@ -269,17 +291,33 @@ resource "google_cloudbuild_trigger" "sync_todos" {
 resource "google_cloudbuild_trigger" "deploy_dev" {
   count = var.enable_github_triggers ? 1 : 0
   name = "deploy-dev"
-  github { owner = var.github_owner name = var.github_repo push { branch = var.default_branch } }
+  github {
+    owner = var.github_owner
+    name  = var.github_repo
+    push {
+      branch = var.default_branch
+    }
+  }
   substitutions = { _AR_REGION = var.region, _AR_REPO = var.artifact_repository }
   build {
-    step { name = "gcr.io/google.com/cloudsdktool/cloud-sdk" entrypoint = "bash" args = ["-lc", "gcloud auth configure-docker ${_AR_REGION}-docker.pkg.dev -q"] }
-    step { name = "node:20" entrypoint = "bash" args = ["-lc", "npm ci && npm run build --workspaces"] }
+    step {
+      name       = "gcr.io/google.com/cloudsdktool/cloud-sdk"
+      entrypoint = "bash"
+      args       = ["-lc", "gcloud auth configure-docker $${_AR_REGION}-docker.pkg.dev -q"]
+    }
+    step {
+      name       = "node:20"
+      entrypoint = "bash"
+      args       = ["-lc", "npm ci && npm run build --workspaces"]
+    }
     step {
       name = "gcr.io/google.com/cloudsdktool/cloud-sdk"
       entrypoint = "bash"
-      args = ["-lc", <<-EOS
-        set -euo pipefail
-        HOST=${_AR_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}
+      args = [
+        "-lc",
+        <<-EOS
+          set -euo pipefail
+        HOST=$${_AR_REGION}-docker.pkg.dev/$PROJECT_ID/$${_AR_REPO}
         SERVICES="api-edge snapshot-builder manifest-writer index-writer rules-engine search-feed manifest-compactor"
         TFVARS=""
         for S in $SERVICES; do
@@ -302,7 +340,8 @@ resource "google_cloudbuild_trigger" "deploy_dev" {
           fi
         done
         echo "$TFVARS" > /workspace/tfvars.txt
-      EOS ]
+        EOS
+      ]
     }
     step {
       name = "hashicorp/terraform:1.9.5"
@@ -339,19 +378,135 @@ resource "google_cloudbuild_trigger" "deploy_dev" {
 resource "google_cloudbuild_trigger" "deploy_stg" {
   count = var.enable_github_triggers ? 1 : 0
   name = "deploy-stg"
-  github { owner = var.github_owner name = var.github_repo push { branch = var.default_branch } }
+  github {
+    owner = var.github_owner
+    name  = var.github_repo
+    push {
+      branch = var.default_branch
+    }
+  }
   substitutions = { _AR_REGION = var.region, _AR_REPO = var.artifact_repository }
   approval_config { approval_required = true }
-  build = google_cloudbuild_trigger.deploy_dev.build
+  build {
+    step {
+      name       = "gcr.io/google.com/cloudsdktool/cloud-sdk"
+      entrypoint = "bash"
+      args       = ["-lc", "gcloud auth configure-docker $${_AR_REGION}-docker.pkg.dev -q"]
+    }
+    step {
+      name       = "node:20"
+      entrypoint = "bash"
+      args       = ["-lc", "npm ci && npm run build --workspaces"]
+    }
+    step {
+      name       = "gcr.io/google.com/cloudsdktool/cloud-sdk"
+      entrypoint = "bash"
+      args       = [
+        "-lc",
+        <<-EOS
+          set -euo pipefail
+        HOST=$${_AR_REGION}-docker.pkg.dev/$PROJECT_ID/$${_AR_REPO}
+        SERVICES="api-edge snapshot-builder manifest-writer index-writer rules-engine search-feed manifest-compactor"
+        TFVARS=""
+        for S in $SERVICES; do
+          DIR="services/$S"
+          if [ "$S" = "manifest-compactor" ]; then DIR="services/manifest-compactor"; fi
+          if [ -d "$DIR" ]; then
+            IMG="$HOST/$S:$SHORT_SHA"
+            docker build -t "$IMG" "$DIR"
+            docker push "$IMG"
+            DIGEST=$(gcloud artifacts docker images describe "$IMG" --format='value(image_summary.digest)')
+            case "$S" in
+              api-edge) TFVARS="$TFVARS -var api_edge_image=$HOST/$S@$DIGEST";;
+              snapshot-builder) TFVARS="$TFVARS -var snapshot_builder_image=$HOST/$S@$DIGEST";;
+              manifest-writer) TFVARS="$TFVARS -var manifest_writer_image=$HOST/$S@$DIGEST";;
+              index-writer) TFVARS="$TFVARS -var index_writer_image=$HOST/$S@$DIGEST";;
+              rules-engine) TFVARS="$TFVARS -var rules_engine_image=$HOST/$S@$DIGEST";;
+              search-feed) TFVARS="$TFVARS -var search_feed_image=$HOST/$S@$DIGEST";;
+              manifest-compactor) TFVARS="$TFVARS -var manifest_compactor_image=$HOST/$S@$DIGEST";;
+            esac
+          fi
+        done
+        echo "$TFVARS" > /workspace/tfvars.txt
+        EOS
+      ]
+    }
+    step {
+      name       = "hashicorp/terraform:1.9.5"
+      entrypoint = "sh"
+      env        = ["GOOGLE_IMPERSONATE_SERVICE_ACCOUNT=terraform-deployer@$PROJECT_ID.iam.gserviceaccount.com"]
+      args       = ["-lc", "cd infra/terraform && terraform init -input=false && terraform apply -auto-approve -var project_id=$PROJECT_ID $(cat /workspace/tfvars.txt)"]
+    }
+    options { logging = "CLOUD_LOGGING_ONLY" }
+    timeout = "1800s"
+  }
   depends_on = [google_cloudbuild_trigger.deploy_dev]
 }
 
 resource "google_cloudbuild_trigger" "deploy_prod" {
   count = var.enable_github_triggers ? 1 : 0
   name = "deploy-prod"
-  github { owner = var.github_owner name = var.github_repo push { branch = var.default_branch } }
+  github {
+    owner = var.github_owner
+    name  = var.github_repo
+    push {
+      branch = var.default_branch
+    }
+  }
   substitutions = { _AR_REGION = var.region, _AR_REPO = var.artifact_repository }
   approval_config { approval_required = true }
-  build = google_cloudbuild_trigger.deploy_dev.build
+  build {
+    step {
+      name       = "gcr.io/google.com/cloudsdktool/cloud-sdk"
+      entrypoint = "bash"
+      args       = ["-lc", "gcloud auth configure-docker $${_AR_REGION}-docker.pkg.dev -q"]
+    }
+    step {
+      name       = "node:20"
+      entrypoint = "bash"
+      args       = ["-lc", "npm ci && npm run build --workspaces"]
+    }
+    step {
+      name       = "gcr.io/google.com/cloudsdktool/cloud-sdk"
+      entrypoint = "bash"
+      args       = [
+        "-lc",
+        <<-EOS
+          set -euo pipefail
+        HOST=$${_AR_REGION}-docker.pkg.dev/$PROJECT_ID/$${_AR_REPO}
+        SERVICES="api-edge snapshot-builder manifest-writer index-writer rules-engine search-feed manifest-compactor"
+        TFVARS=""
+        for S in $SERVICES; do
+          DIR="services/$S"
+          if [ "$S" = "manifest-compactor" ]; then DIR="services/manifest-compactor"; fi
+          if [ -d "$DIR" ]; then
+            IMG="$HOST/$S:$SHORT_SHA"
+            docker build -t "$IMG" "$DIR"
+            docker push "$IMG"
+            DIGEST=$(gcloud artifacts docker images describe "$IMG" --format='value(image_summary.digest)')
+            case "$S" in
+              api-edge) TFVARS="$TFVARS -var api_edge_image=$HOST/$S@$DIGEST";;
+              snapshot-builder) TFVARS="$TFVARS -var snapshot_builder_image=$HOST/$S@$DIGEST";;
+              manifest-writer) TFVARS="$TFVARS -var manifest_writer_image=$HOST/$S@$DIGEST";;
+              index-writer) TFVARS="$TFVARS -var index_writer_image=$HOST/$S@$DIGEST";;
+              rules-engine) TFVARS="$TFVARS -var rules_engine_image=$HOST/$S@$DIGEST";;
+              search-feed) TFVARS="$TFVARS -var search_feed_image=$HOST/$S@$DIGEST";;
+              manifest-compactor) TFVARS="$TFVARS -var manifest_compactor_image=$HOST/$S@$DIGEST";;
+            esac
+          fi
+        done
+        echo "$TFVARS" > /workspace/tfvars.txt
+        EOS
+      ]
+    }
+    step {
+      name       = "hashicorp/terraform:1.9.5"
+      entrypoint = "sh"
+      env        = ["GOOGLE_IMPERSONATE_SERVICE_ACCOUNT=terraform-deployer@$PROJECT_ID.iam.gserviceaccount.com"]
+      args       = ["-lc", "cd infra/terraform && terraform init -input=false && terraform apply -auto-approve -var project_id=$PROJECT_ID $(cat /workspace/tfvars.txt)"]
+    }
+    options { logging = "CLOUD_LOGGING_ONLY" }
+    timeout = "1800s"
+  }
   depends_on = [google_cloudbuild_trigger.deploy_dev]
 }

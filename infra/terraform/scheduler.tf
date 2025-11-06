@@ -18,14 +18,18 @@ resource "google_cloudbuild_trigger" "dr_issue" {
       args       = ["-lc", <<-EOF
         set -euo pipefail
         TITLE="DR Fire Drill - $(date -u +%F)"
-        BODY='{"title":"'"${TITLE}"'","body":"Quarterly DR drill: restore, rebuild, CMEK, access. Envs: dev, stg.", "labels":["type: todo","drill"]}'
+        BODY='{"title":"'"$${TITLE}"'","body":"Quarterly DR drill: restore, rebuild, CMEK, access. Envs: dev, stg.", "labels":["type: todo","drill"]}'
         curl -s -X POST -H "Authorization: token $GH_TOKEN" -H "Accept: application/vnd.github+json" \
           https://api.github.com/repos/${var.github_owner}/${var.github_repo}/issues -d "$BODY"
       EOF
       ]
-      env = var.github_token_secret == "" ? [] : ["GH_TOKEN_SECRET=${var.github_token_secret}"]
     }
-    available_secrets { secret_manager { env = "GH_TOKEN" version_name = var.github_token_secret } }
+    available_secrets {
+      secret_manager {
+        env          = "GH_TOKEN"
+        version_name = var.github_token_secret
+      }
+    }
     secret_env = var.github_token_secret == "" ? [] : ["GH_TOKEN"]
     options { logging = "CLOUD_LOGGING_ONLY" }
   }
@@ -42,4 +46,3 @@ resource "google_cloud_scheduler_job" "dr_quarterly" {
   }
   depends_on = [google_pubsub_topic.dr_reminder]
 }
-

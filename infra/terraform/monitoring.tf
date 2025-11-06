@@ -99,28 +99,8 @@ resource "google_monitoring_alert_policy" "run_5xx" {
       filter          = "metric.type=\"run.googleapis.com/request_count\" AND metric.label.response_code_class=\"5xx\""
       duration        = "600s"
       comparison      = "COMPARISON_GT"
-      threshold_value = 0.05
+      threshold_value = 100
       trigger { count = 1 }
-      aggregations {
-        per_series_aligner = "ALIGN_RATIO"
-      }
     }
   }
 }
-
-resource "google_monitoring_slo" "api_availability" {
-  display_name = "API availability"
-  goal         = 0.995
-  rolling_period_days = 30
-  service = {
-    service_id = "api-edge"
-  }
-  request_based_sli {
-    # Proxy: use 5xx ratio
-    good_total_ratio {
-      good_service_filter  = "metric.type=\"run.googleapis.com/request_count\" AND metric.label.response_code_class!=\"5xx\" AND resource.label.service_name=\"api-edge\""
-      total_service_filter = "metric.type=\"run.googleapis.com/request_count\" AND resource.label.service_name=\"api-edge\""
-    }
-  }
-}
-

@@ -11,6 +11,7 @@ resource "google_project_service" "apigw" {
 }
 
 resource "google_api_gateway_api" "api" {
+  provider   = google-beta
   count       = var.enable_api_gateway ? 1 : 0
   api_id      = "ecco-api"
   display_name = "Ecco Studio API"
@@ -18,6 +19,7 @@ resource "google_api_gateway_api" "api" {
 }
 
 resource "google_api_gateway_api_config" "api_cfg" {
+  provider   = google-beta
   count     = var.enable_api_gateway ? 1 : 0
   api       = google_api_gateway_api.api[0].api_id
   api_config_id = "v1"
@@ -30,6 +32,7 @@ resource "google_api_gateway_api_config" "api_cfg" {
 }
 
 resource "google_api_gateway_gateway" "gw" {
+  provider   = google-beta
   count      = var.enable_api_gateway ? 1 : 0
   gateway_id = "ecco-api-gw"
   api_config = google_api_gateway_api_config.api_cfg[0].id
@@ -40,4 +43,3 @@ output "api_gateway_url" {
   value       = var.enable_api_gateway ? google_api_gateway_gateway.gw[0].default_hostname : null
   description = "Default hostname for API Gateway"
 }
-

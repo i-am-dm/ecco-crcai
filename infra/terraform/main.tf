@@ -69,7 +69,7 @@ resource "google_storage_bucket" "data" {
   lifecycle_rule {
     action { type = "Delete" }
     condition {
-      is_live       = false
+      with_state    = "ARCHIVED"
       age           = 30
       matches_prefix = [
         "env/prod/snapshots/",
