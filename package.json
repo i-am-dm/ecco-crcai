@@ -4,6 +4,7 @@
   "workspaces": [
     "libs/ts",
     "apps/write-cli",
+    "services/api-edge",
     "services/snapshot-builder",
     "services/manifest-writer",
     "services/manifest-compactor",

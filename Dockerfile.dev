@@ -1,0 +1,17 @@
+# syntax=docker/dockerfile:1
+FROM node:20-slim
+
+WORKDIR /srv/app
+
+# Copy the full workspace for a simple, reliable dev image
+COPY . .
+
+ENV NODE_ENV=development
+
+# Install pnpm (supports workspace:* protocol) and install/build workspaces
+RUN corepack enable && corepack prepare pnpm@9.12.1 --activate && pnpm -v && \
+    pnpm install && \
+    pnpm -r --workspace-concurrency=1 build
+
+# Default command is a noop; docker-compose overrides per service
+CMD ["bash", "-lc", "sleep infinity"]

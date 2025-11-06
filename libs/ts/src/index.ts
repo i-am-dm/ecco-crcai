@@ -12,4 +12,6 @@ export * from "./rules.js";
 export * from "./indices.js";
 export * from "./rules.js";
 export * from "./secrets.js";
+export * from "./logging.js";
+export * from "./migrate.js";
 export * from "./readers.js";

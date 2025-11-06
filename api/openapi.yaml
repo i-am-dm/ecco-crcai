@@ -1,0 +1,73 @@
+openapi: 3.0.3
+info:
+  title: Ecco Studio API
+  version: 1.0.0
+servers:
+  - url: https://api.ecco.example.com
+paths:
+  /v1/{entity}:
+    get:
+      summary: List entities via manifests/indices
+      parameters:
+        - in: path
+          name: entity
+          required: true
+          schema:
+            type: string
+            enum: [idea, venture, round, cap_table]
+        - in: query
+          name: env
+          schema:
+            type: string
+            enum: [dev, stg, prod]
+          required: false
+      responses:
+        '200':
+          description: Items
+  /v1/{entity}/{id}:
+    get:
+      summary: Get snapshot by id
+      parameters:
+        - in: path
+          name: entity
+          required: true
+          schema:
+            type: string
+            enum: [idea, venture, round, cap_table]
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: env
+          schema:
+            type: string
+            enum: [dev, stg, prod]
+          required: false
+      responses:
+        '200':
+          description: Snapshot
+  /v1/internal/history:
+    post:
+      summary: Write a history record (internal)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '202':
+          description: Accepted
+components:
+  securitySchemes:
+    firebase:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Identity Platform JWT
+security:
+  - firebase: []
+tags:
+  - name: core

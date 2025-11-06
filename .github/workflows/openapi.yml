@@ -1,0 +1,24 @@
+name: OpenAPI Lint
+
+on:
+  pull_request:
+    paths:
+      - 'api/openapi.yaml'
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Redocly CLI
+        run: npm install -g @redocly/cli
+      - name: Lint OpenAPI
+        run: redocly lint api/openapi.yaml
+      - name: Bundle OpenAPI
+        run: redocly bundle api/openapi.yaml -o api/openapi.bundle.yaml
+      - name: Upload bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapi-bundle
+          path: api/openapi.bundle.yaml

@@ -1,5 +1,5 @@
 import http from "node:http";
-import { GcsStorage, updateSnapshot, entityFromPathSegment } from "@ecco/platform-libs";
+import { GcsStorage, updateSnapshot, entityFromPathSegment, cloudTraceFromHeader, logJSON, migrateSnapshotMinorAdditive, compactHighChurn } from "@ecco/platform-libs";
 
 type PubSubPush = {
   message?: {
@@ -56,8 +56,11 @@ async function handleEvent(event: GcsEvent) {
     return { skipped: true, reason: "read_failed", error: String(err) } as const;
   }
 
+  // Apply minor additive migrations and compaction for high-churn entities
+  const migrated = migrateSnapshotMinorAdditive(payload);
+  const compacted = compactHighChurn(migrated);
   // Idempotency guard by updated_at vs current snapshot inside updateSnapshot()
-  const res = await updateSnapshot(event.bucket, p.env, p.entity, p.id, payload, { storage });
+  const res = await updateSnapshot(event.bucket, p.env, p.entity, p.id, compacted, { storage });
   return res;
 }
 
@@ -78,9 +81,13 @@ const server = http.createServer(async (req, res) => {
     }
     const decoded = Buffer.from(dataB64, "base64").toString("utf8");
     const event = JSON.parse(decoded) as GcsEvent;
+    const trace = cloudTraceFromHeader(req.headers["x-cloud-trace-context"] as string | undefined);
     const result = await handleEvent(event);
+    logJSON({ message: "snapshot-builder processed event", severity: "INFO", trace, event: event.name, result });
     send(res, 200, { ok: true, result });
   } catch (err) {
+    const trace = cloudTraceFromHeader(req.headers["x-cloud-trace-context"] as string | undefined);
+    logJSON({ message: "snapshot-builder error", severity: "ERROR", trace, error: String(err) });
     send(res, 200, { ok: true, skipped: true, error: String(err) });
   }
 });

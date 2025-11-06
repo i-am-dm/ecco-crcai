@@ -1,9 +1,5 @@
 import http from "node:http";
-import {
-  GcsStorage,
-  buildIndexPointers,
-  entityFromPathSegment,
-} from "@ecco/platform-libs";
+import { GcsStorage, buildIndexPointers, entityFromPathSegment, cloudTraceFromHeader, logJSON } from "@ecco/platform-libs";
 
 type PubSubPush = {
   message?: {
@@ -134,9 +130,13 @@ const server = http.createServer(async (req, res) => {
     }
     const decoded = Buffer.from(b64, "base64").toString("utf8");
     const event = JSON.parse(decoded) as GcsEvent;
+    const trace = cloudTraceFromHeader(req.headers["x-cloud-trace-context"] as string | undefined);
     const result = await handleEvent(event);
+    logJSON({ message: "index-writer processed event", severity: "INFO", trace, event: event.name, result });
     send(res, 200, { ok: true, result });
   } catch (err) {
+    const trace = cloudTraceFromHeader(req.headers["x-cloud-trace-context"] as string | undefined);
+    logJSON({ message: "index-writer error", severity: "ERROR", trace, error: String(err) });
     send(res, 200, { ok: true, skipped: true, error: String(err) });
   }
 });
@@ -145,4 +145,3 @@ server.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`index-writer listening on :${PORT}`);
 });
-

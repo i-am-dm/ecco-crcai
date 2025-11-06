@@ -7,6 +7,7 @@ import {
   RuleDefinition,
 } from "@ecco/platform-libs";
 import { SecretManagerServiceClient } from "@google-cloud/secret-manager";
+import { cloudTraceFromHeader, logJSON } from "@ecco/platform-libs";
 
 type PubSubPush = {
   message?: {
@@ -119,11 +120,11 @@ async function dispatchAlert(alert: ReturnType<typeof buildAlert>, rule: RuleDef
         },
         body: JSON.stringify(payload),
       });
-      console.log(JSON.stringify({ severity: alert.severity, ruleId: rule.id, message: "Dispatched webhook alert", target }));
+      logJSON({ severity: alert.severity.toUpperCase() as any, message: "Dispatched webhook alert", ruleId: rule.id, target });
       break;
     case "log":
     default:
-      console.log(JSON.stringify({ severity: alert.severity, ruleId: rule.id, message: "Alert logged", alert }));
+      logJSON({ severity: alert.severity.toUpperCase() as any, message: "Alert logged", ruleId: rule.id, alert });
       break;
   }
 }
@@ -187,9 +188,13 @@ const server = http.createServer(async (req, res) => {
     }
     const decoded = Buffer.from(b64, "base64").toString("utf8");
     const event = JSON.parse(decoded) as GcsEvent;
+    const trace = cloudTraceFromHeader(req.headers["x-cloud-trace-context"] as string | undefined);
     const result = await handleEvent(event);
+    logJSON({ message: "rules-engine processed event", severity: "INFO", trace, event: event.name, result });
     send(res, 200, { ok: true, result });
   } catch (err) {
+    const trace = cloudTraceFromHeader(req.headers["x-cloud-trace-context"] as string | undefined);
+    logJSON({ message: "rules-engine error", severity: "ERROR", trace, error: String(err) });
     send(res, 200, { ok: true, skipped: true, error: String(err) });
   }
 });

@@ -1,5 +1,5 @@
 import http from "node:http";
-import { GcsStorage, makeManifestPerIdPath, manifestFromSnapshot, entityFromPathSegment } from "@ecco/platform-libs";
+import { GcsStorage, makeManifestPerIdPath, manifestFromSnapshot, entityFromPathSegment, cloudTraceFromHeader, logJSON } from "@ecco/platform-libs";
 
 type PubSubPush = {
   message?: {
@@ -91,9 +91,13 @@ const server = http.createServer(async (req, res) => {
     }
     const decoded = Buffer.from(b64, "base64").toString("utf8");
     const event = JSON.parse(decoded) as GcsEvent;
+    const trace = cloudTraceFromHeader(req.headers["x-cloud-trace-context"] as string | undefined);
     const result = await handleEvent(event);
+    logJSON({ message: "manifest-writer processed event", severity: "INFO", trace, event: event.name, result });
     send(res, 200, { ok: true, result });
   } catch (err) {
+    const trace = cloudTraceFromHeader(req.headers["x-cloud-trace-context"] as string | undefined);
+    logJSON({ message: "manifest-writer error", severity: "ERROR", trace, error: String(err) });
     send(res, 200, { ok: true, skipped: true, error: String(err) });
   }
 });

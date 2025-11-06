@@ -3,8 +3,9 @@ version: "3.9"
 services:
   snapshot-builder:
     build:
-      context: ./services/snapshot-builder
-    command: ["npm", "start"]
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["npm", "start", "-w", "services/snapshot-builder"]
     environment:
       PORT: 8081
       GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
@@ -14,10 +15,27 @@ services:
     ports:
       - "8081:8081"
 
+  snapshot-builder-watch:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["npm", "run", "dev", "-w", "services/snapshot-builder"]
+    environment:
+      PORT: 8081
+      GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-/credentials/key.json}
+    volumes:
+      - ${GOOGLE_APPLICATION_CREDENTIALS:-$PWD/credentials.json}:/credentials/key.json:ro
+      - ./services/snapshot-builder/src:/srv/app/services/snapshot-builder/src
+    ports:
+      - "8081:8081"
+    profiles: ["watch"]
+
   manifest-writer:
     build:
-      context: ./services/manifest-writer
-    command: ["npm", "start"]
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["npm", "start", "-w", "services/manifest-writer"]
     environment:
       PORT: 8082
       GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
@@ -27,10 +45,27 @@ services:
     ports:
       - "8082:8082"
 
+  manifest-writer-watch:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["npm", "run", "dev", "-w", "services/manifest-writer"]
+    environment:
+      PORT: 8082
+      GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-/credentials/key.json}
+    volumes:
+      - ${GOOGLE_APPLICATION_CREDENTIALS:-$PWD/credentials.json}:/credentials/key.json:ro
+      - ./services/manifest-writer/src:/srv/app/services/manifest-writer/src
+    ports:
+      - "8082:8082"
+    profiles: ["watch"]
+
   index-writer:
     build:
-      context: ./services/index-writer
-    command: ["npm", "start"]
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["npm", "start", "-w", "services/index-writer"]
     environment:
       PORT: 8083
       GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
@@ -40,10 +75,27 @@ services:
     ports:
       - "8083:8083"
 
+  index-writer-watch:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["npm", "run", "dev", "-w", "services/index-writer"]
+    environment:
+      PORT: 8083
+      GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-/credentials/key.json}
+    volumes:
+      - ${GOOGLE_APPLICATION_CREDENTIALS:-$PWD/credentials.json}:/credentials/key.json:ro
+      - ./services/index-writer/src:/srv/app/services/index-writer/src
+    ports:
+      - "8083:8083"
+    profiles: ["watch"]
+
   rules-engine:
     build:
-      context: ./services/rules-engine
-    command: ["npm", "start"]
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["npm", "start", "-w", "services/rules-engine"]
     environment:
       PORT: 8084
       GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
@@ -53,16 +105,41 @@ services:
     ports:
       - "8084:8084"
 
+  rules-engine-watch:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["npm", "run", "dev", "-w", "services/rules-engine"]
+    environment:
+      PORT: 8084
+      GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-/credentials/key.json}
+    volumes:
+      - ${GOOGLE_APPLICATION_CREDENTIALS:-$PWD/credentials.json}:/credentials/key.json:ro
+      - ./services/rules-engine/src:/srv/app/services/rules-engine/src
+    ports:
+      - "8084:8084"
+    profiles: ["watch"]
+
   manifest-compactor:
     build:
-      context: ./services/manifest-compactor
-    command: ["npm", "start"]
+      context: .
+      dockerfile: Dockerfile.dev
     environment:
       GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
       GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-/credentials/key.json}
     volumes:
       - ${GOOGLE_APPLICATION_CREDENTIALS:-$PWD/credentials.json}:/credentials/key.json:ro
     entrypoint: ["sleep", "infinity"]
+
+  libs-ts-watch:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["npm", "run", "build:watch", "-w", "libs/ts"]
+    volumes:
+      - ./libs/ts/src:/srv/app/libs/ts/src
+    profiles: ["watch"]
 
 networks:
   default:
