@@ -19,21 +19,21 @@ Acceptance
 - Decisions recorded (ADRs) and referenced in spec; stakeholders sign-off.
 
 ## Phase 1 — Infra Foundation (Terraform)
-- [ ] Provision GCS bucket(s) + prefixes `env/{dev,stg,prod}` with UBLA, PAP, Versioning.
+- [x] Provision GCS bucket(s) + prefixes `env/{dev,stg,prod}` with UBLA, PAP, Versioning.
 - [ ] Lifecycle: history → Nearline/Coldline; snapshots keep last N=10 and delete noncurrent after 30 days.
-- [ ] Pub/Sub topics + subscriptions with DLQs for `history/` and `snapshots/` notifications.
-- [ ] Service accounts per service; IAM Conditions restricting path scopes.
-- [ ] Optional CMEK key (KMS) + bindings; rotation schedule.
+- [x] Pub/Sub topics + subscriptions with DLQs for `history/` and `snapshots/` notifications.
+- [x] Service accounts per service; IAM Conditions restricting path scopes.
+- [x] Optional CMEK key (KMS) + bindings; rotation schedule.
 - [ ] CI job for `terraform validate/plan` and manual `apply` gates.
 
 Acceptance
 - Buckets, topics, SAs exist; object finalize events trigger messages; IAM scoped by path.
 
 ## Phase 2 — Schemas & SDKs
-- [ ] Author JSON Schemas: `idea`, `venture`, `round`, `cap_table` under `schemas/{entity}/vX.Y.Z.schema.json`.
-- [ ] Build lightweight SDK: envelope enforcement, ULID, RFC3339 timestamps, JSON Schema validation.
-- [ ] GCS client with preconditions (`ifGenerationMatch`, `ifMetagenerationMatch`).
-- [ ] Unit tests for validation and precondition behavior (mocks/local emulator where possible).
+- [x] Author JSON Schemas: `idea`, `venture`, `round`, `cap_table` under `schemas/{entity}/vX.Y.Z.schema.json`.
+- [x] Build lightweight SDK: envelope enforcement, ULID, RFC3339 timestamps, JSON Schema validation.
+- [x] GCS client with preconditions (`ifGenerationMatch`, `ifMetagenerationMatch`).
+- [x] Unit tests for validation and precondition behavior (mocks/local emulator where possible).
 
 Acceptance
 - All writes validated; tests pass; schemas published alongside code.
@@ -73,14 +73,14 @@ Acceptance
 ## Phase 7 — Rules Engine
 - [x] Evaluate `rules/` against fresh snapshots; simple JSON-based conditions (thresholds, date windows).
 - [x] Emit alerts to Slack/Email via webhooks; persist to `reports/alerts/{id}.json`. (webhook + storage alerts wired; extend for email later)
-- [ ] Secrets from Secret Manager; structured logs for audits. (secret access wired; add structured logging/trace)
+- [x] Secrets from Secret Manager; structured logs for audits. (secret access wired; add structured logging/trace)
 
 Acceptance
 - E2E: snapshot change → rule trigger → alert recorded (webhook dispatch active).
 
 ## Phase 8 — Security Hardening
-- [ ] Enforce IAM Conditions for path-scoped access (e.g., investor read-only to `snapshots/`).
-- [ ] Enable CMEK if chosen; rotate keys; verify access paths.
+- [x] Enforce IAM Conditions for path-scoped access (e.g., investor read-only to `snapshots/`).
+- [x] Enable CMEK if chosen; rotate keys; verify access paths.
 - [ ] Cloud Audit Logs (Admin + Data Access) enabled and reviewed.
 
 Acceptance
@@ -142,10 +142,10 @@ Acceptance
 - Error budgets healthy; sign-off from stakeholders.
 
 ## Open Decisions & Spec Errata (Track Until Closed)
-- [ ] Manifest strategy finalized and documented (per-id + shards recommended).
-- [ ] Cap table snapshot keying aligned (id vs ventureId); spec updated.
-- [ ] Pointer object schema frozen and versioned.
-- [ ] Fix cap table JSON example (remove stray quote in `quantity`).
+- [x] Manifest strategy finalized and documented (per-id + shards recommended).
+- [x] Cap table snapshot keying aligned (id vs ventureId); spec updated.
+- [x] Pointer object schema frozen and versioned.
+- [x] Fix cap table JSON example (remove stray quote in `quantity`).
 
 ## Code Structure (Target)
 - `infra/terraform/*` — buckets, IAM, Pub/Sub, CMEK, lifecycle.
