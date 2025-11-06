@@ -47,10 +47,115 @@ resource "google_project_iam_member" "cb_artifact_writer" {
   member  = "serviceAccount:${data.google_project.current.number}@cloudbuild.gserviceaccount.com"
 }
 
-resource "google_project_iam_member" "cb_editor" {
+# Dedicated deployer service account for Terraform applies (impersonated by Cloud Build)
+resource "google_service_account" "terraform_deployer" {
+  account_id   = "terraform-deployer"
+  display_name = "Terraform Deployer"
+}
+
+# Broad editor on deployer SA (refine to custom role in production)
+# Granular roles for Terraform deployer SA (narrower than editor)
+resource "google_project_iam_member" "deployer_project_iam_admin" {
   project = var.project_id
-  role    = "roles/editor"
-  member  = "serviceAccount:${data.google_project.current.number}@cloudbuild.gserviceaccount.com"
+  role    = "roles/resourcemanager.projectIamAdmin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_serviceusage_admin" {
+  project = var.project_id
+  role    = "roles/serviceusage.serviceUsageAdmin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_run_admin" {
+  project = var.project_id
+  role    = "roles/run.admin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_sa_admin" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountAdmin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_sa_user" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountUser"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_storage_admin" {
+  project = var.project_id
+  role    = "roles/storage.admin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_pubsub_admin" {
+  project = var.project_id
+  role    = "roles/pubsub.admin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_monitoring_admin" {
+  project = var.project_id
+  role    = "roles/monitoring.admin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_apigw_admin" {
+  project = var.project_id
+  role    = "roles/apigateway.admin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_artifact_admin" {
+  project = var.project_id
+  role    = "roles/artifactregistry.admin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_scheduler_admin" {
+  project = var.project_id
+  role    = "roles/cloudscheduler.admin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_cloudbuild_trigger_admin" {
+  project = var.project_id
+  role    = "roles/cloudbuild.triggerAdmin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_bigquery_admin" {
+  project = var.project_id
+  role    = "roles/bigquery.admin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_bq_connection_admin" {
+  project = var.project_id
+  role    = "roles/bigquery.connectionAdmin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_kms_admin" {
+  project = var.project_id
+  role    = "roles/cloudkms.admin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+resource "google_project_iam_member" "deployer_datacatalog_admin" {
+  project = var.project_id
+  role    = "roles/datacatalog.admin"
+  member  = "serviceAccount:${google_service_account.terraform_deployer.email}"
+}
+
+# Allow Cloud Build SA to impersonate the deployer SA
+resource "google_service_account_iam_member" "cb_impersonate_deployer" {
+  service_account_id = google_service_account.terraform_deployer.name
+  role               = "roles/iam.serviceAccountTokenCreator"
+  member             = "serviceAccount:${data.google_project.current.number}@cloudbuild.gserviceaccount.com"
 }
 
 # CI: Node build/test for libs and build images for services
@@ -191,12 +296,33 @@ resource "google_cloudbuild_trigger" "deploy_dev" {
     step {
       name = "hashicorp/terraform:1.9.5"
       entrypoint = "sh"
+      env = ["GOOGLE_IMPERSONATE_SERVICE_ACCOUNT=terraform-deployer@$PROJECT_ID.iam.gserviceaccount.com"]
       args = ["-lc", "cd infra/terraform && terraform init -input=false && terraform apply -auto-approve -var project_id=$PROJECT_ID $(cat /workspace/tfvars.txt)"]
     }
     options { logging = "CLOUD_LOGGING_ONLY" }
     timeout = "1800s"
   }
-  depends_on = [google_project_service.cloudbuild, google_project_iam_member.cb_editor, google_project_iam_member.cb_artifact_writer]
+  depends_on = [
+    google_project_service.cloudbuild,
+    google_service_account_iam_member.cb_impersonate_deployer,
+    google_project_iam_member.cb_artifact_writer,
+    google_project_iam_member.deployer_project_iam_admin,
+    google_project_iam_member.deployer_serviceusage_admin,
+    google_project_iam_member.deployer_run_admin,
+    google_project_iam_member.deployer_sa_admin,
+    google_project_iam_member.deployer_sa_user,
+    google_project_iam_member.deployer_storage_admin,
+    google_project_iam_member.deployer_pubsub_admin,
+    google_project_iam_member.deployer_monitoring_admin,
+    google_project_iam_member.deployer_apigw_admin,
+    google_project_iam_member.deployer_artifact_admin,
+    google_project_iam_member.deployer_scheduler_admin,
+    google_project_iam_member.deployer_cloudbuild_trigger_admin,
+    google_project_iam_member.deployer_bigquery_admin,
+    google_project_iam_member.deployer_bq_connection_admin,
+    google_project_iam_member.deployer_kms_admin,
+    google_project_iam_member.deployer_datacatalog_admin,
+  ]
 }
 
 resource "google_cloudbuild_trigger" "deploy_stg" {
