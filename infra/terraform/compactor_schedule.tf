@@ -52,6 +52,11 @@ resource "google_cloud_run_v2_job" "compactor_delta" {
   for_each = local.compactor_matrix
   name     = "manifest-compactor-delta-${each.value.env}-${each.value.entity}"
   location = var.region
+  labels = {
+    project     = "crc-ai"
+    managed_by  = "terraform"
+    environment = each.value.env
+  }
   template {
     template {
       service_account = var.job_service_account_email != "" ? var.job_service_account_email : google_service_account.manifest_compactor_job[0].email
@@ -76,6 +81,11 @@ resource "google_cloud_run_v2_job" "compactor_full" {
   for_each = local.compactor_matrix
   name     = "manifest-compactor-full-${each.value.env}-${each.value.entity}"
   location = var.region
+  labels = {
+    project     = "crc-ai"
+    managed_by  = "terraform"
+    environment = each.value.env
+  }
   template {
     template {
       service_account = var.job_service_account_email != "" ? var.job_service_account_email : google_service_account.manifest_compactor_job[0].email

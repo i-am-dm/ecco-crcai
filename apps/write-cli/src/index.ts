@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { basename, join, extname } from "node:path";
-import { GcsStorage, writeHistory, updateSnapshot, validateJson, makeManifestPerIdPath, manifestFromSnapshot } from "@ecco/platform-libs";
+import { GcsStorage, writeHistory, updateSnapshot, validateJson, makeManifestPerIdPath, manifestFromSnapshot, buildIndexPointers } from "@ecco/platform-libs";
 
 type Env = "dev" | "stg" | "prod";
 
@@ -11,6 +11,7 @@ function usage() {
   write-cli write-and-snapshot --bucket <name> --env <env> --entity <entity> --id <id> --file <json>
   write-cli seed-dir --bucket <name> --env <env> --root <dir> [--snapshots true]
   write-cli rebuild-manifests --bucket <name> --env <env> --entity <entity|all>
+  write-cli rebuild-indices --bucket <name> --env <env> --entity <entity|all>
 `);
 }
 
@@ -38,7 +39,7 @@ function schemaPath(entity: string): string {
 
 async function main() {
   const { cmd, args } = parseArgs(process.argv);
-  if (!cmd || !["write-history", "write-and-snapshot", "seed-dir", "rebuild-manifests"].includes(cmd)) {
+  if (!cmd || !["write-history", "write-and-snapshot", "seed-dir", "rebuild-manifests", "rebuild-indices"].includes(cmd)) {
     usage();
     process.exit(1);
   }
@@ -140,6 +141,41 @@ async function main() {
       }
     }
     console.log(`Rebuilt ${written} manifests (env=${env}, entity=${entity})`);
+    return;
+  }
+
+  if (cmd === "rebuild-indices") {
+    const entity = (args.entity as string) || "all";
+    if (!bucket || !env) {
+      usage();
+      process.exit(1);
+    }
+    const allEntities = ["idea", "venture", "round", "cap_table", "playbook", "playbook_run", "comment"] as const;
+    const entities = (entity === "all" ? allEntities : [entity]) as readonly string[];
+    let written = 0;
+    let cleaned = 0;
+    for (const ent of entities) {
+      const segment = ent === "cap_table" ? "cap_tables" : `${ent}s`;
+      const prefix = `env/${env}/snapshots/${segment}/`;
+      const list = await storage.list(prefix);
+      for (const o of list) {
+        if (!o.name.endsWith(".json")) continue;
+        const snap = await storage.readJson<any>(o.name);
+        const plans = buildIndexPointers(snap);
+        for (const plan of plans) {
+          if (plan.cleanup) {
+            const existing = await storage.list(plan.cleanup.prefix);
+            const toDelete = existing.map((x: any) => x.name).filter((n: string) => n.endsWith(`/${plan.cleanup!.id}.json`));
+            for (const name of toDelete) {
+              try { await storage.delete(name); cleaned++; } catch {}
+            }
+          }
+          await storage.writeJson(plan.path, plan.pointer, { contentType: "application/json" });
+          written++;
+        }
+      }
+    }
+    console.log(`Rebuilt indices (env=${env}, entity=${entity}): written=${written}, cleaned=${cleaned}`);
     return;
   }
 }

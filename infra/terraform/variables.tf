@@ -128,3 +128,48 @@ variable "search_feed_image" {
   description = "Container image for the search-feed Cloud Run service. Leave blank to skip creation."
   default     = ""
 }
+
+# --- Runtime & rollout tuning ---
+variable "container_concurrency" {
+  type        = number
+  description = "Max concurrent requests per instance (Cloud Run container concurrency)."
+  default     = 16
+}
+
+variable "timeout_seconds" {
+  type        = number
+  description = "Request timeout in seconds."
+  default     = 30
+}
+
+variable "startup_cpu_boost" {
+  type        = bool
+  description = "Enable Cloud Run Startup CPU Boost (faster cold starts)."
+  default     = true
+}
+
+# --- Secrets (optional) ---
+variable "api_jwt_issuer_secret" {
+  type        = string
+  description = "Secret Manager secret name holding API_JWT_ISSUER (set to secret name; version \"latest\" used)."
+  default     = ""
+}
+
+variable "api_jwt_audience_secret" {
+  type        = string
+  description = "Secret Manager secret name holding API_JWT_AUDIENCE (set to secret name; version \"latest\" used)."
+  default     = ""
+}
+
+# Unified UI+API container (ecco-studio) on Cloud Run v2
+variable "ecco_studio_image" {
+  type        = string
+  description = "Container image for the unified ecco-studio Cloud Run v2 service (nginx+api-edge). Leave blank to skip creation."
+  default     = ""
+}
+
+variable "storage_backend" {
+  type        = string
+  description = "Storage backend for ecco-studio (gcs or fs)."
+  default     = "gcs"
+}

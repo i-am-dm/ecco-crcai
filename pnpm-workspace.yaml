@@ -1,6 +1,7 @@
 packages:
   - libs/ts
   - apps/write-cli
+  - apps/ui
   - services/*
   - tools/secret-pull
 

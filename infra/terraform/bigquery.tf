@@ -19,6 +19,11 @@ resource "google_bigquery_dataset" "analytics_dev" {
   dataset_id  = "analytics_dev"
   location    = var.location
   description = "Analytics (dev)"
+  labels = {
+    project     = "crc-ai"
+    managed_by  = "terraform"
+    environment = "dev"
+  }
   depends_on  = [google_project_service.bq_apis]
 }
 
@@ -26,6 +31,11 @@ resource "google_bigquery_dataset" "analytics_stg" {
   dataset_id  = "analytics_stg"
   location    = var.location
   description = "Analytics (stg)"
+  labels = {
+    project     = "crc-ai"
+    managed_by  = "terraform"
+    environment = "stg"
+  }
   depends_on  = [google_project_service.bq_apis]
 }
 
@@ -33,6 +43,11 @@ resource "google_bigquery_dataset" "analytics_prod" {
   dataset_id  = "analytics_prod"
   location    = var.location
   description = "Analytics (prod)"
+  labels = {
+    project     = "crc-ai"
+    managed_by  = "terraform"
+    environment = "prod"
+  }
   depends_on  = [google_project_service.bq_apis]
 }
 
