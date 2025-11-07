@@ -21,4 +21,5 @@ tools/local-harness/bucket/
 # Terraform state
 *.tfstate
 *.tfstate.backup
+infra/terraform/.terraform/
 infra/terraform/terraform.tfstate.d/
