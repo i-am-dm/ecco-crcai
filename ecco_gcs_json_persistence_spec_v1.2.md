@@ -1,7 +1,7 @@
 # Ecco Studio Platform – GCS JSON Persistence Spec
 Version: 1.2  
 Date: 2025‑11‑06  
-Status: Draft (ready for implementation)  
+Status: Adopted  
 Owner: Ecco Studio Platform
 
 > Phase 0 decisions (implementation defaults):
@@ -253,14 +253,30 @@ OPTIONS (
 Path: `env/prod/ideas/IDEA-001/history/2025/11/06/2025-11-06T10:18:22Z_01HFB9...json`
 ```json
 {
-  "id":"IDEA-001","entity":"idea","env":"prod","schema_version":"1.0.0",
+  "id":"IDEA-001","entity":"idea","env":"prod","schema_version":"v1.0.0",
   "created_at":"2025-11-05T14:32:00Z","updated_at":"2025-11-06T10:18:22Z",
+  "theme":"Applied AI",
   "title":"Automated Venture Studio Platform",
-  "problemStatement":"Studios lack unified platforms for multiple ventures.",
-  "marketSizeUSD":2500000000,
-  "estimatedResources":{"peopleMonths":6,"budgetUSD":150000},
-  "teamProfile":["founderA","engineerB"],"techStack":["serverless","react","gcp"],
-  "status":"Screening","score":75
+  "problem":"Studios lack unified platforms for ideation, validation, and launch workflows.",
+  "market":"Studios and venture builders spend >$10B annually stitching together point solutions.",
+  "team":"Needs a PM, platform lead, and founding engineer with event-driven experience.",
+  "tech":"TypeScript services on Cloud Run, Pub/Sub fan-out, and JSON-in-GCS storage.",
+  "description":"Unified cockpit for intake, scoring, and resource planning across every studio venture.",
+  "status":"Under Review",
+  "stage":"Validation",
+  "stage_owner":"founder@ecco.studio",
+  "stage_due_date":"2025-11-20T00:00:00Z",
+  "created_by":"founder@ecco.studio",
+  "tags":["ai","ops"],
+  "attachments":["https://example.com/docs/idea-brief"],
+  "score":{
+    "overall":8.1,
+    "market":8.5,
+    "team":7.5,
+    "tech":7.8,
+    "timing":8.7,
+    "notes":"Need clearer GTM budget before approval."
+  }
 }
 ```
 

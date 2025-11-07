@@ -1,0 +1,51 @@
+{
+  "id": "IDEA-002",
+  "entity": "idea",
+  "env": "dev",
+  "schema_version": "v1.0.0",
+  "created_at": "2025-10-18T09:30:00Z",
+  "createdAt": "2025-10-18T09:30:00Z",
+  "updated_at": "2025-11-04T18:45:00Z",
+  "updatedAt": "2025-11-04T18:45:00Z",
+  "created_by": "ops@ecco.studio",
+  "createdBy": "ops@ecco.studio",
+  "theme": "Flux Energy Demand",
+  "title": "Flux Energy Demand",
+  "problem": "Large C&I facilities overshoot demand-response commitments because forecasting is trapped in spreadsheets.",
+  "market": "North American demand-response programs with $6.1B addressable spend and strong ESG pressure.",
+  "team": "Needs energy domain PM, optimisation engineer, and integrations lead for BMS + utility APIs.",
+  "tech": "Temporal workflows, Python forecasting models, React operator console, and write-path to GCS for audit.",
+  "description": "Predictive guardrails that auto-adjust HVAC/industrial loads before utility penalties hit, with override workflows.",
+  "status": "Under Review",
+  "stage": "Validation",
+  "stage_owner": "ops@ecco.studio",
+  "stageOwner": "ops@ecco.studio",
+  "stage_due_date": "2025-11-15T00:00:00Z",
+  "stageDueDate": "2025-11-15T00:00:00Z",
+  "stage_history": [
+    {
+      "stage": "Idea",
+      "changed_at": "2025-10-18T09:30:00Z",
+      "changed_by": "ops@ecco.studio",
+      "notes": "Initial capture from field team"
+    },
+    {
+      "stage": "Validation",
+      "changed_at": "2025-11-04T18:45:00Z",
+      "changed_by": "ops@ecco.studio",
+      "notes": "Secured second pilot facility"
+    }
+  ],
+  "score": {
+    "overall": 7.9,
+    "market": 8.2,
+    "team": 7.5,
+    "tech": 7.0,
+    "timing": 9.0,
+    "notes": "Need concrete integration plan for Schneider + Honeywell BMS."
+  },
+  "tags": ["Energy", "ESG"],
+  "attachments": [
+    "gs://ecco-dev/docs/flux-dr-brief.pdf"
+  ]
+}

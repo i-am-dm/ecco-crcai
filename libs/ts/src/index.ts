@@ -4,6 +4,7 @@ export * from "./envelope.js";
 export * from "./schema/validator.js";
 export * from "./gcs/types.js";
 export * from "./gcs/storage.js";
+export * from "./storage-factory.js";
 export * from "./writepath.js";
 export * from "./manifest.js";
 export * from "./indices.js";

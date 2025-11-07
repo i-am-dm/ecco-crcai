@@ -1,21 +1,46 @@
-# Ecco Studio Platform — JSON‑in‑GCS Data Platform
+# Ecco Studio Platform — Venture Studio Platform
 
-Serverless data platform that persists venture‑studio entities as JSON objects in Google Cloud Storage (GCS), with TypeScript libraries and Cloud Run handlers to maintain snapshots, manifests, indices, and rule‑driven alerts. Terraform provisions bucket, Pub/Sub, Cloud Run, and analytics wiring.
+Serverless venture studio platform for ideation → validation → build → launch → scale → spin-out. Services maintain snapshots, manifests, indices, and rule‑driven alerts. Terraform provisions core resources and analytics wiring.
+
+Authoritative docs
+- Feature Requirements Document (FRD): `docs/frd/ecco-studio-platform-frd_v1.1.md`
+- GCS JSON Persistence Spec v1.2: `ecco_gcs_json_persistence_spec_v1.2.md`
+
+## Best-of-Breed Modules
+
+- Idea Intake & Screening — structured submissions, scoring, stage workflow.
+- Venture Workspace — milestones, roadmap, dependencies, risks.
+- Resource Allocation — people, utilisation, shared-services requests and SLAs.
+- Budget & Spend — plan vs actuals, burn and runway.
+- KPIs & Portfolio — per-venture KPIs, portfolio summaries, benchmarking.
+- Fundraising & Equity — pipeline, rounds, cap tables, investor updates.
+- Talent Marketplace — founder/advisor pool and matching.
+- Experiments & What‑If — hypotheses and simulations with persisted results.
+- Playbooks & Rules — SOPs, triggers, alerts, and exports.
+- Dataroom & Governance — VDR metadata, RBAC, audit, compliance.
+
+## Personas & Value
+
+- Leadership — portfolio health, allocation signals, risk heatmaps, exports.
+- Venture Leads — single workspace for roadmap, experiments, KPIs, and funding.
+- Ops & Finance — utilisation, SLAs, budgets, and compliance packs.
+- Investors/LPs — curated dashboards and scheduled updates.
 
 - Language/Runtime: TypeScript on Node.js 20 (ES Modules)
-- Compute: Cloud Run (Pub/Sub push)
-- Storage: GCS (UBLA, PAP enforced, versioning)
+ - Language/Runtime: TypeScript on Node.js 20 (ES Modules)
+ - Compute: Event-driven handlers (Pub/Sub push)
+ - Storage: Object storage (versioning, access controls)
 - Indexing: Per‑id manifests + sharded NDJSON for fast list queries
 - Validation: JSON Schema (Ajv optional)
 - IDs & Time: ULIDs and RFC3339 helpers
 
-See the platform spec for rationale and detailed layouts: `ecco-crcai.md` and ADRs in `docs/adr/`.
+See the platform spec and FRD for rationale and detailed layouts: `ecco_gcs_json_persistence_spec_v1.2.md` and `docs/frd/ecco-studio-platform-frd_v1.1.md`, plus ADRs in `docs/adr/`.
 
 
 ## Repository Structure
 
-- `libs/ts/` — Shared TypeScript library (envelope, ULID, RFC3339, JSON Schema validator, GCS client, write paths, manifests, indices, rules)
-- `services/` — Cloud Run services (event‑driven):
+- `libs/ts/` — Shared TypeScript library (envelope, ULID, RFC3339, JSON Schema validator, storage client, write paths, manifests, indices, rules)
+- `services/` — Event‑driven services:
   - `snapshot-builder/` — Builds/updates `snapshots/` from finalized `history/`
   - `manifest-writer/` — Writes per‑id manifest objects from snapshots
   - `index-writer/` — Maintains secondary index pointer files under `indices/`
@@ -23,10 +48,10 @@ See the platform spec for rationale and detailed layouts: `ecco-crcai.md` and AD
   - `manifest-compactor/` — CLI/Job to compact per‑id manifests into sharded NDJSON
 - `apps/write-cli/` — CLI to write history, update snapshots, seed data, rebuild manifests
 - `schemas/` — JSON Schemas for entities (`idea`, `venture`, `round`, `cap_table`)
-- `infra/terraform/` — Terraform for bucket, Pub/Sub, IAM, Cloud Run services, Cloud Run Jobs + Scheduler (compactor), BigQuery
+- `infra/terraform/` — Terraform for storage, Pub/Sub, IAM, services, jobs + scheduler (compactor), analytics datasets
 - `analytics/ddl/` — Notes on external tables/views over snapshots
 - `ui/` — Tailwind‑based static UI starter aligned with entities
-- `docs/` — ADRs, secrets guidance, examples; `runbooks/` for cutover/DR
+- `docs/` — ADRs, secrets guidance, examples; `runbooks/` for cutover/DR (`runbooks/seed-dev-data.md` covers seeding fixtures into a bucket for local smoke tests)
 
 
 ## Data Layout & Conventions (GCS)
@@ -65,8 +90,11 @@ Local Services (direct)
 
 Local via Docker Compose
 - Copy `.env.example` → `.env` and populate values
-- `docker compose -f docker-compose.dev.yml up --build`
-- Containers expose ports 8081..8084 for services
+- Standard: `docker compose -f docker-compose.dev.yml up --build`
+- Hot‑reload: `docker compose -f docker-compose.dev.yml --profile watch up --build`
+  - Starts `*-watch` variants and `ui-watch` (live reload on port 8080)
+  - Standard `ui` (nginx) is under profile `dev` to avoid port conflicts
+  - API edge on 8085; UI expects it at `http://localhost:8085`
 
 
 ## Packages & Services
@@ -75,7 +103,7 @@ Libraries: `@ecco/platform-libs` (`libs/ts`)
 - Envelope helpers: `newEnvelope()`, `touch()`
 - ULID and RFC3339 utilities
 - JSON Schema validator: uses Ajv if available, minimal fallback otherwise
-- GCS client with optimistic preconditions (`ifGenerationMatch`, `ifMetagenerationMatch`)
+- Storage client with optimistic preconditions (`ifGenerationMatch`, `ifMetagenerationMatch`)
 - Write path helpers: `makeHistoryPath`, `makeSnapshotPath`, `writeHistory`, `updateSnapshot`
 - Manifests & shards: `manifestFromSnapshot`, `makeManifestPerIdPath`, `manifestShardKey`
 - Indices: `buildIndexPointers()` (venture/round/cap table), slug helper
@@ -87,7 +115,7 @@ CLI: `apps/write-cli`
 - Seed a directory tree: `seed-dir`
 - Rebuild per‑id manifests from snapshots: `rebuild-manifests`
 
-Services (Cloud Run)
+Services
 - `snapshot-builder` — On history finalize, reads JSON and updates snapshot with idempotency and preconditions
 - `manifest-writer` — On snapshot finalize, derives and upserts `manifests/.../by-id/{id}.json`
 - `index-writer` — On snapshot finalize, derives/cleans secondary pointer files under `indices/...`
@@ -96,9 +124,13 @@ Services (Cloud Run)
 
 UI
 - `ui/index.html` — Tailwind 3 static starter for lists/dashboards aligned to entities and indices
+  - Pages: Ideas, Ventures, Talent, Experiments, Rounds, Cap Tables, Reports,
+    Resources, Budgets, KPIs, Investors, Partners, Services, Playbooks, Rules,
+    Benchmarks, Models, Simulations, Dataroom, Utilisation, Heatmaps, Audit,
+    Entities, Exports
 
 Analytics
-- BigQuery external tables over `snapshots/` and views per env; see `analytics/ddl/` and `infra/terraform/bigquery.tf`
+- External tables over `snapshots/` and views per env; see `analytics/ddl/` and `infra/terraform/bigquery.tf`
 
 
 ## Configuration & Secrets
@@ -111,11 +143,11 @@ Analytics
 ## Infrastructure (Terraform)
 
 What it provisions
-- GCS data bucket (UBLA, PAP, versioning, optional CMEK)
-- Pub/Sub topics + DLQs; notifications for `OBJECT_FINALIZE` under `env/`
-- Cloud Run services (when images provided): snapshot‑builder, manifest‑writer, index‑writer, rules‑engine, with path‑scoped IAM conditions
-- BigQuery datasets (`analytics_dev|stg|prod`), BigLake external tables, views
-- Cloud Run Jobs + Scheduler for `manifest-compactor` (delta hourly, full nightly)
+- Storage with versioning and lifecycle
+- Pub/Sub topics + DLQs; notifications for object finalize under `env/`
+- Services for snapshot, manifest, index, and rules processing with path‑scoped IAM conditions
+- Analytics datasets (dev|stg|prod), external tables, and views
+- Jobs + Scheduler for `manifest-compactor` (delta hourly, full nightly)
 
 Usage
 - `cd infra/terraform && terraform init`
@@ -127,7 +159,7 @@ Usage
 
 - Library unit tests: `cd libs/ts && npm run test` (Node’s built‑in test runner)
 - Services: prefer integration tests via HTTP mocks or emulator scripts; post sample Pub/Sub payloads to `/pubsub/push`
-- Idempotency: tests cover write‑path guards (`updated_at`, GCS preconditions) and index cleanup logic
+- Idempotency: tests cover write‑path guards (`updated_at`, storage preconditions) and index cleanup logic
 
 
 ## Coding Style
@@ -140,7 +172,8 @@ Usage
 
 ## Docs & Runbooks
 
-- Platform spec: `ecco-crcai.md`
+- Platform spec: `ecco_gcs_json_persistence_spec_v1.2.md`
+- FRD: `docs/frd/ecco-studio-platform-frd_v1.1.md`
 - ADRs: `docs/adr/0001-runtime-platform.md` … `0005-cmek-encryption.md`
 - Secrets: `docs/SECRETS.md`
 - Examples: `docs/examples/*`
@@ -150,7 +183,7 @@ Usage
 ## CI/CD
 
 - GitHub Actions: `.github/workflows/sync-todos.yml` parses `TODO.md` to open/update GitHub issues
-- Provide container images for handlers/jobs to enable Terraform deployment of Cloud Run resources
+- Provide container images for handlers/jobs to enable Terraform deployment of services
 
 
 ## Common Commands
@@ -163,8 +196,31 @@ Usage
 - Compact manifests (full): `node services/manifest-compactor/dist/index.js --bucket $BUCKET --env prod --entity ventures --shards 256`
 - Compact manifests (delta 1h): `... --since 1h`
 
+## API Endpoints (dev)
+
+- Generic list/get
+  - `GET /v1/{entity}?env=dev|stg|prod`
+  - `GET /v1/{entity}/{id}?env=...`
+- Venture indices (filters)
+  - `GET /v1/index/ventures/by-status/{status}`
+  - `GET /v1/index/ventures/by-lead/{lead}`
+  - `GET /v1/index/ventures/by-next-due/{yyyy-mm}`
+- Cross-entity indices
+  - `GET /v1/index/rounds/by-venture/{ventureId}`
+  - `GET /v1/index/cap_tables/by-venture/{ventureId}`
+- Aggregates and stubs
+  - `GET /v1/portfolio/summary`
+  - `GET /v1/portfolio/heatmap`
+  - `GET /v1/kpis/{metric}/series`
+  - `GET /v1/ops/utilisation`
+  - `GET /v1/exports`
+  - `GET /v1/audit/logs`
+
+Auth (dev)
+- Demo RBAC via header: `-H "x-roles: Admin"`
+- In production, use bearer JWT verified against Identity Platform; see `services/api-edge/src/auth.ts`.
+
 
 ## License
 
 Proprietary — see project terms. Do not commit real secrets or raw data exports.
-

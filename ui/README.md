@@ -1,10 +1,15 @@
-# Ecco Studio UI (Tailwind 3)
+# CityReach Innovation Labs UI (Tailwind 3)
 
 A polished, professional Tailwind 3 starter aligned with the JSON-in-GCS platform. Includes a responsive shell, brand color palette, light/dark mode, and example dashboard components.
 
 Quick start
-- Open `ui/index.html` in a browser (uses Tailwind Play CDN; no build needed).
-- Toggle dark mode with the button in the header.
+- Option A (live reload, recommended)
+  - `docker compose -f ../../docker-compose.dev.yml --profile watch up --build`
+  - Open http://localhost:8080 (served by `ui-watch` live server)
+  - API base is `http://localhost:8085` (API edge container). Demo RBAC header: `x-roles: Admin`.
+- Option B (no container)
+  - Open `ui/index.html` in a browser (uses Tailwind Play CDN; no build needed).
+  - Toggle dark mode with the button in the header.
 
 Design choices
 - Palette
@@ -18,11 +23,10 @@ Design choices
 
 Customization
 - Update palette in the inline `tailwind.config` in `index.html` (alias additional semantic colors as needed).
-- Add more pages/components; the nav matches entities from the spec (Ideas, Ventures, Talent, Experiments, Rounds, Cap Tables, Reports).
+- Add more pages/components; the nav matches entities from the spec (Ideas, Ventures, Talent, Experiments, Rounds, Cap Tables, Reports, Dataroom, Utilisation, Heatmaps, Audit, Entities, Exports).
 - For production, migrate off the Play CDN to a PostCSS build with a real `tailwind.config.js` and content paths for purging.
 
 Next steps (optional)
 - Create a `apps/web` project with Vite + Tailwind 3 + TypeScript.
 - Extract layout and components into a reusable library.
 - Add state wiring to lists/indices (e.g., fetch manifests/indices from GCS-backed API).
-

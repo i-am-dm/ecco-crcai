@@ -1,0 +1,33 @@
+{
+  "id": "IDEA-004",
+  "entity": "idea",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-11-01T16:20:00Z",
+  "ptr": "env/dev/snapshots/ideas/IDEA-004.json",
+  "title": "Pulse Remote Diagnostics",
+  "status": "Approved",
+  "stage": "Launch",
+  "stageOwner": "liam@ecco.studio",
+  "stage_owner": "liam@ecco.studio",
+  "stageDueDate": "2025-12-05T00:00:00Z",
+  "stage_due_date": "2025-12-05T00:00:00Z",
+  "theme": "Pulse Remote Diagnostics",
+  "problem": "Clinical device vendors struggle to service IoT endpoints in emerging markets where on-site visits are expensive.",
+  "market": "Remote diagnostics for connected care devices with $3.8B TAM and immediate pull from two anchor customers.",
+  "team": "GM + GTM lead, embedded engineer, clinical compliance lead, and shared services marketing.",
+  "tech": "Edge agents, Go services, async rules engine, and React dashboard with KPI manifests.",
+  "score": {
+    "overall": 8.1,
+    "market": 8.5,
+    "team": 8.0,
+    "tech": 7.6,
+    "timing": 8.2,
+    "notes": "Need to monitor compliance backlog; scaling plan approved."
+  },
+  "tags": ["Health", "IoT"],
+  "created_at": "2025-07-12T10:00:00Z",
+  "createdAt": "2025-07-12T10:00:00Z",
+  "created_by": "liam@ecco.studio",
+  "createdBy": "liam@ecco.studio"
+}

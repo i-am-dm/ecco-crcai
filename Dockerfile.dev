@@ -17,6 +17,7 @@ RUN corepack enable && corepack prepare pnpm@9.12.1 --activate && pnpm -v && \
       --filter ./services/manifest-writer \
       --filter ./services/index-writer \
       --filter ./services/rules-engine \
+      --filter ./services/api-edge \
       build
 
 # Default command is a noop; docker-compose overrides per service

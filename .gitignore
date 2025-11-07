@@ -5,3 +5,20 @@
 
 # OS cruft
 .DS_Store
+
+# Dependencies & build outputs
+node_modules/
+dist/
+apps/ui/dist/
+apps/ui/node_modules/
+apps/write-cli/node_modules/
+libs/ts/dist/
+libs/ts/node_modules/
+services/*/node_modules/
+tools/**/node_modules/
+tools/local-harness/bucket/
+
+# Terraform state
+*.tfstate
+*.tfstate.backup
+infra/terraform/terraform.tfstate.d/

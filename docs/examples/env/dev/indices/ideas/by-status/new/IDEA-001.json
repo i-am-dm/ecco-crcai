@@ -1,0 +1,49 @@
+{
+  "id": "IDEA-001",
+  "entity": "idea",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-11-06T10:18:22Z",
+  "ptr": "env/dev/snapshots/ideas/IDEA-001.json",
+  "title": "Atlas Insight Copilot",
+  "status": "New",
+  "stage": "Idea",
+  "stageOwner": "maya@ecco.studio",
+  "stage_owner": "maya@ecco.studio",
+  "stageDueDate": "2025-11-20T00:00:00Z",
+  "stage_due_date": "2025-11-20T00:00:00Z",
+  "theme": "Atlas Insight Copilot",
+  "problem": "Research analysts spend 12+ hours each week synthesising transcripts and desk research before any validation decisions.",
+  "market": "Internal demand across 18 venture pods plus partner studios; $4.2M blended ARR potential over 24 months.",
+  "team": "Research ops lead, 1 ML engineer, fractional product designer, and a studio PM for governance.",
+  "tech": "Next.js UI, Vertex AI embeddings, Pub/Sub eventing, and JSON-in-GCS aligned to the persistence spec.",
+  "score": {
+    "overall": 8.6,
+    "market": 8.0,
+    "team": 9.0,
+    "tech": 8.0,
+    "timing": 9.0,
+    "notes": "Strong pull from research leads; need API hardening."
+  },
+  "tags": ["AI", "Research"],
+  "researchDocs": [
+    {
+      "id": "rd-mkt-001",
+      "title": "Design partner interviews",
+      "docType": "customer",
+      "lastUpdated": "2025-11-06T09:45:00Z"
+    }
+  ],
+  "research_docs": [
+    {
+      "id": "rd-mkt-001",
+      "title": "Design partner interviews",
+      "docType": "customer",
+      "lastUpdated": "2025-11-06T09:45:00Z"
+    }
+  ],
+  "created_at": "2025-11-05T15:04:00Z",
+  "createdAt": "2025-11-05T15:04:00Z",
+  "created_by": "maya@ecco.studio",
+  "createdBy": "maya@ecco.studio"
+}

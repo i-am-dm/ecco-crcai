@@ -1,0 +1,94 @@
+{
+  "id": "IDEA-001",
+  "entity": "idea",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2025-11-05T15:04:00Z",
+  "createdAt": "2025-11-05T15:04:00Z",
+  "updated_at": "2025-11-06T10:18:22Z",
+  "updatedAt": "2025-11-06T10:18:22Z",
+  "created_by": "maya@ecco.studio",
+  "createdBy": "maya@ecco.studio",
+  "theme": "Atlas Insight Copilot",
+  "title": "Atlas Insight Copilot",
+  "problem": "Research analysts spend 12+ hours each week synthesising transcripts and desk research before any validation decisions.",
+  "market": "Internal demand across 18 venture pods plus partner studios; $4.2M blended ARR potential over 24 months.",
+  "team": "Research ops lead, 1 ML engineer, fractional product designer, and a studio PM for governance.",
+  "tech": "Next.js UI, Vertex AI embeddings, Pub/Sub eventing, and JSON-in-GCS aligned to the persistence spec.",
+  "description": "Workspace that ingests interviews, applies studio playbooks, and drafts synthesis so leads can focus on go/no-go calls.",
+  "status": "New",
+  "stage": "Idea",
+  "stage_owner": "maya@ecco.studio",
+  "stageOwner": "maya@ecco.studio",
+  "stage_due_date": "2025-11-20T00:00:00Z",
+  "stageDueDate": "2025-11-20T00:00:00Z",
+  "stage_history": [
+    {
+      "stage": "Idea",
+      "changed_at": "2025-11-05T15:04:00Z",
+      "changed_by": "maya@ecco.studio",
+      "notes": "Initial submission"
+    }
+  ],
+  "score": {
+    "overall": 8.6,
+    "market": 8.0,
+    "team": 9.0,
+    "tech": 8.0,
+    "timing": 9.0,
+    "notes": "Strong pull from research leads; need API hardening."
+  },
+  "tags": ["AI", "Research"],
+  "attachments": [
+    "gs://ecco-dev/docs/atlas-onepager.pdf",
+    "https://storage.googleapis.com/ecco-dev/research/idea-001/design-partners-v1.pdf"
+  ],
+  "research_docs": [
+    {
+      "id": "rd-mkt-001",
+      "title": "Design partner interviews",
+      "docType": "customer",
+      "summary": "Synthesis of 6 enterprise interviews with top failure modes and requested guardrails.",
+      "tags": ["customer", "pull-signal"],
+      "status": "active",
+      "lastUpdated": "2025-11-06T09:45:00Z",
+      "versions": [
+        {
+        "id": "rd-mkt-001-v1",
+        "version": "v1.0",
+        "url": "https://storage.googleapis.com/ecco-dev/research/idea-001/design-partners-v1.pdf",
+        "storagePath": "gs://ecco-dev/research/idea-001/design-partners-v1.pdf",
+        "uploadedAt": "2025-11-06T09:45:00Z",
+        "uploadedBy": "maya@ecco.studio",
+        "notes": "Baseline interview synthesis for FR-5 KPI review.",
+        "mimeType": "application/pdf",
+        "sizeBytes": 358400
+      }
+    ]
+  }
+],
+"researchDocs": [
+    {
+      "id": "rd-mkt-001",
+      "title": "Design partner interviews",
+      "docType": "customer",
+      "summary": "Synthesis of 6 enterprise interviews with top failure modes and requested guardrails.",
+      "tags": ["customer", "pull-signal"],
+      "status": "active",
+      "lastUpdated": "2025-11-06T09:45:00Z",
+      "versions": [
+        {
+        "id": "rd-mkt-001-v1",
+        "version": "v1.0",
+        "url": "https://storage.googleapis.com/ecco-dev/research/idea-001/design-partners-v1.pdf",
+        "storagePath": "gs://ecco-dev/research/idea-001/design-partners-v1.pdf",
+        "uploadedAt": "2025-11-06T09:45:00Z",
+        "uploadedBy": "maya@ecco.studio",
+        "notes": "Baseline interview synthesis for FR-5 KPI review.",
+        "mimeType": "application/pdf",
+        "sizeBytes": 358400
+      }
+    ]
+  }
+]
+}

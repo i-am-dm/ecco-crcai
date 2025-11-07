@@ -22,11 +22,15 @@ const ENTITY_PATH_SEGMENTS: Record<Entity, string> = {
   round: "rounds",
   cap_table: "cap_tables",
   playbook: "playbooks",
+  playbook_run: "playbook_runs",
+  show_page: "show_pages",
+  comment: "comments",
   rule: "rules",
   benchmark: "benchmarks",
   report: "reports",
   model: "models",
   simulation: "simulations",
+  dataroom: "dataroom",
 };
 
 const SEGMENT_TO_ENTITY = Object.fromEntries(

@@ -1,0 +1,66 @@
+{
+  "id": "INV-1001",
+  "entity": "investor",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2024-02-14T09:00:00Z",
+  "updated_at": "2025-01-28T09:30:00Z",
+  "name": "Blue Horizon Angels",
+  "type": "Angel Syndicate",
+  "owner": "Evan Brooks",
+  "status": "Prospect",
+  "primary_focus": ["Climate", "Advanced Materials"],
+  "check_size_min": 250000,
+  "check_size_max": 1000000,
+  "last_interaction": "2025-01-28T09:30:00Z",
+  "next_steps": "Invite to March demo day; share carbon intensity dashboard.",
+  "notes": "Group prefers co-invest with strategic corporates. Interested in Nova Carbon pilot results.",
+  "contacts": [
+    {
+      "name": "Evan Brooks",
+      "title": "Lead Angel",
+      "email": "evan@bluehorizon.cap",
+      "timezone": "ET"
+    },
+    {
+      "name": "Priya Anand",
+      "title": "Portfolio Ops",
+      "email": "priya@bluehorizon.cap",
+      "timezone": "ET"
+    }
+  ],
+  "interaction_log": [
+    {
+      "date": "2025-01-28",
+      "type": "Intro Call",
+      "summary": "Walked through Nova Carbon pilot metrics and runway plan."
+    },
+    {
+      "date": "2024-12-05",
+      "type": "Conference",
+      "summary": "Met at SOSV climate summit; shared deck."
+    }
+  ],
+  "portfolio": [
+    {
+      "venture_id": "V-108",
+      "venture_name": "LumenLoop",
+      "role": "Co-investor",
+      "initial_check": 600000,
+      "ownership": 0.06,
+      "as_of": "2024-10-15"
+    }
+  ],
+  "open_pipelines": [
+    {
+      "round_id": "R-001",
+      "venture_name": "Acme Robotics",
+      "stage": "Seed+",
+      "target_amount": 8000000,
+      "committed_amount": 6400000,
+      "probability": 0.4,
+      "lead_candidate": "Not assigned",
+      "next_action": "Send factory automation case study"
+    }
+  ]
+}

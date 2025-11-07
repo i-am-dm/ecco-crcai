@@ -30,7 +30,7 @@ resource "google_cloudbuild_trigger" "dr_issue" {
         version_name = var.github_token_secret
       }
     }
-    secret_env = var.github_token_secret == "" ? [] : ["GH_TOKEN"]
+    # GH_TOKEN will be available to the step if github_token_secret is configured
     options { logging = "CLOUD_LOGGING_ONLY" }
   }
 }

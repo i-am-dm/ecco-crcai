@@ -1,0 +1,15 @@
+{
+  "id": "INV-001",
+  "entity": "investor",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-02-10T15:00:00Z",
+  "ptr": "env/dev/snapshots/investors/INV-001.json",
+  "title": "Northwind Ventures",
+  "status": "Active",
+  "owner": "Laura Mendes",
+  "focus": ["AI", "Enterprise SaaS"],
+  "check_range": "1.5M - 5M",
+  "last_interaction": "2025-02-10T15:00:00Z",
+  "open_pipeline_count": 1
+}

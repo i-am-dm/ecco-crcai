@@ -1,0 +1,8 @@
+{
+  "ptr": "env/dev/snapshots/rules/RULE-1401.json",
+  "id": "RULE-1401",
+  "entity": "rule",
+  "title": "Budget overrun",
+  "status": "enabled",
+  "updated_at": "2024-10-14T10:00:00Z"
+}

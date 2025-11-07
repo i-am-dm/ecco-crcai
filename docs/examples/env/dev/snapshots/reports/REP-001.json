@@ -1,0 +1,49 @@
+{
+  "id": "REP-001",
+  "entity": "report",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2025-01-05T08:00:00Z",
+  "updated_at": "2025-01-15T09:00:00Z",
+  "title": "Q4 Investor Update",
+  "venture_id": "V-101",
+  "period": "2024-Q4",
+  "audience": ["INV-001", "INV-1001"],
+  "summary": "Closed Q4 at $410K MRR (+18% QoQ) with 92% logo retention.",
+  "kpi_highlights": [
+    { "label": "MRR", "value": 410000, "delta_percent": 18 },
+    { "label": "Net Retention", "value": 1.12 },
+    { "label": "Burn", "value": 260000, "delta_percent": -4 }
+  ],
+  "milestones": [
+    "Signed 3PL automation contract with MegaShip",
+    "Completed SOC2 Type I",
+    "Stood up Mexico pilot factory"
+  ],
+  "risks": [
+    "Need second manufacturing vendor to hit 2H ship dates",
+    "Two enterprise deals slip past quarter end"
+  ],
+  "requests": [
+    {
+      "type": "Warm Intro",
+      "details": "Ops exec with robotics supply-chain background"
+    },
+    {
+      "type": "Follow-on Interest",
+      "details": "Reply if you want to anchor Seed+ extension"
+    }
+  ],
+  "attachments": [
+    {
+      "title": "Q4 Financial Summary",
+      "url": "https://example.com/reports/acme-q4.xlsx",
+      "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    },
+    {
+      "title": "Board Deck",
+      "url": "https://example.com/reports/acme-board.pdf",
+      "type": "application/pdf"
+    }
+  ]
+}

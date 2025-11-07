@@ -212,8 +212,7 @@ locals {
       bucket_condition = {
         title       = "SnapshotsWrite"
         description = "Allow writes under env/*/snapshots/"
-        # Matches projects/_/buckets/<bucket>/objects/env/(dev|stg|prod)/snapshots/...
-        expression = "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/snapshots/.*\")"
+        expression  = format("resource.name.matches(\"projects/_/buckets/%s/objects/env/(dev|stg|prod)/snapshots/.*\")", google_storage_bucket.data.name)
       }
       needs_secret_access = false
     }
@@ -233,7 +232,7 @@ locals {
       bucket_condition = {
         title       = "ManifestsWrite"
         description = "Allow writes under env/*/manifests/"
-        expression  = "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/manifests/.*\")"
+        expression  = format("resource.name.matches(\"projects/_/buckets/%s/objects/env/(dev|stg|prod)/manifests/.*\")", google_storage_bucket.data.name)
       }
       needs_secret_access = false
     }
@@ -253,7 +252,7 @@ locals {
       bucket_condition = {
         title       = "IndicesWrite"
         description = "Allow writes under env/*/indices/"
-        expression  = "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/indices/.*\")"
+        expression  = format("resource.name.matches(\"projects/_/buckets/%s/objects/env/(dev|stg|prod)/indices/.*\")", google_storage_bucket.data.name)
       }
       needs_secret_access = false
     }
@@ -273,10 +272,10 @@ locals {
       bucket_condition = {
         title       = "RulesAccess"
         description = "Allow reads of rules/ and writes to reports/alerts plus rule state."
-        expression = join(" || ", [
-          "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/rules/.*\")",
-          "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/reports/alerts/.*\")",
-          "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/rules/_state/.*\")"
+        expression  = join(" || ", [
+          format("resource.name.matches(\"projects/_/buckets/%s/objects/env/(dev|stg|prod)/rules/.*\")", google_storage_bucket.data.name),
+          format("resource.name.matches(\"projects/_/buckets/%s/objects/env/(dev|stg|prod)/reports/alerts/.*\")", google_storage_bucket.data.name),
+          format("resource.name.matches(\"projects/_/buckets/%s/objects/env/(dev|stg|prod)/rules/_state/.*\")", google_storage_bucket.data.name)
         ])
       }
       needs_secret_access = true
@@ -298,9 +297,9 @@ locals {
         title       = "ApiReadOnly"
         description = "Allow API to read snapshots/manifests/indices"
         expression  = join(" || ", [
-          "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/snapshots/.*\")",
-          "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/manifests/.*\")",
-          "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/indices/.*\")"
+          format("resource.name.matches(\"projects/_/buckets/%s/objects/env/(dev|stg|prod)/snapshots/.*\")", google_storage_bucket.data.name),
+          format("resource.name.matches(\"projects/_/buckets/%s/objects/env/(dev|stg|prod)/manifests/.*\")", google_storage_bucket.data.name),
+          format("resource.name.matches(\"projects/_/buckets/%s/objects/env/(dev|stg|prod)/indices/.*\")", google_storage_bucket.data.name)
         ])
       }
       needs_secret_access = false
@@ -321,7 +320,7 @@ locals {
       bucket_condition = {
         title       = "SnapshotRead"
         description = "Allow reads of snapshots"
-        expression  = "resource.name.matches(\"projects/_/buckets/${bucket}/objects/env/(dev|stg|prod)/snapshots/.*\")"
+        expression  = format("resource.name.matches(\"projects/_/buckets/%s/objects/env/(dev|stg|prod)/snapshots/.*\")", google_storage_bucket.data.name)
       }
       needs_secret_access = true
     }
@@ -329,7 +328,7 @@ locals {
 
   active_handlers = {
     for key, cfg in local.handler_configs : key => cfg
-    if length(trim(cfg.image)) > 0
+    if length(trimspace(cfg.image)) > 0
   }
 }
 
@@ -410,7 +409,7 @@ resource "google_storage_bucket_iam_member" "handler_bucket_access" {
   condition {
     title       = each.value.bucket_condition.title
     description = each.value.bucket_condition.description
-    expression  = replace(each.value.bucket_condition.expression, "${bucket}", google_storage_bucket.data.name)
+    expression  = each.value.bucket_condition.expression
   }
 }
 

@@ -1,0 +1,10 @@
+{
+  "id": "SIM-001",
+  "entity": "simulation",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-11-06T00:00:00Z",
+  "ptr": "env/dev/simulations/SIM-001.json",
+  "title": "Pricing Sensitivity Simulation"
+}
+

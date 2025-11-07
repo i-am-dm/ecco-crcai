@@ -4,6 +4,9 @@ info:
   version: 1.0.0
 servers:
   - url: https://api.ecco.example.com
+    description: Production
+  - url: http://localhost:8085
+    description: Local dev
 paths:
   /v1/{entity}:
     get:
@@ -14,7 +17,7 @@ paths:
           required: true
           schema:
             type: string
-            enum: [idea, venture, round, cap_table]
+            enum: [idea, venture, round, cap_table, talent, experiment, investor, partner, service, resource, budget, kpi, playbook, comment, rule, benchmark, report, model, simulation, dataroom]
         - in: query
           name: env
           schema:
@@ -33,7 +36,7 @@ paths:
           required: true
           schema:
             type: string
-            enum: [idea, venture, round, cap_table]
+            enum: [idea, venture, round, cap_table, talent, experiment, investor, partner, service, resource, budget, kpi, playbook, comment, rule, benchmark, report, model, simulation, dataroom]
         - in: path
           name: id
           required: true
@@ -48,6 +51,199 @@ paths:
       responses:
         '200':
           description: Snapshot
+  /v1/index/ventures/by-status/{status}:
+    get:
+      summary: List venture pointers by status
+      parameters:
+        - in: path
+          name: status
+          required: true
+          schema: { type: string }
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Items } }
+  /v1/index/ventures/by-lead/{lead}:
+    get:
+      summary: List venture pointers by lead
+      parameters:
+        - in: path
+          name: lead
+          required: true
+          schema: { type: string }
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Items } }
+  /v1/index/ventures/by-next-due/{ym}:
+    get:
+      summary: List venture pointers by next due month (YYYY-MM)
+      parameters:
+        - in: path
+          name: ym
+          required: true
+          schema: { type: string }
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Items } }
+  /v1/index/rounds/by-venture/{ventureId}:
+    get:
+      summary: List rounds by venture
+      parameters:
+        - in: path
+          name: ventureId
+          required: true
+          schema: { type: string }
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Items } }
+  /v1/index/cap_tables/by-venture/{ventureId}:
+    get:
+      summary: Get latest cap table pointer by venture
+      parameters:
+        - in: path
+          name: ventureId
+          required: true
+          schema: { type: string }
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Items } }
+  /v1/portfolio/summary:
+    get:
+      summary: Portfolio summary aggregates
+      parameters:
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Summary } }
+  /v1/portfolio/heatmap:
+    get:
+      summary: Portfolio heatmap points
+      parameters:
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Points } }
+  /v1/uploads/research-docs:
+    post:
+      summary: Upload research doc asset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ideaId, data]
+              properties:
+                env: { type: string, enum: [dev, stg, prod] }
+                ideaId: { type: string }
+                fileName: { type: string }
+                contentType: { type: string }
+                data:
+                  type: string
+                  description: Base64-encoded file contents (`data:*/*;base64,...` also accepted)
+      responses:
+        '201':
+          description: Upload metadata
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  storagePath: { type: string }
+                  url: { type: string, format: uri }
+                  fileName: { type: string }
+                  contentType: { type: string }
+                  sizeBytes: { type: integer }
+                  uploadedAt: { type: string, format: date-time }
+  /v1/kpis/{metric}/series:
+    get:
+      summary: KPI time series for a metric
+      parameters:
+        - in: path
+          name: metric
+          required: true
+          schema: { type: string }
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Series } }
+  /v1/ops/utilisation:
+    get:
+      summary: Utilisation overview
+      parameters:
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Items } }
+  /v1/exports:
+    get:
+      summary: Available exports
+      parameters:
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Items } }
+  /v1/audit/logs:
+    get:
+      summary: Audit log listing (stub)
+      parameters:
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Items } }
+  /v1/ideas/{ideaId}/comments:
+    get:
+      summary: List comments for an idea (FR-4)
+      parameters:
+        - in: path
+          name: ideaId
+          required: true
+          schema: { type: string }
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses:
+        '200':
+          description: Comments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
+    post:
+      summary: Create a comment for an idea (FR-4)
+      parameters:
+        - in: path
+          name: ideaId
+          required: true
+          schema: { type: string }
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewCommentRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comment:
+                    $ref: '#/components/schemas/Comment'
   /v1/internal/history:
     post:
       summary: Write a history record (internal)
@@ -61,6 +257,56 @@ paths:
         '202':
           description: Accepted
 components:
+  schemas:
+    CommentAttachment:
+      type: object
+      required: [url]
+      properties:
+        title: { type: string }
+        url: { type: string, format: uri }
+        type: { type: string }
+    Comment:
+      type: object
+      required:
+        [id, entity, env, schema_version, created_at, updated_at, idea_id, message]
+      properties:
+        id: { type: string }
+        entity: { type: string, enum: [comment] }
+        env: { type: string, enum: [dev, stg, prod] }
+        schema_version: { type: string }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+        idea_id: { type: string }
+        ideaId: { type: string }
+        idea_title: { type: string }
+        message: { type: string }
+        author_id: { type: string }
+        author_email: { type: string, format: email }
+        author_name: { type: string }
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommentAttachment'
+        mentions:
+          type: array
+          items: { type: string }
+    NewCommentRequest:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+          minLength: 1
+          maxLength: 4000
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommentAttachment'
+        mentions:
+          type: array
+          items: { type: string }
+        authorName: { type: string }
+  securitySchemes:
   securitySchemes:
     firebase:
       type: http
@@ -71,3 +317,41 @@ security:
   - firebase: []
 tags:
   - name: core
+  /v1/index/ideas/by-status/{status}:
+    get:
+      summary: List ideas by status via index pointers
+      parameters:
+        - in: path
+          name: status
+          required: true
+          schema: { type: string }
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Items } }
+  /v1/index/ideas/by-stage/{stage}:
+    get:
+      summary: List ideas by stage via index pointers
+      parameters:
+        - in: path
+          name: stage
+          required: true
+          schema: { type: string }
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Items } }
+  /v1/index/ideas/by-score/{bucket}:
+    get:
+      summary: List ideas by score bucket (00-10)
+      parameters:
+        - in: path
+          name: bucket
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9]{2}$'
+        - in: query
+          name: env
+          schema: { type: string, enum: [dev, stg, prod] }
+      responses: { '200': { description: Items } }

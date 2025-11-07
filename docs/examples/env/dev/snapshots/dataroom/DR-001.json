@@ -1,0 +1,89 @@
+{
+  "id": "DR-001",
+  "entity": "dataroom",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2024-11-25T09:00:00Z",
+  "updated_at": "2025-02-08T10:00:00Z",
+  "venture_id": "V-102",
+  "title": "Nova Carbon Fundraise",
+  "status": "Active",
+  "owner": "Finance Ops",
+  "documents": [
+    {
+      "id": "doc-financials",
+      "title": "FY2024 Financials",
+      "category": "Financials",
+      "type": "xlsx",
+      "size_mb": 4.3,
+      "updated_at": "2025-02-01T12:00:00Z",
+      "owner": "Finance",
+      "tags": ["financials", "actuals"]
+    },
+    {
+      "id": "doc-boarddeck",
+      "title": "January Board Deck",
+      "category": "Board",
+      "type": "pdf",
+      "size_mb": 12.6,
+      "updated_at": "2025-01-30T20:30:00Z",
+      "owner": "CEO",
+      "tags": ["strategy"]
+    },
+    {
+      "id": "doc-esg",
+      "title": "ESG Impact Summary",
+      "category": "ESG",
+      "type": "pdf",
+      "size_mb": 2.4,
+      "updated_at": "2025-02-06T09:10:00Z",
+      "owner": "Ops",
+      "tags": ["climate"]
+    }
+  ],
+  "permissions": [
+    { "investor_id": "INV-001", "name": "Northwind Ventures", "level": "full", "expires_at": null },
+    { "investor_id": "INV-210", "name": "GreenFuture Capital", "level": "limited", "expires_at": "2025-03-31T23:59:59Z" },
+    { "investor_id": "INV-305", "name": "Climate Impact Fund", "level": "view-only", "expires_at": "2025-03-15T23:59:59Z" }
+  ],
+  "access_logs": [
+    {
+      "timestamp": "2025-02-10T16:00:00Z",
+      "user": "Chris Pau",
+      "organization": "Northwind Ventures",
+      "action": "downloaded",
+      "document_id": "doc-financials"
+    },
+    {
+      "timestamp": "2025-02-09T18:45:00Z",
+      "user": "Alice Gomez",
+      "organization": "GreenFuture Capital",
+      "action": "viewed",
+      "document_id": "doc-boarddeck"
+    },
+    {
+      "timestamp": "2025-02-08T20:10:00Z",
+      "user": "Laura Mendes",
+      "organization": "Northwind Ventures",
+      "action": "viewed",
+      "document_id": "doc-esg"
+    }
+  ],
+  "open_requests": [
+    {
+      "investor_id": "INV-210",
+      "type": "Data Request",
+      "description": "Add upstream supplier agreements",
+      "status": "In Progress",
+      "due_date": "2025-02-14"
+    },
+    {
+      "investor_id": "INV-305",
+      "type": "Legal",
+      "description": "Share draft SPA (view only)",
+      "status": "Awaiting Approval",
+      "due_date": "2025-02-16"
+    }
+  ],
+  "last_audit": "2025-02-08T10:00:00Z"
+}

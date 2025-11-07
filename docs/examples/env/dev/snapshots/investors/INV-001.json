@@ -1,0 +1,81 @@
+{
+  "id": "INV-001",
+  "entity": "investor",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2023-09-01T12:00:00Z",
+  "updated_at": "2025-02-10T15:00:00Z",
+  "name": "Northwind Ventures",
+  "type": "Institutional VC",
+  "owner": "Laura Mendes",
+  "status": "Active",
+  "primary_focus": ["AI", "Enterprise SaaS"],
+  "check_size_min": 1500000,
+  "check_size_max": 5000000,
+  "last_interaction": "2025-02-10T15:00:00Z",
+  "next_steps": "Share refreshed KPI + runway pack by March 1.",
+  "notes": "Led seed round for Acme Robotics and wants to pre-empt Series A if growth keeps compounding.",
+  "contacts": [
+    {
+      "name": "Laura Mendes",
+      "title": "General Partner",
+      "email": "laura@nwind.vc",
+      "phone": "+1-415-555-0112",
+      "timezone": "PT"
+    },
+    {
+      "name": "Chris Pau",
+      "title": "Senior Associate",
+      "email": "chris@nwind.vc",
+      "phone": "+1-415-555-0199",
+      "timezone": "PT"
+    }
+  ],
+  "interaction_log": [
+    {
+      "date": "2025-02-10",
+      "type": "Partner Call",
+      "summary": "Reviewed burn, runway, and upcoming expansion milestones for Nova Carbon."
+    },
+    {
+      "date": "2025-01-24",
+      "type": "Email",
+      "summary": "Sent Q4 investor update and KPI dashboard links."
+    },
+    {
+      "date": "2025-01-05",
+      "type": "Office Hours",
+      "summary": "Working session on pricing experiments for Acme Robotics."
+    }
+  ],
+  "portfolio": [
+    {
+      "venture_id": "V-101",
+      "venture_name": "Acme Robotics",
+      "role": "Lead Seed",
+      "initial_check": 3000000,
+      "ownership": 0.18,
+      "as_of": "2024-04-01"
+    },
+    {
+      "venture_id": "V-102",
+      "venture_name": "Nova Carbon",
+      "role": "Prospect",
+      "initial_check": 0,
+      "ownership": 0,
+      "as_of": "2025-02-10"
+    }
+  ],
+  "open_pipelines": [
+    {
+      "round_id": "RND-501",
+      "venture_name": "Nova Carbon",
+      "stage": "Series A",
+      "target_amount": 12000000,
+      "committed_amount": 4500000,
+      "probability": 0.55,
+      "lead_candidate": "Northwind Ventures",
+      "next_action": "Send climate impact model by Feb 20"
+    }
+  ]
+}

@@ -3,89 +3,550 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ecco Studio Platform</title>
+    <title>CityReach Innovation Labs - Venture Platform</title>
     <meta name="color-scheme" content="light dark" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' style='stop-color:%2306b6d4'/%3E%3Cstop offset='1' style='stop-color:%230ea5e9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Inter,sans-serif' font-size='18' font-weight='700' fill='white'%3EE%3C/text%3E%3C/svg%3E" />
     <script>
-      // Tailwind Play CDN config
+      // Tailwind config with CityReach branding
       tailwind.config = {
         darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
-              sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol']
+              sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif']
             },
             colors: {
               brand: {
-                50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc', 400: '#818cf8',
-                500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81', 950: '#1e1b4b'
+                50: '#f0f9ff',
+                100: '#e0f2fe',
+                200: '#bae6fd',
+                300: '#7dd3fc',
+                400: '#38bdf8',
+                500: '#0ea5e9',
+                600: '#0284c7',
+                700: '#0369a1',
+                800: '#075985',
+                900: '#0c4a6e',
+                950: '#082f49'
               },
               accent: {
-                50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0', 300: '#6ee7b7', 400: '#34d399',
-                500: '#10b981', 600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b', 950: '#022c22'
-              },
-              warn: { 50:'#fffbeb',100:'#fef3c7',200:'#fde68a',300:'#fcd34d',400:'#fbbf24',500:'#f59e0b',600:'#d97706',700:'#b45309',800:'#92400e',900:'#78350f' },
-              danger: { 50:'#fff1f2',100:'#ffe4e6',200:'#fecdd3',300:'#fda4af',400:'#fb7185',500:'#f43f5e',600:'#e11d48',700:'#be123c',800:'#9f1239',900:'#881337' }
+                50: '#ecfdf5',
+                100: '#d1fae5',
+                200: '#a7f3d0',
+                300: '#6ee7b7',
+                400: '#34d399',
+                500: '#10b981',
+                600: '#059669',
+                700: '#047857',
+                800: '#065f46',
+                900: '#064e3b'
+              }
             },
             boxShadow: {
-              subtle: '0 1px 2px 0 rgb(0 0 0 / 0.03), 0 1px 1px -1px rgb(0 0 0 / 0.02)'
+              'soft': '0 2px 8px -2px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.06)',
+              'glow': '0 0 20px rgba(14, 165, 233, 0.15)',
             }
           }
         }
       }
     </script>
     <style>
-      :root { --header-h: 56px; }
-      .backdrop-grid {
-        background-image: radial-gradient(circle at 1px 1px, rgb(2 6 23 / .06) 1px, transparent 0);
-        background-size: 24px 24px;
+      :root {
+        --header-h: 64px;
+        --sidebar-w: 280px;
       }
-      .dark .backdrop-grid {
-        background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / .06) 1px, transparent 0);
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      .dark .glass-effect {
+        background: rgba(15, 23, 42, 0.9);
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .sidebar-link {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .sidebar-link:hover {
+        transform: translateX(4px);
+      }
+
+      .sidebar-link.active {
+        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25);
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-in {
+        animation: slideIn 0.3s ease-out;
       }
     </style>
   </head>
   <body class="h-full text-slate-900 dark:text-slate-100">
-    <div id="app" class="min-h-full">
-      <!-- Header -->
-      <header class="fixed inset-x-0 top-0 z-40 h-[var(--header-h)] bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200/70 dark:border-slate-700/60">
-        <div class="mx-auto max-w-7xl h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="h-8 w-8 rounded-lg bg-brand-600 text-white grid place-items-center shadow-subtle">
-              <span class="font-semibold">E</span>
+    <div id="app" class="min-h-full flex">
+
+      <!-- Left Sidebar -->
+      <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-900 border-r border-slate-200/50 dark:border-slate-700/50 transform -translate-x-full transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 shadow-xl lg:shadow-none">
+        <div class="h-full flex flex-col">
+          <!-- Sidebar Header -->
+          <div class="p-6 border-b border-slate-200/50 dark:border-slate-700/50">
+            <div class="flex items-center justify-between mb-1">
+              <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-brand-500 to-cyan-500 text-white grid place-items-center shadow-glow">
+                  <span class="font-bold text-lg">E</span>
+                </div>
+                <div class="leading-tight">
+                  <div class="text-base font-bold gradient-text">CityReach Innovation Labs</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Venture Platform</div>
+                </div>
+              </div>
+              <button id="sidebarClose" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
-            <div class="leading-tight">
-              <div class="text-sm font-semibold tracking-tight">Ecco Studio</div>
-              <div class="text-xs text-slate-500 dark:text-slate-400">Venture Platform</div>
-            </div>
-            <nav class="hidden md:flex items-center ml-8 gap-4 text-sm">
-              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Ideas</a>
-              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Ventures</a>
-              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Talent</a>
-              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Experiments</a>
-              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Rounds</a>
-              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Cap Tables</a>
-              <a class="text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300" href="#">Reports</a>
-            </nav>
           </div>
-          <div class="flex items-center gap-2">
-            <button id="themeToggle" class="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+
+          <!-- Navigation Links -->
+          <nav class="flex-1 overflow-y-auto p-4 space-y-6">
+            <!-- Main Section -->
+            <div>
+              <h3 class="px-3 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Main</h3>
+              <div class="space-y-1">
+                <a href="#ventures" data-view="ventures" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                  <span>Ventures</span>
+                </a>
+                <a href="#ideas" data-view="ideas" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                  <span>Ideas</span>
+                </a>
+                <a href="#experiments" data-view="experiments" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                  <span>Experiments</span>
+                </a>
+                <a href="#kpis" data-view="kpis" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                  <span>KPIs</span>
+                </a>
+                <a href="#reports" data-view="reports" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                  <span>Reports</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Operations Section -->
+            <div>
+              <h3 class="px-3 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Operations</h3>
+              <div class="space-y-1">
+                <a href="#resources" data-view="resources" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                  <span>Resources</span>
+                </a>
+                <a href="#budgets" data-view="budgets" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <span>Budgets</span>
+                </a>
+                <a href="#utilisation" data-view="utilisation" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /><path stroke-linecap="round" stroke-linejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" /></svg>
+                  <span>Utilisation</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Finance Section -->
+            <div>
+              <h3 class="px-3 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Finance</h3>
+              <div class="space-y-1">
+                <a href="#rounds" data-view="rounds" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                  <span>Funding Rounds</span>
+                </a>
+                <a href="#cap_tables" data-view="cap_tables" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                  <span>Cap Tables</span>
+                </a>
+                <a href="#investors" data-view="investors" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                  <span>Investors</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Talent & Partners Section -->
+            <div>
+              <h3 class="px-3 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Talent & Partners</h3>
+              <div class="space-y-1">
+                <a href="#talent" data-view="talent" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                  <span>Talent Pool</span>
+                </a>
+                <a href="#partners" data-view="partners" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+                  <span>Partners</span>
+                </a>
+                <a href="#services" data-view="services" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                  <span>Services</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div>
+              <h3 class="px-3 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Analytics</h3>
+              <div class="space-y-1">
+                <a href="#benchmarks" data-view="benchmarks" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                  <span>Benchmarks</span>
+                </a>
+                <a href="#models" data-view="models" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                  <span>Models</span>
+                </a>
+                <a href="#simulations" data-view="simulations" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                  <span>Simulations</span>
+                </a>
+                <a href="#heatmaps" data-view="heatmaps" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" /></svg>
+                  <span>Heatmaps</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Governance Section -->
+            <div>
+              <h3 class="px-3 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Governance</h3>
+              <div class="space-y-1">
+                <a href="#playbooks" data-view="playbooks" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                  <span>Playbooks</span>
+                </a>
+                <a href="#rules" data-view="rules" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                  <span>Rules & Alerts</span>
+                </a>
+                <a href="#audit" data-view="audit" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                  <span>Audit Logs</span>
+                </a>
+                <a href="#dataroom" data-view="dataroom" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
+                  <span>Data Room</span>
+                </a>
+                <a href="#entities" data-view="entities" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" /></svg>
+                  <span>Legal Entities</span>
+                </a>
+                <a href="#exports" data-view="exports" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                  <span>Exports</span>
+                </a>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Sidebar Overlay for mobile -->
+      <div id="sidebarOverlay" class="fixed inset-0 z-40 bg-black bg-opacity-50 hidden lg:hidden"></div>
+
+      <!-- Main Content Area -->
+      <div class="flex-1 flex flex-col w-full">
+
+        <!-- Header -->
+        <header class="sticky top-0 z-30 h-[var(--header-h)] glass-effect border-b border-slate-200/50 dark:border-slate-700/50 shadow-soft">
+          <div class="h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <button id="sidebarToggle" class="lg:hidden p-2 rounded-xl hover:bg-brand-50 dark:hover:bg-slate-800/50 transition-colors">
+                <svg class="h-5 w-5 text-slate-700 dark:text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+              <h1 id="pageTitle" class="text-lg font-bold text-slate-900 dark:text-slate-100">Dashboard</h1>
+            </div>
+          <div class="flex items-center gap-2.5">
+            <button id="themeToggle" class="inline-flex items-center gap-2 text-xs font-medium px-3.5 py-2 rounded-xl border border-slate-200/80 dark:border-slate-700/80 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all">
               <svg class="h-4 w-4 text-slate-700 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
               <svg class="h-4 w-4 text-slate-300 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
               <span class="hidden md:inline">Theme</span>
             </button>
-            <button class="hidden sm:inline-flex items-center gap-2 text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 active:bg-brand-800 px-3 py-1.5 rounded-lg shadow-subtle">
+            <button id="newVentureBtn" class="hidden sm:inline-flex items-center gap-2 text-xs font-bold text-white bg-gradient-to-r from-brand-600 to-cyan-600 hover:from-brand-700 hover:to-cyan-700 active:from-brand-800 active:to-cyan-800 px-4 py-2 rounded-xl shadow-soft hover:shadow-glow transition-all">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
               <span>New Venture</span>
             </button>
+            <div id="authArea" class="inline-flex items-center gap-2">
+              <button id="loginBtn" class="inline-flex items-center gap-2 text-xs font-medium px-3.5 py-2 rounded-xl border border-slate-200/80 dark:border-slate-700/80 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all">Sign in</button>
+              <div id="userBox" class="hidden items-center gap-2">
+                <span id="userBadge" class="text-xs px-2.5 py-1.5 rounded-lg font-medium bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700"></span>
+                <button id="logoutBtn" class="inline-flex items-center gap-2 text-xs font-medium px-3.5 py-2 rounded-xl border border-slate-200/80 dark:border-slate-700/80 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all">Sign out</button>
+              </div>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <!-- Page -->
-      <main class="pt-[var(--header-h)]">
+        <!-- Page -->
+        <main class="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-900">
+        <!-- Splash / Welcome -->
+        <section data-view="splash">
+          <div class="backdrop-grid">
+            <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16">
+              <div class="rounded-3xl overflow-hidden border border-slate-200/70 dark:border-slate-700/60 shadow-subtle">
+                <div class="bg-gradient-to-br from-brand-50 to-accent-50 dark:from-slate-900 dark:to-slate-900 p-10 sm:p-14">
+                  <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">CityReach Innovation Labs — Best-of-Breed Venture Studio Platform</h1>
+                  <p class="mt-2 text-slate-600 dark:text-slate-400">One platform for ideation → launch → scale → spin-out, with portfolio visibility, resource allocation, investor reporting, and governance.</p>
+                  <div class="mt-6 flex flex-wrap gap-2 text-xs sm:text-sm">
+                    <a href="#ideas" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Idea Intake</a>
+                    <a href="#ideas" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Screening</a>
+                    <a href="#ideas" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Stage Workflow</a>
+                    <a href="#ventures" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Milestones</a>
+                    <a href="#resources" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Resource Allocation</a>
+                    <a href="#budgets" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Budget & Spend</a>
+                    <a href="#kpis" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">KPIs</a>
+                    <a href="#rounds" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Fundraising</a>
+                    <a href="#cap_tables" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Cap Tables</a>
+                    <a href="#reports" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Investor Reporting</a>
+                    <a href="#talent" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Talent Marketplace</a>
+                    <a href="#playbooks" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Playbooks</a>
+                    <a href="#rules" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Rules & Alerts</a>
+                    <a href="#models" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">What-If Models</a>
+                  </div>
+                  <div class="mt-8 flex items-center gap-3">
+                    <a href="#ventures" class="px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700">Explore modules</a>
+                    <a href="#login" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-sm hover:bg-slate-50 dark:hover:bg-slate-800">Sign in</a>
+                    <a href="../docs/frd/ecco-studio-platform-frd_v1.1.md" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-sm hover:bg-slate-50 dark:hover:bg-slate-800">Read the FRD</a>
+                    <a href="../ecco_gcs_json_persistence_spec_v1.2.md" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-sm hover:bg-slate-50 dark:hover:bg-slate-800">Read the Spec</a>
+                  </div>
+                </div>
+                <div class="bg-white dark:bg-slate-900 p-8 grid sm:grid-cols-3 gap-6 text-sm">
+                  <div>
+                    <div class="font-medium">Leadership</div>
+                    <p class="mt-2 text-slate-600 dark:text-slate-400">Portfolio health, next milestones, resource allocation, and risk heatmaps.</p>
+                  </div>
+                  <div>
+                    <div class="font-medium">Venture Leads</div>
+                    <p class="mt-2 text-slate-600 dark:text-slate-400">Roadmap, experiments, KPIs, and fundraising in one workspace.</p>
+                  </div>
+                  <div>
+                    <div class="font-medium">Ops & Finance</div>
+                    <p class="mt-2 text-slate-600 dark:text-slate-400">Utilisation, shared-service SLAs, budgets vs actuals, investor reporting.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- Modules Quick Links -->
+            <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
+              <div class="flex items-end justify-between mb-4">
+                <h2 class="text-sm font-semibold tracking-tight">Modules</h2>
+                <a href="#ventures" class="text-xs text-brand-600 hover:text-brand-700">Explore all →</a>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <a href="#ideas" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Ideas</div><div class="mt-1 text-xs text-slate-500">Intake, screening, stage</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#ventures" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Ventures</div><div class="mt-1 text-xs text-slate-500">Workspace, milestones</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#kpis" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">KPIs</div><div class="mt-1 text-xs text-slate-500">Metrics, trends</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#budgets" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Budgets</div><div class="mt-1 text-xs text-slate-500">Plan vs actuals</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#resources" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Resources</div><div class="mt-1 text-xs text-slate-500">Directory, roles</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#utilisation" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Utilisation</div><div class="mt-1 text-xs text-slate-500">Allocation, capacity</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#experiments" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Experiments</div><div class="mt-1 text-xs text-slate-500">Hypotheses, results</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#rounds" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Rounds</div><div class="mt-1 text-xs text-slate-500">Pipeline, stages</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#cap_tables" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Cap Tables</div><div class="mt-1 text-xs text-slate-500">Ownership, dilution</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#investors" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Investors</div><div class="mt-1 text-xs text-slate-500">CRM, interactions</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#reports" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Reports</div><div class="mt-1 text-xs text-slate-500">Investor updates</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#talent" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Talent</div><div class="mt-1 text-xs text-slate-500">Matching, profiles</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#playbooks" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Playbooks</div><div class="mt-1 text-xs text-slate-500">SOPs, templates</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#rules" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Rules</div><div class="mt-1 text-xs text-slate-500">Triggers, alerts</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#benchmarks" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Benchmarks</div><div class="mt-1 text-xs text-slate-500">Targets, comps</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#models" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Models</div><div class="mt-1 text-xs text-slate-500">What‑if scenarios</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#simulations" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Simulations</div><div class="mt-1 text-xs text-slate-500">Results, comparisons</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#heatmaps" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Heatmaps</div><div class="mt-1 text-xs text-slate-500">Risk vs reward</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#audit" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Audit</div><div class="mt-1 text-xs text-slate-500">Changes, recovery</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#partners" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Partners</div><div class="mt-1 text-xs text-slate-500">JV, milestones</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#services" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Services</div><div class="mt-1 text-xs text-slate-500">Requests, SLAs</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#dataroom" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Dataroom</div><div class="mt-1 text-xs text-slate-500">Docs, access</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- Login -->
+        <section data-view="login" class="hidden">
+          <div class="mx-auto max-w-md px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-8 shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Sign in</h2>
+              <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Local demo only — no backend auth. Choose a role to test RBAC.</p>
+              <form id="loginForm" class="grid gap-4">
+                <div>
+                  <label class="block text-xs font-medium mb-1">Email</label>
+                  <input id="loginEmail" type="email" class="w-full rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm" placeholder="you@example.com" required />
+                </div>
+                <div>
+                  <label class="block text-xs font-medium mb-1">Access Code</label>
+                  <input id="loginCode" type="text" class="w-full rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm" placeholder="demo" required />
+                  <p class="mt-1 text-xs text-slate-500">Use code <span class="font-mono">demo</span> for the shared demo.</p>
+                </div>
+                <div>
+                  <label class="block text-xs font-medium mb-1">Role</label>
+                  <select id="loginRole" class="w-full rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm">
+                    <option>Admin</option>
+                    <option>Leadership</option>
+                    <option>Lead</option>
+                    <option>Contributor</option>
+                    <option>Investor</option>
+                    <option>Advisor</option>
+                  </select>
+                </div>
+                <button type="submit" class="mt-2 w-full px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700">Continue</button>
+              </form>
+              <div class="mt-4 text-xs text-slate-500">Tip: Admin/Contributor can read dev data; Investor/Advisor are read‑only in prod.</div>
+            </div>
+          </div>
+        </section>
+        <!-- Ventures View -->
+        <section data-view="ventures" class="hidden">
         <div class="backdrop-grid">
           <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
             <!-- Hero / Summary -->
@@ -94,11 +555,11 @@
                 <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
                   <div>
                     <h1 class="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">Portfolio Overview</h1>
-                    <p class="text-sm text-slate-600 dark:text-slate-400">Serverless JSON-in-GCS persistence with realtime manifests and indices.</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Live KPIs, milestones, budgets, and alerts.</p>
                   </div>
-                  <div class="inline-flex rounded-lg bg-white/70 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/60 overflow-hidden">
-                    <button class="px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Dev</button>
-                    <button class="px-3 py-1.5 text-xs font-medium bg-brand-600 text-white">Prod</button>
+                  <div class="inline-flex rounded-lg bg-white/70 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/60 overflow-hidden" id="envSwitch">
+                    <button data-env="dev" class="env-toggle px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Dev</button>
+                    <button data-env="prod" class="env-toggle px-3 py-1.5 text-xs font-medium">Prod</button>
                   </div>
                 </div>
               </div>
@@ -106,23 +567,23 @@
               <div class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4">
                   <div class="text-xs text-slate-500">Active Ventures</div>
-                  <div class="mt-2 text-2xl font-semibold">12</div>
-                  <div class="mt-1 text-xs text-emerald-600 dark:text-emerald-400">+2 this month</div>
+                  <div id="kpi-active-ventures" class="mt-2 text-2xl font-semibold">—</div>
+                  <div id="kpi-active-ventures-delta" class="mt-1 text-xs text-emerald-600 dark:text-emerald-400"></div>
                 </div>
                 <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4">
                   <div class="text-xs text-slate-500">MRR</div>
-                  <div class="mt-2 text-2xl font-semibold">$82k</div>
-                  <div class="mt-1 text-xs text-emerald-600 dark:text-emerald-400">+8% MoM</div>
+                  <div id="kpi-mrr" class="mt-2 text-2xl font-semibold">—</div>
+                  <div id="kpi-mrr-delta" class="mt-1 text-xs text-emerald-600 dark:text-emerald-400"></div>
                 </div>
                 <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4">
                   <div class="text-xs text-slate-500">Rounds in Flight</div>
-                  <div class="mt-2 text-2xl font-semibold">5</div>
-                  <div class="mt-1 text-xs text-amber-600 dark:text-amber-400">2 closing in 30d</div>
+                  <div id="kpi-rounds-inflight" class="mt-2 text-2xl font-semibold">—</div>
+                  <div id="kpi-rounds-inflight-note" class="mt-1 text-xs text-amber-600 dark:text-amber-400"></div>
                 </div>
                 <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4">
                   <div class="text-xs text-slate-500">Runway (median)</div>
-                  <div class="mt-2 text-2xl font-semibold">13 mo</div>
-                  <div class="mt-1 text-xs text-slate-500">target ≥ 12 mo</div>
+                  <div id="kpi-runway" class="mt-2 text-2xl font-semibold">—</div>
+                  <div id="kpi-runway-note" class="mt-1 text-xs text-slate-500">target ≥ 12 mo</div>
                 </div>
               </div>
             </div>
@@ -134,9 +595,38 @@
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- Ventures Table -->
             <div class="lg:col-span-2 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 shadow-subtle">
-              <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                <h2 class="text-sm font-semibold tracking-tight">Ventures</h2>
-                <div class="text-xs text-slate-500">by status</div>
+              <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-sm font-semibold tracking-tight">Ventures</h2>
+                  <div class="text-xs text-slate-500">filters</div>
+                </div>
+                <div class="mt-3 flex gap-3 items-end flex-wrap text-sm">
+                  <div>
+                    <label class="block text-xs font-medium mb-1">Status</label>
+                    <select id="v-filter-status" class="rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900">
+                      <option value="">All</option>
+                      <option>Idea</option>
+                      <option>Validation</option>
+                      <option>Build</option>
+                      <option>Pilot</option>
+                      <option>Scale</option>
+                      <option>Spin-Out</option>
+                      <option>Active</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-medium mb-1">Lead</label>
+                    <input id="v-filter-lead" type="text" placeholder="e.g. alice" class="rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900" />
+                  </div>
+                  <div>
+                    <label class="block text-xs font-medium mb-1">Next Due (YYYY-MM)</label>
+                    <input id="v-filter-nextdue" type="month" class="rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900" />
+                  </div>
+                  <div class="ml-auto flex gap-2">
+                    <button id="v-filter-apply" class="px-3 py-1.5 rounded-md bg-brand-600 text-white">Apply</button>
+                    <button id="v-filter-clear" class="px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-700">Clear</button>
+                  </div>
+                </div>
               </div>
               <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
@@ -149,28 +639,8 @@
                       <th class="text-right font-medium px-6 py-3">MRR</th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                    <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/50">
-                      <td class="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">V001</td>
-                      <td class="px-6 py-3">Bob</td>
-                      <td class="px-6 py-3"><span class="inline-flex items-center gap-1 rounded-md bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-300 px-2 py-0.5 text-xs font-medium ring-1 ring-inset ring-brand-200/70 dark:ring-brand-800/60">Pilot</span></td>
-                      <td class="px-6 py-3">Build MVP — 2026‑02‑01</td>
-                      <td class="px-6 py-3 text-right">$12k</td>
-                    </tr>
-                    <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/50">
-                      <td class="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">V002</td>
-                      <td class="px-6 py-3">Sara</td>
-                      <td class="px-6 py-3"><span class="inline-flex items-center gap-1 rounded-md bg-emerald-50 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 px-2 py-0.5 text-xs font-medium ring-1 ring-inset ring-emerald-200/70 dark:ring-emerald-800/60">Scale</span></td>
-                      <td class="px-6 py-3">Expand GTM — 2025‑12‑15</td>
-                      <td class="px-6 py-3 text-right">$35k</td>
-                    </tr>
-                    <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/50">
-                      <td class="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">V003</td>
-                      <td class="px-6 py-3">Alex</td>
-                      <td class="px-6 py-3"><span class="inline-flex items-center gap-1 rounded-md bg-amber-50 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 px-2 py-0.5 text-xs font-medium ring-1 ring-inset ring-amber-200/70 dark:ring-amber-800/60">Pivot</span></td>
-                      <td class="px-6 py-3">Reposition — 2025‑11‑30</td>
-                      <td class="px-6 py-3 text-right">$8k</td>
-                    </tr>
+                  <tbody id="ventures-tbody" class="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tr><td class="px-6 py-4 text-sm text-slate-500" colspan="5">Loading…</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -196,31 +666,807 @@
                   <p class="text-xs text-slate-500">2025‑11‑06T09:02:11Z</p>
                 </li>
               </ul>
+          </div>
+          </div>
+        </section>
+        </section>
+
+        <!-- Placeholder Views -->
+        <section data-view="ideas" class="hidden">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Ideas</h2>
+              <div id="ideas-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div>
             </div>
           </div>
         </section>
-      </main>
+        <section data-view="talent" class="hidden">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Talent</h2>
+              <div id="talent-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div>
+            </div>
+          </div>
+        </section>
+        <section data-view="experiments" class="hidden">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Experiments</h2>
+              <div id="experiments-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div>
+            </div>
+          </div>
+        </section>
+        <section data-view="rounds" class="hidden">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Rounds</h2>
+              <div id="rounds-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div>
+            </div>
+          </div>
+        </section>
+        <section data-view="cap_tables" class="hidden">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Cap Tables</h2>
+              <div id="cap_tables-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div>
+            </div>
+          </div>
+        </section>
+        <section data-view="reports" class="hidden">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Reports</h2>
+              <div id="reports-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div>
+            </div>
+          </div>
+        </section>
 
-      <footer class="border-t border-slate-200/70 dark:border-slate-800 py-6 text-xs text-slate-500">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <span>© <span id="year"></span> Ecco Studio</span>
-          <span class="text-slate-400">JSON-in-GCS • Cloud Run • BigQuery</span>
-        </div>
-      </footer>
+        <!-- Additional Entities (cards) -->
+        <section data-view="resources" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Resources</h2><div id="resources-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="dataroom" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Dataroom</h2><div id="dataroom-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="budgets" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Budgets</h2><div id="budgets-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="kpis" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-4">KPIs</h2><div class="flex items-end gap-3 text-sm"><div><label class="block text-xs font-medium mb-1">Metric</label><select id="kpi-metric" class="rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900"><option value="mrr">MRR</option><option value="users">Users</option><option value="churn">Churn</option><option value="cac">CAC</option><option value="ltv">LTV</option></select></div><button id="kpi-load" class="px-3 py-1.5 rounded-md bg-brand-600 text-white">Load</button></div><div class="mt-6"><div id="kpi-chart" class="w-full overflow-x-auto"></div></div><div class="mt-8"><h3 class="text-sm font-semibold mb-2">Latest</h3><div id="kpis-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></div></section>
+        <section data-view="investors" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Investors</h2><div id="investors-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="partners" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Partners</h2><div id="partners-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="services" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Services</h2><div id="services-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="playbooks" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Playbooks</h2><div id="playbooks-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="rules" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Rules</h2><div id="rules-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="benchmarks" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Benchmarks</h2><div id="benchmarks-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="models" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Models</h2><div id="models-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="simulations" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Simulations</h2><div id="simulations-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="utilisation" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-4">Utilisation</h2><div class="overflow-x-auto"><table class="min-w-full text-sm"><thead><tr class="text-left text-slate-500"><th class="px-4 py-2">Person</th><th class="px-4 py-2">Venture</th><th class="px-4 py-2 text-right">% Alloc</th></tr></thead><tbody id="utilisation-tbody"><tr><td class="px-4 py-3 text-slate-500" colspan="3">No data</td></tr></tbody></table></div></div></div></section>
+        <section data-view="heatmaps" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-4">Portfolio Heatmap</h2><div id="heatmap-grid" class="grid grid-cols-8 gap-2"></div><div class="mt-3 text-xs text-slate-500">Stub data</div></div></div></section>
+        <section data-view="audit" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Audit Logs</h2><div id="audit-list" class="mt-4 grid grid-cols-1 gap-2 text-left"></div></div></div></section>
+        <section data-view="entities" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Legal Entities</h2><div id="entities-list" class="mt-4 text-sm text-slate-500">Coming soon</div></div></div></section>
+        <section data-view="exports" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Exports</h2><div id="exports-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+
+        <!-- Generic Detail View -->
+        <section data-view="detail" class="hidden">
+          <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-10">
+            <div class="mb-4 text-sm"><a id="detail-back" href="#ventures" class="text-brand-600 hover:underline">← Back</a></div>
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-8 shadow-subtle">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div id="detail-title" class="text-xl font-semibold tracking-tight">Detail</div>
+                  <div id="detail-subtitle" class="text-xs text-slate-500 mt-1"></div>
+                </div>
+                <div id="detail-badges" class="text-xs"></div>
+              </div>
+              <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4" id="detail-fields"></div>
+              <div class="mt-8">
+                <h3 class="text-sm font-semibold mb-2">Raw</h3>
+                <pre id="detail-raw" class="text-xs bg-slate-50 dark:bg-slate-800 p-3 rounded overflow-auto"></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+        </main>
+
+        <footer class="border-t border-slate-200/70 dark:border-slate-800 py-6 text-xs text-slate-500">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <span>© <span id="year"></span> CityReach Innovation Labs</span>
+            <span class="text-slate-400">Portfolio Visibility • Resource Allocation • Investor Reporting</span>
+          </div>
+        </footer>
+      </div>
     </div>
 
     <script>
-      // Dark mode toggle with localStorage
+      // Simple global navigation function - available immediately
+      window.goToView = function(view) {
+        console.log('goToView called with:', view);
+        if (window.appSetView) {
+          window.appSetView(view);
+        } else {
+          console.log('App not ready, storing view for later:', view);
+          window.pendingView = view;
+        }
+      };
+
+      // Dark mode toggle - runs immediately
       const root = document.documentElement;
       const key = 'theme';
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const saved = localStorage.getItem(key);
       if ((saved === 'dark') || (!saved && prefersDark)) root.classList.add('dark');
+
+      // Wait for DOM to load for everything else
+      document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM loaded, initializing app...');
+
       document.getElementById('themeToggle')?.addEventListener('click', () => {
         root.classList.toggle('dark');
         localStorage.setItem(key, root.classList.contains('dark') ? 'dark' : 'light');
       });
       document.getElementById('year').textContent = new Date().getFullYear();
+
+      // API + UI wiring
+      const API_BASE = `${location.protocol}//${location.hostname}:8085`;
+      let currentEnv = localStorage.getItem('env') || 'dev';
+      const authKey = 'authUser';
+      function getAuth() {
+        try { return JSON.parse(localStorage.getItem(authKey) || 'null'); } catch { return null; }
+      }
+      function isAuthed() { return !!getAuth(); }
+      function rolesHeader() {
+        const auth = getAuth();
+        return auth?.role ? auth.role : 'Admin';
+      }
+
+      function entityFor(view) {
+        switch (view) {
+          case 'ideas': return 'idea';
+          case 'ventures': return 'venture';
+          case 'talent': return 'talent';
+          case 'experiments': return 'experiment';
+          case 'rounds': return 'round';
+          case 'cap_tables': return 'cap_table';
+          case 'reports': return 'report';
+          case 'resources': return 'resource';
+          case 'budgets': return 'budget';
+          case 'kpis': return 'kpi';
+          case 'investors': return 'investor';
+          case 'partners': return 'partner';
+          case 'services': return 'service';
+          case 'playbooks': return 'playbook';
+          case 'rules': return 'rule';
+          case 'benchmarks': return 'benchmark';
+          case 'models': return 'model';
+          case 'simulations': return 'simulation';
+          case 'dataroom': return 'dataroom';
+          default: return view;
+        }
+      }
+
+      async function fetchList(view) {
+        const entity = entityFor(view);
+        const doFetch = async () => {
+          const url = `${API_BASE}/v1/${entity}?env=${encodeURIComponent(currentEnv)}`;
+          const res = await fetch(url, { headers: { 'x-roles': rolesHeader() } });
+          if (!res.ok) throw new Error(`${res.status}`);
+          const json = await res.json();
+          return Array.isArray(json.items) ? json.items : [];
+        };
+        try {
+          return await doFetch();
+        } catch (e) {
+          console.warn('fetchList failed', view, e);
+          // Fallback: if current env isn't dev, switch to dev once
+          if (currentEnv !== 'dev') {
+            currentEnv = 'dev';
+            localStorage.setItem('env', 'dev');
+            document.querySelectorAll('#envSwitch .env-toggle')
+              .forEach((b) => b.classList.remove('bg-brand-600','text-white'));
+            document.querySelector('#envSwitch .env-toggle[data-env="dev"]')
+              ?.classList.add('bg-brand-600','text-white');
+            try { return await doFetch(); } catch {}
+          }
+          return [];
+        }
+      }
+
+      function renderCards(containerId, items) {
+        const el = document.getElementById(containerId);
+        if (!el) return;
+        if (!items.length) {
+          el.innerHTML = '<div class="text-sm text-slate-500">No data</div>';
+          return;
+        }
+        const view = containerId.replace('-list','');
+        el.innerHTML = items.map(r => `
+          <a href="#${view}/${encodeURIComponent(r.id)}" class="block rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-300">
+            <div class="text-sm font-medium">${r.id}</div>
+            <div class="text-xs text-slate-500">${r.title || r.status || ''}</div>
+          </a>
+        `).join('');
+      }
+
+      function renderVenturesTable(items) {
+        const tbody = document.getElementById('ventures-tbody');
+        if (!tbody) return;
+        if (!items.length) {
+          tbody.innerHTML = '<tr><td class="px-6 py-4 text-sm text-slate-500" colspan="5">No data</td></tr>';
+          return;
+        }
+        tbody.innerHTML = items.slice(0, 25).map(r => `
+          <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/50">
+            <td class="px-6 py-3 font-medium text-slate-900 dark:text-slate-100"><a href="#ventures/${encodeURIComponent(r.id)}" class="text-brand-700 hover:underline">${r.id}</a></td>
+            <td class="px-6 py-3">${r.lead || ''}</td>
+            <td class="px-6 py-3"><span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium ring-1 ring-inset ${r.status ? 'bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-300 ring-brand-200/70 dark:ring-brand-800/60' : 'bg-slate-50 text-slate-600'}">${r.status || ''}</span></td>
+            <td class="px-6 py-3">${r.asOf || ''}</td>
+            <td class="px-6 py-3 text-right"></td>
+          </tr>
+        `).join('');
+      }
+
+      function slug(s) {
+        return String(s || '').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+      }
+
+      async function fetchVenturesByFilters() {
+        const statusEl = document.getElementById('v-filter-status');
+        const leadEl = document.getElementById('v-filter-lead');
+        const nextDueEl = document.getElementById('v-filter-nextdue');
+        const status = statusEl && 'value' in statusEl ? statusEl.value : '';
+        const lead = leadEl && 'value' in leadEl ? leadEl.value : '';
+        const nextDue = nextDueEl && 'value' in nextDueEl ? nextDueEl.value : '';
+
+        // Preference order: status -> lead -> nextDue; fall back to list
+        try {
+          if (status) {
+            const res = await fetch(`${API_BASE}/v1/index/ventures/by-status/${encodeURIComponent(slug(status))}?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+            const json = await res.json();
+            if (Array.isArray(json.items) && json.items.length) return json.items;
+          }
+          if (lead) {
+            const res = await fetch(`${API_BASE}/v1/index/ventures/by-lead/${encodeURIComponent(slug(lead))}?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+            const json = await res.json();
+            if (Array.isArray(json.items) && json.items.length) return json.items;
+          }
+          if (nextDue) {
+            const ym = nextDue.length >= 7 ? nextDue.slice(0,7) : nextDue;
+            const res = await fetch(`${API_BASE}/v1/index/ventures/by-next-due/${encodeURIComponent(ym)}?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+            const json = await res.json();
+            if (Array.isArray(json.items) && json.items.length) return json.items;
+          }
+        } catch {}
+        return fetchList('ventures');
+      }
+
+      async function renderUtilisation(items) {
+        const tbody = document.getElementById('utilisation-tbody');
+        if (!tbody) return;
+        if (!items || !items.length) { tbody.innerHTML = '<tr><td class="px-4 py-3 text-slate-500" colspan="3">No data</td></tr>'; return; }
+        tbody.innerHTML = items.map(r => `
+          <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/50">
+            <td class="px-4 py-2">${r.person}</td>
+            <td class="px-4 py-2">${r.venture}</td>
+            <td class="px-4 py-2 text-right">${r.pct}%</td>
+          </tr>
+        `).join('');
+      }
+
+      async function renderHeatmap(points) {
+        const grid = document.getElementById('heatmap-grid');
+        if (!grid) return;
+        if (!points || !points.length) { grid.innerHTML = '<div class="text-sm text-slate-500">No data</div>'; return; }
+        grid.innerHTML = points.map(p => `<div class="h-8 rounded bg-brand-600/10 dark:bg-brand-400/20" title="${p.id} (${p.value})" style="grid-column: ${p.x}; opacity: ${Math.min(1, 0.3 + p.value/10)}"></div>`).join('');
+      }
+
+      function renderKpiChart(metric, series) {
+        const mount = document.getElementById('kpi-chart');
+        if (!mount) return;
+        if (!series || !series.length) { mount.innerHTML = '<div class="text-sm text-slate-500">No data</div>'; return; }
+        const w = 640, h = 160, pad = 24;
+        const values = series.map(p => Number(p.value) || 0);
+        const min = Math.min(...values), max = Math.max(...values);
+        const x = (i) => pad + (i * (w - 2*pad)) / (series.length - 1);
+        const y = (v) => {
+          if (max === min) return h/2;
+          const r = (v - min) / (max - min);
+          return (h - pad) - r * (h - 2*pad);
+        };
+        let d = '';
+        series.forEach((p, i) => {
+          const xi = x(i), yi = y(Number(p.value));
+          d += (i === 0 ? 'M' : 'L') + xi + ' ' + yi + ' ';
+        });
+        const circles = series.map((p,i)=>`<circle cx="${x(i)}" cy="${y(Number(p.value))}" r="2" fill="#6366f1" />`).join('');
+        const svg = `
+<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}">
+  <rect x="0" y="0" width="${w}" height="${h}" fill="none" />
+  <path d="${d}" fill="none" stroke="#6366f1" stroke-width="2" />
+  ${circles}
+  <text x="${pad}" y="${pad}" font-size="10" fill="currentColor">${metric.toUpperCase()} (min ${min}, max ${max})</text>
+</svg>`;
+        mount.innerHTML = svg;
+      }
+
+      async function loadKpiSeries(metric) {
+        try {
+          const res = await fetch(`${API_BASE}/v1/kpis/${encodeURIComponent(metric)}/series?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+          if (!res.ok) throw new Error(String(res.status));
+          const json = await res.json();
+          renderKpiChart(metric, json.series || []);
+        } catch {
+          renderKpiChart(metric, []);
+        }
+      }
+
+      // Dashboard metrics
+      async function loadDashboardKpis() {
+        try {
+          // Active ventures from portfolio summary
+          const sRes = await fetch(`${API_BASE}/v1/portfolio/summary?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+          if (sRes.ok) {
+            const sum = await sRes.json();
+            const active = (sum.byStatus && (sum.byStatus.active || sum.byStatus.Active)) || sum.total || 0;
+            const el = document.getElementById('kpi-active-ventures'); if (el) el.textContent = String(active);
+          }
+        } catch {}
+        try {
+          // MRR latest and delta
+          const r = await fetch(`${API_BASE}/v1/kpis/mrr/series?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+          if (r.ok) {
+            const json = await r.json();
+            const series = Array.isArray(json.series) ? json.series : [];
+            const last = series[series.length - 1];
+            const prev = series[series.length - 2];
+            const val = last ? Number(last.value) : 0;
+            const el = document.getElementById('kpi-mrr'); if (el) el.textContent = val ? new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val * 1000) : '—';
+            const deltaEl = document.getElementById('kpi-mrr-delta');
+            if (deltaEl && last && prev) {
+              const pct = prev.value ? Math.round(((val - Number(prev.value)) / Number(prev.value)) * 100) : 0;
+              deltaEl.textContent = `${pct >= 0 ? '+' : ''}${pct}% MoM`;
+              deltaEl.classList.toggle('text-emerald-600', pct >= 0);
+              deltaEl.classList.toggle('dark:text-emerald-400', pct >= 0);
+              deltaEl.classList.toggle('text-rose-600', pct < 0);
+            }
+          }
+        } catch {}
+        try {
+          // Rounds in flight: total rounds minus closed
+          const rr = await fetch(`${API_BASE}/v1/round?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+          if (rr.ok) {
+            const json = await rr.json();
+            const items = Array.isArray(json.items) ? json.items : [];
+            const inFlight = items.filter(r => String((r.status||'')).toLowerCase() !== 'closed').length;
+            const el = document.getElementById('kpi-rounds-inflight'); if (el) el.textContent = String(inFlight);
+          }
+        } catch {}
+        try {
+          // Runway (median): derive from KPI if available, else show target
+          const r = await fetch(`${API_BASE}/v1/kpis/runway/series?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+          const el = document.getElementById('kpi-runway');
+          if (r.ok) {
+            const json = await r.json();
+            const series = Array.isArray(json.series) ? json.series : [];
+            const vals = series.map(p => Number(p.value)).filter(v => Number.isFinite(v));
+            const med = vals.length ? vals.sort((a,b)=>a-b)[Math.floor(vals.length/2)] : null;
+            if (el) el.textContent = med ? `${Math.round(med)} mo` : '—';
+          } else {
+            if (el) el.textContent = '—';
+          }
+        } catch {
+          const el = document.getElementById('kpi-runway'); if (el) el.textContent = '—';
+        }
+      }
+
+      async function loadView(view) {
+        // Pre-show placeholder for ventures table
+        if (view === 'ventures') {
+          document.getElementById('ventures-tbody').innerHTML = '<tr><td class="px-6 py-4 text-sm text-slate-500" colspan="5">Loading…</td></tr>';
+        }
+        switch (view) {
+          case 'ventures': {
+            // Load dashboard KPIs in parallel
+            loadDashboardKpis().catch(()=>{});
+            const items = await fetchVenturesByFilters();
+            renderVenturesTable(items);
+            break;
+          }
+          case 'utilisation': {
+            try {
+              const res = await fetch(`${API_BASE}/v1/ops/utilisation?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+              const json = await res.json();
+              renderUtilisation(json.items || []);
+            } catch { renderUtilisation([]); }
+            break;
+          }
+          case 'heatmaps': {
+            try {
+              const res = await fetch(`${API_BASE}/v1/portfolio/heatmap?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+              const json = await res.json();
+              renderHeatmap(json.points || []);
+            } catch { renderHeatmap([]); }
+            break;
+          }
+          case 'audit': {
+            try {
+              const res = await fetch(`${API_BASE}/v1/audit/logs?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+              const json = await res.json();
+              renderCards('audit-list', json.items || []);
+            } catch { renderCards('audit-list', []); }
+            break;
+          }
+          case 'exports': {
+            try {
+              const res = await fetch(`${API_BASE}/v1/exports?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+              const json = await res.json();
+              renderCards('exports-list', json.items || []);
+            } catch { renderCards('exports-list', []); }
+            break;
+          }
+          case 'dataroom':
+          case 'ideas':
+          case 'talent':
+          case 'experiments':
+          case 'rounds':
+          case 'cap_tables':
+          case 'reports':
+          case 'resources':
+          case 'budgets':
+          case 'kpis':
+          case 'investors':
+          case 'partners':
+          case 'services':
+          case 'playbooks':
+          case 'rules':
+          case 'benchmarks':
+          case 'models':
+          case 'simulations': {
+            const items = await fetchList(view);
+            renderCards(`${view}-list`, items);
+            if (view === 'kpis') {
+              const sel = document.getElementById('kpi-metric');
+              const metric = sel && 'value' in sel ? sel.value : 'mrr';
+              loadKpiSeries(metric);
+            }
+            break;
+          }
+          // 'entities' page is static placeholder for now
+        }
+      }
+
+      // Sidebar toggle functionality
+      const sidebar = document.getElementById('sidebar');
+      const sidebarToggle = document.getElementById('sidebarToggle');
+      const sidebarClose = document.getElementById('sidebarClose');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+      function openSidebar() {
+        sidebar?.classList.remove('-translate-x-full');
+        sidebarOverlay?.classList.remove('hidden');
+        console.log('Opening sidebar');
+      }
+
+      function closeSidebar() {
+        sidebar?.classList.add('-translate-x-full');
+        sidebarOverlay?.classList.add('hidden');
+        console.log('Closing sidebar');
+      }
+
+      function toggleSidebar() {
+        if (sidebar?.classList.contains('-translate-x-full')) {
+          openSidebar();
+        } else {
+          closeSidebar();
+        }
+      }
+
+      // Sidebar event listeners
+      sidebarToggle?.addEventListener('click', toggleSidebar);
+      sidebarClose?.addEventListener('click', closeSidebar);
+      sidebarOverlay?.addEventListener('click', closeSidebar);
+
+      // Lightweight hash-based view switcher with detail support
+      function setView(view) {
+        // Detail route support: #view/id
+        if (view && view.includes('/')) {
+          const parts = view.split('/');
+          const routeView = parts[0];
+          const id = decodeURIComponent(parts.slice(1).join('/'));
+          showDetail(routeView, id);
+          return;
+        }
+        console.log('Setting view to:', view);
+
+        // Guard: require auth for main views
+        if (!isAuthed() && !['splash','login'].includes(view)) {
+          console.log('Not authenticated, redirecting to splash');
+          view = 'splash';
+        }
+
+        const sections = document.querySelectorAll('[data-view]');
+        console.log('Found', sections.length, 'sections with data-view attribute');
+
+        // Check if the requested view exists
+        const targetSection = document.querySelector(`[data-view="${view}"]`);
+        if (!targetSection && view !== '') {
+          console.warn(`View "${view}" not found. Available views:`,
+            Array.from(sections).map(s => s.getAttribute('data-view')));
+          // Fallback to splash or ventures based on auth status
+          view = isAuthed() ? 'ventures' : 'splash';
+          console.log('Falling back to:', view);
+        }
+
+        sections.forEach((el) => {
+          const viewName = el.getAttribute('data-view');
+          const shouldShow = viewName === view;
+          el.classList.toggle('hidden', !shouldShow);
+          if (shouldShow) {
+            console.log('Showing section:', viewName);
+          }
+        });
+
+        // Update active states for all navigation links
+        document.querySelectorAll('a[data-view]').forEach((a) => {
+          const isActive = a.getAttribute('data-view') === view;
+          if (isActive) {
+            a.classList.add('bg-brand-100', 'text-brand-700', 'dark:bg-brand-900/30', 'dark:text-brand-300');
+            a.classList.remove('text-slate-700', 'dark:text-slate-300');
+          } else {
+            a.classList.remove('bg-brand-100', 'text-brand-700', 'dark:bg-brand-900/30', 'dark:text-brand-300');
+            a.classList.add('text-slate-700', 'dark:text-slate-300');
+          }
+        });
+
+        // Update page title
+        const pageTitle = document.getElementById('pageTitle');
+        if (pageTitle) {
+          const titles = {
+            'ventures': 'Ventures',
+            'ideas': 'Ideas',
+            'experiments': 'Experiments',
+            'kpis': 'KPIs',
+            'reports': 'Reports',
+            'resources': 'Resources',
+            'budgets': 'Budgets',
+            'talent': 'Talent Pool',
+            'splash': 'Welcome',
+            'login': 'Sign In'
+          };
+          pageTitle.textContent = titles[view] || view.charAt(0).toUpperCase() + view.slice(1);
+        }
+
+        if (location.hash.replace('#','') !== view) location.hash = view;
+        // Ensure we start at top of content
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Load data for the view
+        loadView(view);
+
+        // Close sidebar on mobile after navigation
+        if (window.innerWidth < 1024) {
+          closeSidebar();
+        }
+      }
+
+      // Expose setView globally for onclick handlers
+      window.appSetView = setView;
+      window.goToView = setView; // legacy inline onclick support
+
+      // Check if there was a pending view from early click
+      if (window.pendingView) {
+        console.log('Executing pending view:', window.pendingView);
+        setView(window.pendingView);
+        window.pendingView = null;
+      }
+
+      async function showDetail(routeView, id) {
+        const entity = entityFor(routeView);
+        const back = document.getElementById('detail-back');
+        if (back) back.setAttribute('href', `#${routeView}`);
+        let json = null;
+        try {
+          const res = await fetch(`${API_BASE}/v1/${encodeURIComponent(entity)}/${encodeURIComponent(id)}?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+          if (res.ok) json = await res.json();
+        } catch {}
+        if (!json) {
+          // Fallback to manifest record if snapshot missing
+          try {
+            const items = await fetchList(routeView);
+            json = items.find(r => String(r.id) === String(id)) || null;
+          } catch {}
+        }
+        if (!json) {
+          document.getElementById('detail-fields').innerHTML = '<div class="text-sm text-slate-500">Not found</div>';
+          document.getElementById('detail-raw').textContent = '';
+        } else {
+          document.getElementById('detail-title').textContent = json.title || `${entity} ${id}`;
+          document.getElementById('detail-subtitle').textContent = `${entity} • ${id}`;
+          const fields = [
+            ['Status', json.status],
+            ['Lead', json.lead],
+            ['Updated', json.updated_at],
+          ].filter(([,v]) => v);
+          const fieldsEl = document.getElementById('detail-fields');
+          fieldsEl.innerHTML = fields.map(([k,v]) => `<div><div class="text-xs text-slate-500 mb-1">${k}</div><div class="text-sm">${v}</div></div>`).join('');
+          document.getElementById('detail-raw').textContent = JSON.stringify(json, null, 2);
+        }
+        document.querySelectorAll('[data-view]').forEach((el) => {
+          el.classList.toggle('hidden', el.getAttribute('data-view') !== 'detail');
+        });
+        const pageTitle = document.getElementById('pageTitle');
+        if (pageTitle) pageTitle.textContent = 'Detail';
+      }
+
+      window.addEventListener('hashchange', () => setView(location.hash.replace('#','') || (isAuthed() ? 'ventures' : 'splash')));
+
+      // Add click handlers using event delegation
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('a[data-view]');
+        if (link) {
+          e.preventDefault();
+          e.stopPropagation();
+          const view = link.getAttribute('data-view');
+          console.log('Navigation clicked:', view);
+
+          if (view) {
+            setView(view);
+            // Close sidebar on mobile after navigation
+            if (window.innerWidth < 1024) {
+              closeSidebar();
+            }
+          }
+        }
+      });
+
+      // Log all navigation links found
+      const links = document.querySelectorAll('a[data-view]');
+      console.log('Found', links.length, 'navigation links at initialization');
+
+      // Debug helper - list all views
+      links.forEach(link => {
+        console.log('Available view:', link.getAttribute('data-view'));
+      });
+
+      // Env switch buttons
+      document.querySelectorAll('#envSwitch .env-toggle').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          currentEnv = btn.getAttribute('data-env') || 'dev';
+          localStorage.setItem('env', currentEnv);
+          // Update button styling
+          document.querySelectorAll('#envSwitch .env-toggle').forEach((b) => b.classList.remove('bg-brand-600','text-white'));
+          btn.classList.add('bg-brand-600','text-white');
+          // Reload current view
+          setView(location.hash.replace('#','') || 'ventures');
+        });
+      });
+      // Initialize env button state
+      document.querySelector(`#envSwitch .env-toggle[data-env="${currentEnv}"]`)?.classList.add('bg-brand-600','text-white');
+      // Auth UI wiring
+      function updateAuthUI() {
+        const authed = isAuthed();
+        const userBox = document.getElementById('userBox');
+        const loginBtn = document.getElementById('loginBtn');
+        const badge = document.getElementById('userBadge');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+
+        if (authed) {
+          const a = getAuth();
+          userBox?.classList.remove('hidden');
+          loginBtn?.classList.add('hidden');
+          if (badge) badge.textContent = `${a.email} • ${a.role}`;
+          // Show sidebar toggle when logged in
+          sidebarToggle?.classList.remove('hidden');
+          // On desktop, show sidebar by default when logged in
+          if (window.innerWidth >= 1024) {
+            sidebar?.classList.remove('-translate-x-full');
+          }
+        } else {
+          userBox?.classList.add('hidden');
+          loginBtn?.classList.remove('hidden');
+          // Hide sidebar and toggle when logged out
+          sidebarToggle?.classList.add('hidden');
+          sidebar?.classList.add('-translate-x-full');
+        }
+      }
+      document.getElementById('loginBtn')?.addEventListener('click', () => setView('login'));
+      document.getElementById('logoutBtn')?.addEventListener('click', () => {
+        localStorage.removeItem(authKey);
+        updateAuthUI();
+        setView('splash');
+      });
+      document.getElementById('loginForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const emailEl = document.getElementById('loginEmail');
+        const roleEl = document.getElementById('loginRole');
+        const codeEl = document.getElementById('loginCode');
+        const email = emailEl && 'value' in emailEl ? emailEl.value : '';
+        const role = roleEl && 'value' in roleEl ? roleEl.value : 'Investor';
+        const code = codeEl && 'value' in codeEl ? codeEl.value : '';
+        const DEMO_CODE = (window && window.DEMO_ACCESS_CODE) || 'demo';
+        if (code !== DEMO_CODE) {
+          alert('Invalid access code');
+          return;
+        }
+        localStorage.setItem(authKey, JSON.stringify({ email, role }));
+        // Force default env to dev on login
+        currentEnv = 'dev';
+        localStorage.setItem('env', 'dev');
+        // Update env toggle styling to reflect dev
+        document.querySelectorAll('#envSwitch .env-toggle').forEach((b) => b.classList.remove('bg-brand-600','text-white'));
+        document.querySelector('#envSwitch .env-toggle[data-env="dev"]')?.classList.add('bg-brand-600','text-white');
+        updateAuthUI();
+        setView('ventures');
+      });
+
+      // Deep link auto-login: #login?code=...&email=...&role=...
+      function parseHashQuery() {
+        const h = location.hash || '';
+        const q = h.includes('?') ? h.split('?')[1] : '';
+        const params = new URLSearchParams(q);
+        return Object.fromEntries(params.entries());
+      }
+      (function handleInviteLink(){
+        const p = parseHashQuery();
+        if (location.hash.startsWith('#login') && (p.code || p.email || p.role)) {
+          const email = p.email || '';
+          const role = p.role || 'Investor';
+          const code = p.code || '';
+          const DEMO_CODE = (window && window.DEMO_ACCESS_CODE) || 'demo';
+          if (code === DEMO_CODE) {
+            localStorage.setItem(authKey, JSON.stringify({ email, role }));
+            // Force default env to dev on invite link
+            currentEnv = 'dev';
+            localStorage.setItem('env', 'dev');
+            document.querySelectorAll('#envSwitch .env-toggle').forEach((b) => b.classList.remove('bg-brand-600','text-white'));
+            document.querySelector('#envSwitch .env-toggle[data-env="dev"]')?.classList.add('bg-brand-600','text-white');
+            updateAuthUI();
+            setView('ventures');
+          }
+        }
+      })();
+      updateAuthUI();
+      // Ventures filters listeners
+      document.getElementById('v-filter-apply')?.addEventListener('click', () => setView('ventures'));
+      document.getElementById('v-filter-clear')?.addEventListener('click', () => {
+        const ids = ['v-filter-status','v-filter-lead','v-filter-nextdue'];
+        ids.forEach(id => { const el = document.getElementById(id); if (el && 'value' in el) el.value = ''; });
+        setView('ventures');
+      });
+      // KPI metric loader
+      document.getElementById('kpi-load')?.addEventListener('click', () => {
+        const sel = document.getElementById('kpi-metric');
+        const metric = sel && 'value' in sel ? sel.value : 'mrr';
+        loadKpiSeries(metric);
+      });
+
+      // New Venture quick-create (dev FS mode)
+      document.getElementById('newVentureBtn')?.addEventListener('click', async () => {
+        const id = prompt('New venture ID (e.g., V-200)');
+        if (!id) return;
+        const title = prompt('Venture title');
+        const payload = {
+          env: currentEnv,
+          entity: 'venture',
+          id,
+          schema_version: '1.0.0',
+          updated_at: new Date().toISOString(),
+          title: title || id,
+          status: 'active'
+        };
+        try {
+          const res = await fetch(`${API_BASE}/v1/internal/history`, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json', 'x-roles': rolesHeader() },
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) throw new Error(String(res.status));
+          // Reload ventures
+          setView('ventures');
+        } catch (e) {
+          alert('Failed to create venture: ' + e);
+        }
+      });
+      // Initialize the app
+      console.log('Initializing app, authenticated:', isAuthed());
+      const initialView = location.hash.replace('#','') || (isAuthed() ? 'ventures' : 'splash');
+      console.log('Setting initial view to:', initialView);
+      setView(initialView);
+
+      }); // End DOMContentLoaded
     </script>
   </body>
   </html>

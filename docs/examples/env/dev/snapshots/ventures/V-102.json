@@ -1,0 +1,9 @@
+{
+  "id": "V-102",
+  "entity": "venture",
+  "title": "Nimbus AI",
+  "status": "active",
+  "lead": "Jane Doe",
+  "description": "Edge AI for industrial sensors",
+  "updated_at": "2024-09-15T09:00:00Z"
+}

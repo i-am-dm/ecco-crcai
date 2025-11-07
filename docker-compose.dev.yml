@@ -19,7 +19,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: ["npm", "run", "dev", "-w", "services/snapshot-builder"]
+    command: ["sh", "-lc", "while [ ! -f /srv/app/libs/ts/dist/index.js ]; do echo 'waiting for libs build...'; sleep 0.5; done; npm run dev -w services/snapshot-builder"]
     environment:
       PORT: 8081
       GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
@@ -27,6 +27,7 @@ services:
     volumes:
       - ${GOOGLE_APPLICATION_CREDENTIALS:-$PWD/credentials.json}:/credentials/key.json:ro
       - ./services/snapshot-builder/src:/srv/app/services/snapshot-builder/src
+      - libs_ts_dist:/srv/app/libs/ts/dist:ro
     ports:
       - "8081:8081"
     profiles: ["watch"]
@@ -49,7 +50,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: ["npm", "run", "dev", "-w", "services/manifest-writer"]
+    command: ["sh", "-lc", "while [ ! -f /srv/app/libs/ts/dist/index.js ]; do echo 'waiting for libs build...'; sleep 0.5; done; npm run dev -w services/manifest-writer"]
     environment:
       PORT: 8082
       GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
@@ -57,6 +58,7 @@ services:
     volumes:
       - ${GOOGLE_APPLICATION_CREDENTIALS:-$PWD/credentials.json}:/credentials/key.json:ro
       - ./services/manifest-writer/src:/srv/app/services/manifest-writer/src
+      - libs_ts_dist:/srv/app/libs/ts/dist:ro
     ports:
       - "8082:8082"
     profiles: ["watch"]
@@ -79,7 +81,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: ["npm", "run", "dev", "-w", "services/index-writer"]
+    command: ["sh", "-lc", "while [ ! -f /srv/app/libs/ts/dist/index.js ]; do echo 'waiting for libs build...'; sleep 0.5; done; npm run dev -w services/index-writer"]
     environment:
       PORT: 8083
       GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
@@ -87,6 +89,7 @@ services:
     volumes:
       - ${GOOGLE_APPLICATION_CREDENTIALS:-$PWD/credentials.json}:/credentials/key.json:ro
       - ./services/index-writer/src:/srv/app/services/index-writer/src
+      - libs_ts_dist:/srv/app/libs/ts/dist:ro
     ports:
       - "8083:8083"
     profiles: ["watch"]
@@ -109,7 +112,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: ["npm", "run", "dev", "-w", "services/rules-engine"]
+    command: ["sh", "-lc", "while [ ! -f /srv/app/libs/ts/dist/index.js ]; do echo 'waiting for libs build...'; sleep 0.5; done; npm run dev -w services/rules-engine"]
     environment:
       PORT: 8084
       GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
@@ -117,6 +120,7 @@ services:
     volumes:
       - ${GOOGLE_APPLICATION_CREDENTIALS:-$PWD/credentials.json}:/credentials/key.json:ro
       - ./services/rules-engine/src:/srv/app/services/rules-engine/src
+      - libs_ts_dist:/srv/app/libs/ts/dist:ro
     ports:
       - "8084:8084"
     profiles: ["watch"]
@@ -139,8 +143,71 @@ services:
     command: ["npm", "run", "build:watch", "-w", "libs/ts"]
     volumes:
       - ./libs/ts/src:/srv/app/libs/ts/src
+      - libs_ts_dist:/srv/app/libs/ts/dist
+    profiles: ["watch"]
+
+  api-edge:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["npm", "start", "-w", "services/api-edge"]
+    environment:
+      PORT: 8085
+      DATA_BUCKET: ${DATA_BUCKET:-ecco-studio-platform-data}
+      STORAGE_BACKEND: ${STORAGE_BACKEND:-fs}
+      DATA_ROOT: /srv/app/local-data
+      GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-/credentials/key.json}
+    volumes:
+      - ${GOOGLE_APPLICATION_CREDENTIALS:-$PWD/credentials.json}:/credentials/key.json:ro
+      - ${LOCAL_DATA_DIR:-./tools/local-harness/bucket}:/srv/app/local-data
+      - ./docs:/srv/app/docs:ro
+    ports:
+      - "8085:8085"
+
+  api-edge-watch:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["sh", "-lc", "while [ ! -f /srv/app/libs/ts/dist/index.js ]; do echo 'waiting for libs build...'; sleep 0.5; done; npm run dev -w services/api-edge"]
+    environment:
+      PORT: 8085
+      DATA_BUCKET: ${DATA_BUCKET:-ecco-studio-platform-data}
+      STORAGE_BACKEND: ${STORAGE_BACKEND:-fs}
+      DATA_ROOT: /srv/app/local-data
+      GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-dev-project}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-/credentials/key.json}
+    volumes:
+      - ${GOOGLE_APPLICATION_CREDENTIALS:-$PWD/credentials.json}:/credentials/key.json:ro
+      - ./docs:/srv/app/docs:ro
+      - ./services/api-edge/src:/srv/app/services/api-edge/src
+      - libs_ts_dist:/srv/app/libs/ts/dist:ro
+      - ${LOCAL_DATA_DIR:-./tools/local-harness/bucket}:/srv/app/local-data
+    ports:
+      - "8085:8085"
+    profiles: ["watch"]
+  ui:
+    image: nginx:alpine
+    volumes:
+      - ./ui:/usr/share/nginx/html:ro
+      - ./docs:/usr/share/nginx/html/_docs:ro
+    ports:
+      - "8080:80"
+    profiles: ["dev"]
+  ui-watch:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["npm", "run", "dev", "-w", "tools/ui-dev"]
+    working_dir: /srv/app
+    volumes:
+      - ./ui:/srv/app/ui
+    ports:
+      - "8080:8080"
     profiles: ["watch"]
 
 networks:
   default:
     name: ecco-dev-net
+volumes:
+  libs_ts_dist:

@@ -1,0 +1,11 @@
+{
+  "id": "CMT-001",
+  "entity": "comment",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-02-02T15:30:00Z",
+  "ptr": "env/dev/snapshots/comments/CMT-001.json",
+  "ideaId": "IDEA-001",
+  "message": "Added the TAM/TOM slides that the partners requested. Please review before Monday's pipeline review.",
+  "author_name": "Alice Carter"
+}

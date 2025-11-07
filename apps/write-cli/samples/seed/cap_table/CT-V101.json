@@ -1,0 +1,16 @@
+{
+  "id": "CT-V101",
+  "entity": "cap_table",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2025-11-06T00:00:00Z",
+  "updated_at": "2025-11-06T00:00:00Z",
+  "ventureId": "V-101",
+  "asOf": "2025-10-31",
+  "holders": [
+    {"holderId": "TEAM", "name": "Team Pool", "security": "Option", "quantity": 1000000, "pctFullyDiluted": 0.15},
+    {"holderId": "FOUNDER-A", "name": "Founder A", "security": "Common", "quantity": 3000000, "pctFullyDiluted": 0.45},
+    {"holderId": "FOUNDER-B", "name": "Founder B", "security": "Common", "quantity": 2400000, "pctFullyDiluted": 0.36}
+  ]
+}
+

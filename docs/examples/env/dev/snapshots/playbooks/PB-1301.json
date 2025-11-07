@@ -1,0 +1,23 @@
+{
+  "id": "PB-1301",
+  "entity": "playbook",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2024-10-13T10:00:00Z",
+  "updated_at": "2024-10-13T10:00:00Z",
+  "name": "Incident Response",
+  "stage": "Build",
+  "function": "Ops",
+  "owner": "ops@example.com",
+  "version": "1.0.0",
+  "status": "Published",
+  "tags": ["security","incident"],
+  "expected_impacts": {"MRR_delta_30d": 0, "activation_pct_delta": 0},
+  "checklist": [
+    {"id":"S1","title":"Sev triage","role":"On-call","duration_days":1},
+    {"id":"S2","title":"Postmortem","role":"Lead","duration_days":2,"depends_on":["S1"]}
+  ],
+  "assets": [],
+  "rules": [],
+  "linked_ventures": []
+}

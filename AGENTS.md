@@ -13,6 +13,9 @@
 - Library tests: `cd libs/ts && npm run test` (runs Node’s `test` runner over `libs/ts/test/*.spec.ts`).
 - Service build (example): `cd services/index-writer && npm run build` (produces `dist/`). Use `npm start` for local HTTP simulation.
 - Terraform plan/apply: `cd infra/terraform && terraform init && terraform plan -var project_id=...`.
+ - Docker Compose (dev):
+   - Standard: `docker compose -f docker-compose.dev.yml up --build` (UI on :8080, API edge :8085, services :8081..8084)
+   - Hot‑reload: `docker compose -f docker-compose.dev.yml --profile watch up --build` (starts `*-watch` and `ui-watch`)
 
 ## Coding Style & Naming Conventions
 - TypeScript (ES2022 modules, strict mode). Prefer named exports and async/await.
@@ -34,4 +37,3 @@
 - Store webhook URLs and credentials in Secret Manager; reference them as `sm://SECRET_NAME` (rules-engine resolves at runtime).
 - Service accounts interacting with GCS must have path-scoped IAM conditions (see `infra/terraform/main.tf`).
 - Avoid committing raw data exports or secrets; keep sample fixtures under `apps/write-cli/samples/` if needed.
-

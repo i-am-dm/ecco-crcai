@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routing Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-8 bg-gray-50">
+    <h1 class="text-2xl font-bold mb-4">UI Routing Test</h1>
+
+    <div class="mb-6">
+        <h2 class="text-lg font-semibold mb-2">Current Hash:</h2>
+        <div id="currentHash" class="font-mono bg-gray-200 p-2 rounded"></div>
+    </div>
+
+    <div class="mb-6">
+        <h2 class="text-lg font-semibold mb-2">Test Navigation:</h2>
+        <div class="flex flex-wrap gap-2">
+            <a href="index.html#splash" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Splash</a>
+            <a href="index.html#login" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Login</a>
+            <a href="index.html#ventures" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Ventures</a>
+            <a href="index.html#ideas" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Ideas</a>
+            <a href="index.html#talent" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Talent</a>
+            <a href="index.html#experiments" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Experiments</a>
+            <a href="index.html#kpis" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">KPIs</a>
+            <a href="index.html#reports" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Reports</a>
+        </div>
+    </div>
+
+    <div class="mb-6">
+        <h2 class="text-lg font-semibold mb-2">Instructions:</h2>
+        <ol class="list-decimal list-inside space-y-2">
+            <li>Open index.html in your browser</li>
+            <li>Open the browser's Developer Console (F12)</li>
+            <li>Click the navigation links above to test routing</li>
+            <li>Look for console logs showing view changes</li>
+            <li>Check if the correct sections are displayed</li>
+            <li>For authenticated views, you may need to log in first using the login link</li>
+        </ol>
+    </div>
+
+    <div class="mb-6 p-4 bg-yellow-100 rounded">
+        <h2 class="text-lg font-semibold mb-2">Known Issues Fixed:</h2>
+        <ul class="list-disc list-inside space-y-1">
+            <li>✅ Duplicate KPIs section removed</li>
+            <li>✅ Added debugging console logs to track routing</li>
+            <li>✅ Added fallback for missing views</li>
+            <li>✅ Added mobile navigation support</li>
+        </ul>
+    </div>
+
+    <div class="mb-6 p-4 bg-blue-100 rounded">
+        <h2 class="text-lg font-semibold mb-2">Testing Tips:</h2>
+        <ul class="list-disc list-inside space-y-1">
+            <li>If routes don't show, check console for authentication messages</li>
+            <li>The app requires authentication for most views</li>
+            <li>Use the login page with code "demo" to authenticate</li>
+            <li>Mobile menu can be tested by resizing browser window</li>
+        </ul>
+    </div>
+
+    <script>
+        // Update current hash display
+        function updateHashDisplay() {
+            document.getElementById('currentHash').textContent = window.location.hash || '(empty)';
+        }
+
+        updateHashDisplay();
+        window.addEventListener('hashchange', updateHashDisplay);
+    </script>
+</body>
+</html>

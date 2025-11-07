@@ -1,0 +1,14 @@
+{
+  "id": "DR-001",
+  "entity": "dataroom",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-02-08T10:00:00Z",
+  "ptr": "env/dev/snapshots/dataroom/DR-001.json",
+  "title": "Nova Carbon Fundraise",
+  "ventureId": "V-102",
+  "status": "Active",
+  "doc_count": 18,
+  "open_requests": 3,
+  "last_accessed": "2025-02-10T16:00:00Z"
+}

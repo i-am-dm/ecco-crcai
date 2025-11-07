@@ -2,6 +2,7 @@ import type { DeleteOptions, ListedObject, ObjectMetadata, WriteOptions, WriteRe
 
 export interface StorageClient {
   writeJson(path: string, data: unknown, opts?: WriteOptions): Promise<WriteResult>;
+  writeBuffer(path: string, data: Buffer | Uint8Array, opts?: WriteOptions): Promise<WriteResult>;
   readJson<T = unknown>(path: string): Promise<T>;
   readText(path: string): Promise<string>;
   stat(path: string): Promise<ObjectMetadata>;
@@ -34,6 +35,26 @@ export class GcsStorage implements StorageClient {
     const content = JSON.stringify(data);
     const [meta] = await file.save(content, {
       contentType: opts.contentType ?? "application/json",
+      gzip: opts.gzip ?? false,
+      metadata: {
+        ...opts.metadata,
+      },
+      preconditionOpts: {
+        ifGenerationMatch: opts.ifGenerationMatch,
+        ifMetagenerationMatch: opts.ifMetagenerationMatch,
+      },
+      resumable: false,
+      validation: false,
+    });
+    return { generation: Number(meta.generation), metageneration: Number(meta.metageneration) };
+  }
+
+  async writeBuffer(path: string, data: Buffer | Uint8Array, opts: WriteOptions = {}): Promise<WriteResult> {
+    const storage = await this.getStorage();
+    const bucket = storage.bucket(this.bucketName);
+    const file = bucket.file(path);
+    const [meta] = await file.save(data, {
+      contentType: opts.contentType ?? "application/octet-stream",
       gzip: opts.gzip ?? false,
       metadata: {
         ...opts.metadata,

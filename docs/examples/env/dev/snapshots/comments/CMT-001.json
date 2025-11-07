@@ -1,0 +1,21 @@
+{
+  "id": "CMT-001",
+  "entity": "comment",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2025-02-02T15:30:00Z",
+  "updated_at": "2025-02-02T15:30:00Z",
+  "idea_id": "IDEA-001",
+  "ideaId": "IDEA-001",
+  "message": "Added the TAM/TOM slides that the partners requested. Please review before Monday's pipeline review.",
+  "author_id": "alice@ecco.studio",
+  "author_email": "alice@ecco.studio",
+  "author_name": "Alice Carter",
+  "attachments": [
+    {
+      "title": "Go-to-market TAM deck",
+      "url": "https://example.com/files/idea-001-tam-deck.pdf",
+      "type": "application/pdf"
+    }
+  ]
+}

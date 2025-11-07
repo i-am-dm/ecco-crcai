@@ -1,0 +1,56 @@
+{
+  "id": "IDEA-003",
+  "entity": "idea",
+  "env": "dev",
+  "schema_version": "v1.0.0",
+  "created_at": "2025-09-02T12:00:00Z",
+  "createdAt": "2025-09-02T12:00:00Z",
+  "updated_at": "2025-11-03T09:15:00Z",
+  "updatedAt": "2025-11-03T09:15:00Z",
+  "created_by": "nora@ecco.studio",
+  "createdBy": "nora@ecco.studio",
+  "theme": "Northstar Service Mesh",
+  "title": "Northstar Service Mesh",
+  "problem": "Studio ventures building regulated APIs burn weeks on authz, observability, and zero-trust plumbing before shipping features.",
+  "market": "12 in-flight ventures + partner firms that need HIPAA/SOC2-ready service mesh with prescriptive defaults.",
+  "team": "Platform TL, infra engineer, SRE, and security architect shared across ventures.",
+  "tech": "Rust control plane, Envoy data plane, OPA policies, Terraform modules, and GCS-backed manifest store.",
+  "description": "Opinionated mesh with baked-in policies, playbook-driven scaffolds, and UI for policy diffing per venture.",
+  "status": "Approved",
+  "stage": "Build",
+  "stage_owner": "nora@ecco.studio",
+  "stageOwner": "nora@ecco.studio",
+  "stage_due_date": "2026-01-10T00:00:00Z",
+  "stageDueDate": "2026-01-10T00:00:00Z",
+  "stage_history": [
+    {
+      "stage": "Idea",
+      "changed_at": "2025-09-02T12:00:00Z",
+      "changed_by": "nora@ecco.studio"
+    },
+    {
+      "stage": "Validation",
+      "changed_at": "2025-10-10T08:15:00Z",
+      "changed_by": "nora@ecco.studio",
+      "notes": "Completed POC across 2 ventures"
+    },
+    {
+      "stage": "Build",
+      "changed_at": "2025-11-03T09:15:00Z",
+      "changed_by": "pluto@ecco.studio",
+      "notes": "Green-lit shared platform team"
+    }
+  ],
+  "score": {
+    "overall": 8.8,
+    "market": 8.0,
+    "team": 9.3,
+    "tech": 9.0,
+    "timing": 8.5,
+    "notes": "Requires heroic effort on DX; SRE backlog funded."
+  },
+  "tags": ["Platform", "Security"],
+  "attachments": [
+    "gs://ecco-dev/docs/northstar-architecture.png"
+  ]
+}

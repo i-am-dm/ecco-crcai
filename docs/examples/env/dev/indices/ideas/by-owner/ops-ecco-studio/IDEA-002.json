@@ -1,0 +1,33 @@
+{
+  "id": "IDEA-002",
+  "entity": "idea",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-11-04T18:45:00Z",
+  "ptr": "env/dev/snapshots/ideas/IDEA-002.json",
+  "title": "Flux Energy Demand",
+  "status": "Under Review",
+  "stage": "Validation",
+  "stageOwner": "ops@ecco.studio",
+  "stage_owner": "ops@ecco.studio",
+  "stageDueDate": "2025-11-15T00:00:00Z",
+  "stage_due_date": "2025-11-15T00:00:00Z",
+  "theme": "Flux Energy Demand",
+  "problem": "Large C&I facilities overshoot demand-response commitments because forecasting is trapped in spreadsheets.",
+  "market": "North American demand-response programs with $6.1B addressable spend and strong ESG pressure.",
+  "team": "Needs energy domain PM, optimisation engineer, and integrations lead for BMS + utility APIs.",
+  "tech": "Temporal workflows, Python forecasting models, React operator console, and write-path to GCS for audit.",
+  "score": {
+    "overall": 7.9,
+    "market": 8.2,
+    "team": 7.5,
+    "tech": 7.0,
+    "timing": 9.0,
+    "notes": "Need concrete integration plan for Schneider + Honeywell BMS."
+  },
+  "tags": ["Energy", "ESG"],
+  "created_at": "2025-10-18T09:30:00Z",
+  "createdAt": "2025-10-18T09:30:00Z",
+  "created_by": "ops@ecco.studio",
+  "createdBy": "ops@ecco.studio"
+}

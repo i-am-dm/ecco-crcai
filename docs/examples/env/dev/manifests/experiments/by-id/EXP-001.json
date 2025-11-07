@@ -1,0 +1,23 @@
+{
+  "id": "EXP-001",
+  "entity": "experiment",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-11-06T09:45:00Z",
+  "ptr": "env/dev/snapshots/experiments/EXP-001.json",
+  "title": "Pricing A/B Test",
+  "status": "Completed",
+  "ideaId": "IDEA-001",
+  "ventureId": "V-101",
+  "owner": "maya@ecco.studio",
+  "hypothesis": "Raising self-serve plan by 20% will not reduce activation conversions.",
+  "metric": "Self-serve signup CVR",
+  "goal": "+3pt increase vs control",
+  "start_date": "2025-10-20T00:00:00Z",
+  "end_date": "2025-11-02T00:00:00Z",
+  "result": "Variant B outperformed control (+3.8pt CVR). Adopt new price point and roll across EMEA.",
+  "decision": "Ship",
+  "confidence": "High",
+  "impact_score": 8,
+  "tags": ["pricing", "self-serve"]
+}

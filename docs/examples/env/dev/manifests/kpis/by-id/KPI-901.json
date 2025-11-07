@@ -1,0 +1,8 @@
+{
+  "ptr": "env/dev/snapshots/kpis/KPI-901.json",
+  "id": "KPI-901",
+  "entity": "kpi",
+  "title": "MRR",
+  "status": "tracked",
+  "updated_at": "2024-10-09T10:00:00Z"
+}

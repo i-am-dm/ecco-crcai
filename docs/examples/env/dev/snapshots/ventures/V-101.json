@@ -1,0 +1,9 @@
+{
+  "id": "V-101",
+  "entity": "venture",
+  "title": "Acme Robotics",
+  "status": "active",
+  "lead": "Joe Smith",
+  "description": "Autonomous warehouse robotics",
+  "updated_at": "2024-10-01T12:00:00Z"
+}

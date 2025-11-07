@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Comment",
+  "type": "object",
+  "required": [
+    "id",
+    "entity",
+    "env",
+    "schema_version",
+    "created_at",
+    "updated_at",
+    "idea_id",
+    "message"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "entity": { "const": "comment" },
+    "env": { "enum": ["dev", "stg", "prod"] },
+    "schema_version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "idea_id": { "type": "string", "minLength": 1 },
+    "ideaId": { "type": "string", "minLength": 1 },
+    "message": { "type": "string", "minLength": 1, "maxLength": 4000 },
+    "author_id": { "type": "string" },
+    "author_email": { "type": "string", "format": "email" },
+    "author_name": { "type": "string" },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["url"],
+        "properties": {
+          "title": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "type": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "mentions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "slack_thread_ts": { "type": "string" }
+  },
+  "additionalProperties": true
+}

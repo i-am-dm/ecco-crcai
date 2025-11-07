@@ -1,0 +1,17 @@
+{
+  "id": "V-105",
+  "entity": "venture",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2025-11-06T00:00:00Z",
+  "updated_at": "2025-11-06T00:00:00Z",
+  "lead": "Eli",
+  "status": "Scale",
+  "milestones": [
+    {"milestoneId": "M4", "title": "SOC2", "dueDate": "2026-05-01", "status": "Planned"}
+  ],
+  "budget": {"plannedUSD": 400000, "spentUSD": 180000},
+  "kpis": {"MRR": 85000, "userCount": 5200, "churnRate": 0.012},
+  "title": "AI Sales Copilot"
+}
+

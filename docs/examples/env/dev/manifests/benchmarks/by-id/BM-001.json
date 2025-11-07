@@ -1,0 +1,10 @@
+{
+  "id": "BM-001",
+  "entity": "benchmark",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-11-06T00:00:00Z",
+  "ptr": "env/dev/benchmarks/BM-001.json",
+  "title": "SaaS MRR Benchmarks"
+}
+

@@ -1,0 +1,10 @@
+{
+  "id": "MOD-001",
+  "entity": "model",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-11-06T00:00:00Z",
+  "ptr": "env/dev/models/MOD-001.json",
+  "title": "Cohort LTV Model"
+}
+

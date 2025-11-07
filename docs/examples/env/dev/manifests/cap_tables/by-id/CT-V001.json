@@ -1,0 +1,11 @@
+{
+  "id": "CT-V001",
+  "entity": "cap_table",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-11-06T00:00:00Z",
+  "ptr": "env/dev/snapshots/cap_tables/CT-V001.json",
+  "title": "V-TEST Cap Table",
+  "ventureId": "V-TEST"
+}
+

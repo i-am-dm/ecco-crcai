@@ -25,5 +25,9 @@ Fetching secrets into a local .env
 - You can pass full resource paths and map to env keys:
   - `node tools/secret-pull/dist/index.js --out .env.local --secrets projects/YOUR_PROJECT/secrets/slack_webhook/versions/latest:ALERTS_WEBHOOK_URL`
 
+Comment + Slack notifications (FR-4)
+- `COMMENTS_SLACK_WEBHOOK` (optional) — Incoming webhook URL used by `/v1/ideas/{id}/comments`. Falls back to `ALERTS_WEBHOOK_URL` when unset.
+- Store the webhook URL in Secret Manager (e.g., `sm://slack_comment_webhook`) and resolve it into the env var during deploys.
+
 Rules engine + secrets
 - In rule files, set `action.target` to `sm://YOUR_SECRET_NAME` to resolve via Secret Manager at runtime.

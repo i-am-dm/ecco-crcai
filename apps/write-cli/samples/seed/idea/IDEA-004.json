@@ -1,0 +1,60 @@
+{
+  "id": "IDEA-004",
+  "entity": "idea",
+  "env": "dev",
+  "schema_version": "v1.0.0",
+  "created_at": "2025-07-12T10:00:00Z",
+  "createdAt": "2025-07-12T10:00:00Z",
+  "updated_at": "2025-11-01T16:20:00Z",
+  "updatedAt": "2025-11-01T16:20:00Z",
+  "created_by": "liam@ecco.studio",
+  "createdBy": "liam@ecco.studio",
+  "theme": "Pulse Remote Diagnostics",
+  "title": "Pulse Remote Diagnostics",
+  "problem": "Clinical device vendors struggle to service IoT endpoints in emerging markets where on-site visits are expensive.",
+  "market": "Remote diagnostics for connected care devices with $3.8B TAM and immediate pull from two anchor customers.",
+  "team": "GM + GTM lead, embedded engineer, clinical compliance lead, and shared services marketing.",
+  "tech": "Edge agents, Go services, async rules engine, and React dashboard with KPI manifests.",
+  "description": "Predictive maintenance + compliance pack that alerts hospitals before downtime and automates regulatory evidence.",
+  "status": "Approved",
+  "stage": "Launch",
+  "stage_owner": "liam@ecco.studio",
+  "stageOwner": "liam@ecco.studio",
+  "stage_due_date": "2025-12-05T00:00:00Z",
+  "stageDueDate": "2025-12-05T00:00:00Z",
+  "stage_history": [
+    {
+      "stage": "Idea",
+      "changed_at": "2025-07-12T10:00:00Z",
+      "changed_by": "liam@ecco.studio"
+    },
+    {
+      "stage": "Validation",
+      "changed_at": "2025-08-05T14:20:00Z",
+      "changed_by": "liam@ecco.studio"
+    },
+    {
+      "stage": "Build",
+      "changed_at": "2025-09-14T11:00:00Z",
+      "changed_by": "liam@ecco.studio"
+    },
+    {
+      "stage": "Launch",
+      "changed_at": "2025-11-01T16:20:00Z",
+      "changed_by": "liam@ecco.studio",
+      "notes": "Pilot launch across 3 hospitals"
+    }
+  ],
+  "score": {
+    "overall": 8.1,
+    "market": 8.5,
+    "team": 8.0,
+    "tech": 7.6,
+    "timing": 8.2,
+    "notes": "Need to monitor compliance backlog; scaling plan approved."
+  },
+  "tags": ["Health", "IoT"],
+  "attachments": [
+    "gs://ecco-dev/docs/pulse-launch-plan.xlsx"
+  ]
+}

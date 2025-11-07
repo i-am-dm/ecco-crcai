@@ -1,0 +1,52 @@
+{
+  "id": "R-001",
+  "entity": "round",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2024-08-10T10:00:00Z",
+  "updated_at": "2025-02-05T11:00:00Z",
+  "venture_id": "V-101",
+  "venture_name": "Acme Robotics",
+  "stage": "Seed+",
+  "status": "Closing",
+  "owner": "Maya Patel",
+  "target_amount": 8000000,
+  "committed_amount": 6400000,
+  "lead_investor": "Northwind Ventures",
+  "close_date": "2025-03-15",
+  "probability": 0.7,
+  "use_of_funds": ["Scale manufacturing cell", "GTMS build-out", "Hardware QA automation"],
+  "investors": [
+    {
+      "investor_id": "INV-001",
+      "name": "Northwind Ventures",
+      "role": "Lead",
+      "status": "Docs Sent",
+      "commitment": 3000000
+    },
+    {
+      "investor_id": "INV-1001",
+      "name": "Blue Horizon Angels",
+      "role": "Co-lead",
+      "status": "IC Review",
+      "commitment": 500000
+    },
+    {
+      "investor_id": "INV-009",
+      "name": "Galaxy Ventures",
+      "role": "Follow-on",
+      "status": "Soft Circle",
+      "commitment": 900000
+    }
+  ],
+  "timeline": [
+    { "date": "2024-12-12", "event": "Circulated data room access" },
+    { "date": "2024-12-20", "event": "Soft circled 4.5M" },
+    { "date": "2025-01-30", "event": "Lead diligence visit" },
+    { "date": "2025-02-05", "event": "Draft SPA shared" }
+  ],
+  "risk_notes": [
+    "Need signed design partner before close",
+    "Supply-chain quote lock expires April 1"
+  ]
+}

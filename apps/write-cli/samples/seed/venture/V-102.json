@@ -1,0 +1,17 @@
+{
+  "id": "V-102",
+  "entity": "venture",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2025-11-06T00:00:00Z",
+  "updated_at": "2025-11-06T00:00:00Z",
+  "lead": "Ben",
+  "status": "Scale",
+  "milestones": [
+    {"milestoneId": "M2", "title": "GTM Expansion", "dueDate": "2026-03-15", "status": "Planned"}
+  ],
+  "budget": {"plannedUSD": 300000, "spentUSD": 90000},
+  "kpis": {"MRR": 42000, "userCount": 2500, "churnRate": 0.015},
+  "title": "AI Contract Reviewer"
+}
+

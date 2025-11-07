@@ -7,12 +7,16 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "node dist/index.js"
+    "build:watch": "tsc -p tsconfig.json -w --preserveWatchOutput",
+    "start": "node dist/index.js",
+    "dev": "sh -lc 'npm run build:watch & node --watch --watch-path ../../libs/ts/dist dist/index.js'"
   },
   "dependencies": {
-    "@ecco/platform-libs": "workspace:*"
+    "@ecco/platform-libs": "workspace:*",
+    "jose": "^5.2.4"
   },
   "devDependencies": {
-    "typescript": "^5.5.0"
+    "typescript": "^5.5.0",
+    "@types/node": "^20.11.30"
   }
 }

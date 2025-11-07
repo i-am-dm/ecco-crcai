@@ -1,0 +1,17 @@
+{
+  "id": "RND-501",
+  "entity": "round",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-02-11T09:00:00Z",
+  "ptr": "env/dev/snapshots/rounds/RND-501.json",
+  "title": "Nova Carbon Series A",
+  "status": "In Market",
+  "stage": "Series A",
+  "ventureId": "V-102",
+  "target_amount": 12000000,
+  "committed_amount": 4500000,
+  "owner": "Maya Patel",
+  "probability": 0.55,
+  "close_date": "2025-05-15"
+}

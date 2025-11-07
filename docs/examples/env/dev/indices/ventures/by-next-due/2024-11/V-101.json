@@ -1,0 +1,9 @@
+{
+  "ptr": "env/dev/snapshots/ventures/V-101.json",
+  "id": "V-101",
+  "entity": "venture",
+  "title": "Acme Robotics",
+  "status": "active",
+  "lead": "Joe Smith",
+  "updated_at": "2024-10-01T12:00:00Z"
+}

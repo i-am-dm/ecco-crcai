@@ -1,0 +1,47 @@
+{
+  "id": "DR-1801",
+  "entity": "dataroom",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2024-05-01T09:00:00Z",
+  "updated_at": "2024-12-12T14:00:00Z",
+  "venture_id": "V-101",
+  "title": "Acme Robotics Board Dataroom",
+  "status": "Archived",
+  "owner": "Corp Dev",
+  "documents": [
+    {
+      "id": "doc-quarterly-pack",
+      "title": "Q3 Board Pack",
+      "category": "Board",
+      "type": "pdf",
+      "size_mb": 8.1,
+      "updated_at": "2024-10-02T10:00:00Z",
+      "owner": "CEO",
+      "tags": ["board"]
+    },
+    {
+      "id": "doc-cap-table",
+      "title": "Cap Table (Oct)",
+      "category": "Legal",
+      "type": "xlsx",
+      "size_mb": 1.2,
+      "updated_at": "2024-10-15T14:30:00Z",
+      "owner": "Finance",
+      "tags": ["cap-table"]
+    }
+  ],
+  "permissions": [
+    { "investor_id": "INV-001", "name": "Northwind Ventures", "level": "board", "expires_at": null }
+  ],
+  "access_logs": [
+    {
+      "timestamp": "2024-12-15T15:30:00Z",
+      "user": "Laura Mendes",
+      "organization": "Northwind Ventures",
+      "action": "downloaded",
+      "document_id": "doc-cap-table"
+    }
+  ],
+  "last_audit": "2024-12-12T14:00:00Z"
+}

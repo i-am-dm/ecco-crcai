@@ -18,11 +18,15 @@ export interface EnvelopeBase {
     | "round"
     | "cap_table"
     | "playbook"
+    | "playbook_run"
+    | "comment"
+    | "show_page"
     | "rule"
     | "benchmark"
     | "report"
     | "model"
-    | "simulation";
+    | "simulation"
+    | "dataroom";
   env: Env;
   schema_version: string;
   created_at: string; // RFC3339
@@ -49,4 +53,3 @@ export function newEnvelope(
 export function touch<T extends EnvelopeBase>(obj: T): T {
   return { ...obj, updated_at: nowRfc3339() };
 }
-

@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CityReach Innovation Labs Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --header-h: 56px; }
+  </style>
+</head>
+<body class="h-screen overflow-hidden">
+  <div class="flex h-full">
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="w-64 bg-white border-r border-gray-200 flex flex-col">
+      <div class="p-4 border-b">
+        <h1 class="font-bold text-lg">CityReach Innovation Labs</h1>
+      </div>
+      <nav class="flex-1 overflow-y-auto p-4">
+        <div class="mb-4">
+          <h3 class="text-xs font-semibold text-gray-500 mb-2">MAIN</h3>
+          <a href="javascript:void(0)" onclick="showView('ventures')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Ventures</a>
+          <a href="javascript:void(0)" onclick="showView('ideas')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Ideas</a>
+          <a href="javascript:void(0)" onclick="showView('experiments')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Experiments</a>
+          <a href="javascript:void(0)" onclick="showView('kpis')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">KPIs</a>
+          <a href="javascript:void(0)" onclick="showView('reports')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Reports</a>
+        </div>
+        <div class="mb-4">
+          <h3 class="text-xs font-semibold text-gray-500 mb-2">OPERATIONS</h3>
+          <a href="javascript:void(0)" onclick="showView('resources')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Resources</a>
+          <a href="javascript:void(0)" onclick="showView('budgets')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Budgets</a>
+          <a href="javascript:void(0)" onclick="showView('utilisation')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Utilisation</a>
+        </div>
+        <div class="mb-4">
+          <h3 class="text-xs font-semibold text-gray-500 mb-2">FINANCE</h3>
+          <a href="javascript:void(0)" onclick="showView('rounds')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Funding Rounds</a>
+          <a href="javascript:void(0)" onclick="showView('cap_tables')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Cap Tables</a>
+          <a href="javascript:void(0)" onclick="showView('investors')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Investors</a>
+        </div>
+        <div class="mb-4">
+          <h3 class="text-xs font-semibold text-gray-500 mb-2">MORE</h3>
+          <a href="javascript:void(0)" onclick="showView('talent')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Talent</a>
+          <a href="javascript:void(0)" onclick="showView('partners')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Partners</a>
+          <a href="javascript:void(0)" onclick="showView('services')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Services</a>
+          <a href="javascript:void(0)" onclick="showView('benchmarks')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Benchmarks</a>
+          <a href="javascript:void(0)" onclick="showView('models')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Models</a>
+          <a href="javascript:void(0)" onclick="showView('playbooks')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Playbooks</a>
+          <a href="javascript:void(0)" onclick="showView('audit')" class="block px-3 py-2 rounded hover:bg-gray-100 mb-1">Audit</a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <header class="h-14 bg-white border-b border-gray-200 px-4 flex items-center">
+        <h2 id="pageTitle" class="font-semibold text-lg">Dashboard</h2>
+      </header>
+
+      <main class="flex-1 overflow-y-auto p-8">
+        <div id="content">
+          <div data-page="ventures" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Ventures</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Ventures content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="ideas" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Ideas</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Ideas content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="experiments" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Experiments</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Experiments content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="kpis" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">KPIs</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>KPIs content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="reports" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Reports</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Reports content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="resources" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Resources</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Resources content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="budgets" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Budgets</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Budgets content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="utilisation" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Utilisation</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Utilisation content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="rounds" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Funding Rounds</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Funding rounds content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="cap_tables" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Cap Tables</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Cap tables content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="investors" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Investors</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Investors content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="talent" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Talent</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Talent content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="partners" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Partners</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Partners content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="services" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Services</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Services content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="benchmarks" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Benchmarks</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Benchmarks content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="models" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Models</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Models content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="playbooks" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Playbooks</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Playbooks content goes here...</p>
+            </div>
+          </div>
+
+          <div data-page="audit" class="hidden">
+            <h1 class="text-2xl font-bold mb-4">Audit</h1>
+            <div class="bg-white rounded-lg border p-6">
+              <p>Audit content goes here...</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    function showView(view) {
+      console.log('Showing view:', view);
+
+      // Hide all pages
+      document.querySelectorAll('[data-page]').forEach(page => {
+        page.classList.add('hidden');
+      });
+
+      // Show selected page
+      const page = document.querySelector(`[data-page="${view}"]`);
+      if (page) {
+        page.classList.remove('hidden');
+      }
+
+      // Update page title
+      const titles = {
+        'ventures': 'Ventures',
+        'ideas': 'Ideas',
+        'experiments': 'Experiments',
+        'kpis': 'KPIs',
+        'reports': 'Reports',
+        'resources': 'Resources',
+        'budgets': 'Budgets',
+        'utilisation': 'Utilisation',
+        'rounds': 'Funding Rounds',
+        'cap_tables': 'Cap Tables',
+        'investors': 'Investors',
+        'talent': 'Talent',
+        'partners': 'Partners',
+        'services': 'Services',
+        'benchmarks': 'Benchmarks',
+        'models': 'Models',
+        'playbooks': 'Playbooks',
+        'audit': 'Audit'
+      };
+      document.getElementById('pageTitle').textContent = titles[view] || view;
+    }
+
+    // Show ventures by default
+    showView('ventures');
+  </script>
+</body>
+</html>

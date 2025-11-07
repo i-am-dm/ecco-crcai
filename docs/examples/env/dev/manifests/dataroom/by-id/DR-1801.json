@@ -1,0 +1,14 @@
+{
+  "id": "DR-1801",
+  "entity": "dataroom",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2024-12-12T14:00:00Z",
+  "ptr": "env/dev/snapshots/dataroom/DR-1801.json",
+  "title": "Acme Robotics Board Dataroom",
+  "ventureId": "V-101",
+  "status": "Archived",
+  "doc_count": 9,
+  "open_requests": 0,
+  "last_accessed": "2024-12-15T15:30:00Z"
+}

@@ -18,7 +18,7 @@ usage() {
 Ecco local harness
 
 Usage:
-  $0 [--watch] [--rebuild] [--detached] [--services <list>] [--project <id>] [--cred <path>]
+  $0 [--watch] [--rebuild] [--detached] [--services <list>] [--project <id>] [--bucket <name>] [--cred <path>]
   $0 --down
   $0 --logs [--services <list>]
 
@@ -30,6 +30,7 @@ Options:
                     normal: snapshot-builder,manifest-writer,index-writer,rules-engine
                     watch:  libs-ts-watch,snapshot-builder-watch,manifest-writer-watch,index-writer-watch,rules-engine-watch
   --project ID      Export GOOGLE_CLOUD_PROJECT=ID for this run.
+  --bucket NAME     Set DATA_BUCKET for api-edge/services (default: ecco-studio-platform-data).
   --cred PATH       Export GOOGLE_APPLICATION_CREDENTIALS=PATH (mounted to /credentials/key.json).
   --down            Stop and remove containers.
   --logs            Follow logs for the selected services (defaults to the set implied by --watch).
@@ -52,8 +53,12 @@ REBUILD=false
 DETACHED=false
 DO_DOWN=false
 DO_LOGS=false
+NO_DOWN=false
+KILL_PORTS=false
+PORTS=(8080 8081 8082 8083 8084)
 SERVICES=""
 PROJECT=""
+BUCKET=""
 CRED=""
 
 while [[ $# -gt 0 ]]; do
@@ -63,8 +68,11 @@ while [[ $# -gt 0 ]]; do
     --detached) DETACHED=true; shift ;;
     --services) SERVICES="$2"; shift 2 ;;
     --project) PROJECT="$2"; shift 2 ;;
+    --bucket) BUCKET="$2"; shift 2 ;;
     --cred) CRED="$2"; shift 2 ;;
     --down) DO_DOWN=true; shift ;;
+    --no-down) NO_DOWN=true; shift ;;
+    --kill-ports) KILL_PORTS=true; shift ;;
     --logs) DO_LOGS=true; shift ;;
     -h|--help) usage; exit 0 ;;
     *) echo "Unknown arg: $1" >&2; usage; exit 1 ;;
@@ -74,6 +82,9 @@ done
 # Env wiring
 if [[ -n "$PROJECT" ]]; then
   export GOOGLE_CLOUD_PROJECT="$PROJECT"
+fi
+if [[ -n "$BUCKET" ]]; then
+  export DATA_BUCKET="$BUCKET"
 fi
 if [[ -n "$CRED" ]]; then
   export GOOGLE_APPLICATION_CREDENTIALS="$CRED"
@@ -89,15 +100,51 @@ if [[ -z "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]]; then
   fi
 fi
 
+# Ensure local data root exists for fs-backed services (api-edge)
+if [[ -z "${LOCAL_DATA_DIR:-}" ]]; then
+  export LOCAL_DATA_DIR="${PWD}/tools/local-harness/bucket"
+fi
+mkdir -p "${LOCAL_DATA_DIR}"
+if [[ ! -e "${LOCAL_DATA_DIR}/env" ]]; then
+  echo "Priming local bucket at ${LOCAL_DATA_DIR} from docs/examples..."
+  if command -v rsync >/dev/null 2>&1; then
+    rsync -a "${PWD}/docs/examples/" "${LOCAL_DATA_DIR}/" >/dev/null
+  else
+    cp -R "${PWD}/docs/examples/." "${LOCAL_DATA_DIR}/"
+  fi
+fi
+
+export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-$(basename "$PWD")}"
+export COMPOSE_HTTP_TIMEOUT="${COMPOSE_HTTP_TIMEOUT:-600}"
+export PNPM_YES="${PNPM_YES:-1}"
+
 if [[ "$DO_DOWN" == true ]]; then
-  exec ${COMPOSE_CMD} -f "${COMPOSE_FILE}" down
+  exec ${COMPOSE_CMD} -f "${COMPOSE_FILE}" down --remove-orphans
+fi
+
+# Always stop existing project containers unless explicitly skipped
+if [[ "$NO_DOWN" != true ]]; then
+  ${COMPOSE_CMD} -f "${COMPOSE_FILE}" down --remove-orphans >/dev/null 2>&1 || true
+fi
+
+# Optionally free ports by killing host processes (outside of Docker)
+if [[ "$KILL_PORTS" == true ]]; then
+  for p in "${PORTS[@]}"; do
+    if command -v lsof >/dev/null 2>&1; then
+      PIDS=$(lsof -ti tcp:"$p" || true)
+      if [[ -n "$PIDS" ]]; then
+        echo "Killing processes on port $p: $PIDS"
+        kill -9 $PIDS || true
+      fi
+    fi
+  done
 fi
 
 if [[ -z "$SERVICES" ]]; then
   if [[ "$WATCH" == true ]]; then
-    SERVICES="libs-ts-watch,snapshot-builder-watch,manifest-writer-watch,index-writer-watch,rules-engine-watch"
+    SERVICES="libs-ts-watch,snapshot-builder-watch,manifest-writer-watch,index-writer-watch,rules-engine-watch,api-edge-watch,ui-watch"
   else
-    SERVICES="snapshot-builder,manifest-writer,index-writer,rules-engine"
+    SERVICES="snapshot-builder,manifest-writer,index-writer,rules-engine,api-edge,ui"
   fi
 fi
 

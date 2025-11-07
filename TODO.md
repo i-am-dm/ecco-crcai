@@ -1,5 +1,16 @@
 # Ecco Studio Platform — Implementation TODOs
 
+## ⚡ Front-End Priority Backlog (missing FR screens)
+1. **Venture Workspaces & Milestones (FR‑9/10)** — create venture detail pages with milestone timelines, owners, and overdue indicators.
+2. **Portfolio/KPI Drilldowns (FR‑19/20/21)** — expand the admin dashboard with per-metric charts, benchmarking panels, and export actions.
+3. **Resource/Budget Ops UIs (FR‑26/27/28/31)** — ship fully wired resources directory, utilization dashboard, budget roll-ups, and deviation alerts.
+4. **Investor & Fundraising Modules (FR‑32/33/35/36)** — build CRM, fundraising pipeline, investor reporting, and dataroom views.
+5. **Rules & Governance UI (FR‑39/41/43/44)** — surface rules editor, decision logs, spin-out readiness checklists, and post-exit monitoring pages.
+6. **Shared-Services & Talent Add-ons (FR‑14/55/56)** — shared-services request board, SLA analytics, talent marketplace views.
+7. **Integrations & Tasking (FR‑11/38/40 Add-ons)** — Jira/Asana linkage, playbook run dashboards, predictive early-warning cards beyond decision gates.
+
+> Treat this list as the front of the queue for UI work; each item maps directly to FRD gaps called out in the latest review.
+
 Status: Draft
 Owner: Platform Eng
 Scope: JSON-in-GCS persistence, handlers, infra, analytics
@@ -209,10 +220,10 @@ Acceptance
 
 ## Product Backlog — FRD‑Mapped Phases (Application Features)
 
-Note: Product work maps to FRD sections and uses AC‑GEN in addition to FR‑specific acceptance. Persistence follows the GCS JSON spec (`ecco-crcai.md`).
+Note: Product work maps to FRD sections and uses AC‑GEN in addition to FR‑specific acceptance. Persistence follows the GCS JSON spec (`ecco_gcs_json_persistence_spec_v1.2.md`).
 
 ### P1 (0–3 mo)
-- [ ] FR‑1..3: Ideation intake, screening/scoring, stage workflow; history + snapshots under `ideas/*`; scoring view; transitions tracked.
+- [x] FR‑1..3: Ideation intake, screening/scoring, stage workflow; history + snapshots under `ideas/*`; scoring view; transitions tracked.
 - [ ] FR‑9–10: Venture workspace + milestones/timeline; overdue flags; `ventures/*` snapshots.
 - [ ] FR‑13: Resource allocation basics; utilisation by person/venture (initial views from manifests/indices).
 - [ ] FR‑15: Budget & spend (planned vs actual) minimal; variance calc + basic alerts.
@@ -224,7 +235,7 @@ Acceptance
 - Screens/pages exist for ideas, ventures, portfolio; data persisted per spec; indices power list views; AC‑GEN tests pass.
 
 ### P2 (3–6 mo)
-- [ ] FR‑4–8: Collaboration (comments/attachments), research docs, decision gates/alerts, talent match, experiments store.
+- [ ] FR‑5–8: Collaboration follow-ons (attachments, research docs, decision gates/alerts, talent match, experiments store).
 - [ ] FR‑11–12: Tasks integration (Jira/Asana pointers), product roadmap/backlog views.
 - [ ] FR‑14: Shared services marketplace; request lifecycle tracked.
 - [ ] FR‑26,28,30: Resource directory; budget roll‑ups; legal/entity management.

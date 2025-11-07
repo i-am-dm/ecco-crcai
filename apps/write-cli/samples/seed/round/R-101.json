@@ -1,0 +1,15 @@
+{
+  "id": "R-101",
+  "entity": "round",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2025-11-06T00:00:00Z",
+  "updated_at": "2025-11-06T00:00:00Z",
+  "ventureId": "V-101",
+  "targetUSD": 1500000,
+  "committedUSD": 250000,
+  "closeDate": "2026-06-30",
+  "investors": ["INV-001"],
+  "terms": {"instrument": "SAFE"}
+}
+

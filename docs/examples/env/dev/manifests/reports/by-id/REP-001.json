@@ -1,0 +1,12 @@
+{
+  "id": "REP-001",
+  "entity": "report",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-01-15T09:00:00Z",
+  "ptr": "env/dev/snapshots/reports/REP-001.json",
+  "title": "Q4 Investor Update",
+  "ventureId": "V-101",
+  "period": "2024-Q4",
+  "audience": ["INV-001", "INV-1001"]
+}

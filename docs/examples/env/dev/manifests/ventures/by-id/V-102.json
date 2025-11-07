@@ -1,0 +1,10 @@
+{
+  "ptr": "env/dev/snapshots/ventures/V-102.json",
+  "id": "V-102",
+  "entity": "venture",
+  "title": "Nimbus AI",
+  "status": "active",
+  "lead": "Jane Doe",
+  "asOf": "2024-09-15",
+  "updated_at": "2024-09-15T09:00:00Z"
+}

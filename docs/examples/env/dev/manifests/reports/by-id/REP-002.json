@@ -1,0 +1,12 @@
+{
+  "id": "REP-002",
+  "entity": "report",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-02-05T08:30:00Z",
+  "ptr": "env/dev/snapshots/reports/REP-002.json",
+  "title": "Nova Carbon January Investor Memo",
+  "ventureId": "V-102",
+  "period": "2025-01",
+  "audience": ["INV-001", "INV-210", "INV-305"]
+}

@@ -9,32 +9,64 @@
     "schema_version",
     "created_at",
     "updated_at",
-    "title",
-    "status"
+    "theme",
+    "problem",
+    "market",
+    "team",
+    "tech",
+    "status",
+    "stage"
   ],
   "properties": {
-    "id": {"type": "string"},
-    "entity": {"const": "idea"},
-    "env": {"enum": ["dev","stg","prod"]},
-    "schema_version": {"type": "string"},
-    "created_at": {"type": "string", "format": "date-time"},
-    "updated_at": {"type": "string", "format": "date-time"},
-    "title": {"type": "string"},
-    "problemStatement": {"type": "string"},
-    "marketSizeUSD": {"type": "number", "minimum": 0},
-    "estimatedResources": {
+    "id": { "type": "string", "minLength": 1 },
+    "entity": { "const": "idea" },
+    "env": { "enum": ["dev", "stg", "prod"] },
+    "schema_version": { "enum": ["v1.0.0"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "theme": { "type": "string", "minLength": 3, "maxLength": 200 },
+    "title": { "type": "string", "minLength": 3, "maxLength": 200 },
+    "problem": { "type": "string", "minLength": 10, "maxLength": 4000 },
+    "market": { "type": "string", "minLength": 10, "maxLength": 4000 },
+    "team": { "type": "string", "minLength": 10, "maxLength": 4000 },
+    "tech": { "type": "string", "minLength": 10, "maxLength": 4000 },
+    "description": { "type": "string", "maxLength": 10000 },
+    "status": {
+      "type": "string",
+      "enum": ["New", "Under Review", "Approved", "Rejected", "On Hold"]
+    },
+    "stage": {
+      "type": "string",
+      "enum": ["Idea", "Validation", "Build", "Launch", "Scale", "Spin-Out"]
+    },
+    "stage_owner": { "type": "string" },
+    "stageOwner": { "type": "string" },
+    "stage_due_date": { "type": "string", "format": "date-time" },
+    "stageDueDate": { "type": "string", "format": "date-time" },
+    "created_by": { "type": "string" },
+    "createdBy": { "type": "string" },
+    "attachments": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "score": {
       "type": "object",
       "properties": {
-        "peopleMonths": {"type": "number", "minimum": 0},
-        "budgetUSD": {"type": "number", "minimum": 0}
+        "overall": { "type": "number", "minimum": 0, "maximum": 10 },
+        "market": { "type": "number", "minimum": 0, "maximum": 10 },
+        "team": { "type": "number", "minimum": 0, "maximum": 10 },
+        "tech": { "type": "number", "minimum": 0, "maximum": 10 },
+        "timing": { "type": "number", "minimum": 0, "maximum": 10 },
+        "notes": { "type": "string", "maxLength": 2000 }
       },
-      "additionalProperties": true
+      "additionalProperties": false
     },
-    "teamProfile": {"type": "array", "items": {"type": "string"}},
-    "techStack": {"type": "array", "items": {"type": "string"}},
-    "status": {"type": "string"},
-    "score": {"type": "number", "minimum": 0, "maximum": 100}
+    "intake_channel": { "type": "string" },
+    "metadata": { "type": "object" }
   },
   "additionalProperties": true
 }
-

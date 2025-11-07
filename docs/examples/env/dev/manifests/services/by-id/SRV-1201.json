@@ -1,0 +1,8 @@
+{
+  "ptr": "env/dev/snapshots/services/SRV-1201.json",
+  "id": "SRV-1201",
+  "entity": "service",
+  "title": "Data Pipeline",
+  "status": "operational",
+  "updated_at": "2024-10-12T10:00:00Z"
+}

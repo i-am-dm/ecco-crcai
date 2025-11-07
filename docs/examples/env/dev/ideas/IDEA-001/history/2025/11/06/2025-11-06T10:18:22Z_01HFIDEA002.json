@@ -1,0 +1,40 @@
+{
+  "id": "IDEA-001",
+  "entity": "idea",
+  "env": "dev",
+  "schema_version": "v1.0.0",
+  "created_at": "2025-11-05T15:04:00Z",
+  "updated_at": "2025-11-06T10:18:22Z",
+  "theme": "Atlas Insight Copilot",
+  "title": "Atlas Insight Copilot",
+  "problem": "Research analysts spend 12+ hours each week synthesising transcripts and desk research before any validation decisions.",
+  "market": "Internal demand across 18 venture pods plus partner studios; $4.2M blended ARR potential over 24 months.",
+  "team": "Research ops lead, 1 ML engineer, fractional product designer, and a studio PM for governance.",
+  "tech": "Next.js UI, Vertex AI embeddings, Pub/Sub eventing, and JSON-in-GCS aligned to the persistence spec.",
+  "description": "Added design partner feedback + scoring from leadership review.",
+  "status": "New",
+  "stage": "Idea",
+  "stage_owner": "maya@ecco.studio",
+  "stage_due_date": "2025-11-20T00:00:00Z",
+  "stage_history": [
+    {
+      "stage": "Idea",
+      "changed_at": "2025-11-05T15:04:00Z",
+      "changed_by": "maya@ecco.studio",
+      "notes": "Initial submission"
+    }
+  ],
+  "score": {
+    "overall": 8.6,
+    "market": 8.0,
+    "team": 9.0,
+    "tech": 8.0,
+    "timing": 9.0,
+    "notes": "Strong pull from research leads; need API hardening."
+  },
+  "tags": ["AI", "Research"],
+  "attachments": [
+    "gs://ecco-dev/docs/atlas-onepager.pdf"
+  ],
+  "created_by": "maya@ecco.studio"
+}

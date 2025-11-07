@@ -4,6 +4,7 @@
   "workspaces": [
     "libs/ts",
     "apps/write-cli",
+    "apps/ui",
     "services/api-edge",
     "services/snapshot-builder",
     "services/manifest-writer",
@@ -14,6 +15,7 @@
     "tools/search-backfill",
     "tools/sync-todos",
     "tools/compliance-export",
-    "tools/secret-pull"
+    "tools/secret-pull",
+    "tools/ui-dev"
   ]
 }

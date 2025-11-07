@@ -1,0 +1,1186 @@
+<!doctype html>
+<html lang="en" class="h-full bg-slate-50">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CityReach Innovation Labs Platform</title>
+    <meta name="color-scheme" content="light dark" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%236366f1'/%3E%3Ctext x='8' y='12' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-size='10' fill='white'%3EE%3C/text%3E%3C/svg%3E" />
+    <script>
+      // Tailwind Play CDN config
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol']
+            },
+            colors: {
+              brand: {
+                50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc', 400: '#818cf8',
+                500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81', 950: '#1e1b4b'
+              },
+              accent: {
+                50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0', 300: '#6ee7b7', 400: '#34d399',
+                500: '#10b981', 600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b', 950: '#022c22'
+              },
+              warn: { 50:'#fffbeb',100:'#fef3c7',200:'#fde68a',300:'#fcd34d',400:'#fbbf24',500:'#f59e0b',600:'#d97706',700:'#b45309',800:'#92400e',900:'#78350f' },
+              danger: { 50:'#fff1f2',100:'#ffe4e6',200:'#fecdd3',300:'#fda4af',400:'#fb7185',500:'#f43f5e',600:'#e11d48',700:'#be123c',800:'#9f1239',900:'#881337' }
+            },
+            boxShadow: {
+              subtle: '0 1px 2px 0 rgb(0 0 0 / 0.03), 0 1px 1px -1px rgb(0 0 0 / 0.02)'
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root { --header-h: 56px; }
+      .backdrop-grid {
+        background-image: radial-gradient(circle at 1px 1px, rgb(2 6 23 / .06) 1px, transparent 0);
+        background-size: 24px 24px;
+      }
+      .dark .backdrop-grid {
+        background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / .06) 1px, transparent 0);
+      }
+    </style>
+  </head>
+  <body class="h-full text-slate-900 dark:text-slate-100">
+    <div id="app" class="min-h-full flex">
+
+      <!-- Left Sidebar -->
+      <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transform -translate-x-full transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0">
+        <div class="h-full flex flex-col">
+          <!-- Sidebar Header -->
+          <div class="p-4 border-b border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-brand-600 to-brand-700 text-white grid place-items-center shadow-md">
+                  <span class="font-bold text-sm">E</span>
+                </div>
+                <div class="leading-tight">
+                  <div class="text-sm font-semibold">CityReach Innovation Labs</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400">Venture Platform</div>
+                </div>
+              </div>
+              <button id="sidebarClose" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Navigation Links -->
+          <nav class="flex-1 overflow-y-auto p-4">
+            <!-- Main Section -->
+            <div class="mb-4">
+              <h3 class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Main</h3>
+              <a href="#ventures" data-view="ventures" class="sidebar-link block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Ventures
+              </a>
+              <a href="#ideas" data-view="ideas" class="sidebar-link block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Ideas
+              </a>
+              <a href="#experiments" data-view="experiments" class="sidebar-link block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Experiments
+              </a>
+              <a href="#kpis" data-view="kpis" class="sidebar-link block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                KPIs
+              </a>
+              <a href="#reports" data-view="reports" class="sidebar-link block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Reports
+              </a>
+            </div>
+
+            <!-- Operations Section -->
+            <div class="mb-4">
+              <h3 class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Operations</h3>
+              <a href="#resources" data-view="resources" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Resources
+              </a>
+              <a href="#budgets" data-view="budgets" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Budgets
+              </a>
+              <a href="#utilisation" data-view="utilisation" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Utilisation
+              </a>
+            </div>
+
+            <!-- Finance Section -->
+            <div class="mb-4">
+              <h3 class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Finance</h3>
+              <a href="#rounds" data-view="rounds" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Funding Rounds
+              </a>
+              <a href="#cap_tables" data-view="cap_tables" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Cap Tables
+              </a>
+              <a href="#investors" data-view="investors" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Investors
+              </a>
+            </div>
+
+            <!-- Talent & Partners Section -->
+            <div class="mb-4">
+              <h3 class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Talent & Partners</h3>
+              <a href="#talent" data-view="talent" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Talent Pool
+              </a>
+              <a href="#partners" data-view="partners" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Partners
+              </a>
+              <a href="#services" data-view="services" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Services
+              </a>
+            </div>
+
+            <!-- Analytics Section -->
+            <div class="mb-4">
+              <h3 class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Analytics</h3>
+              <a href="#benchmarks" data-view="benchmarks" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Benchmarks
+              </a>
+              <a href="#models" data-view="models" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Models
+              </a>
+              <a href="#simulations" data-view="simulations" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Simulations
+              </a>
+              <a href="#heatmaps" data-view="heatmaps" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Heatmaps
+              </a>
+            </div>
+
+            <!-- Governance Section -->
+            <div class="mb-4">
+              <h3 class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Governance</h3>
+              <a href="#playbooks" data-view="playbooks" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Playbooks
+              </a>
+              <a href="#rules" data-view="rules" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Rules & Alerts
+              </a>
+              <a href="#audit" data-view="audit" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Audit Logs
+              </a>
+              <a href="#dataroom" data-view="dataroom" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Data Room
+              </a>
+              <a href="#entities" data-view="entities" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Legal Entities
+              </a>
+              <a href="#exports" data-view="exports" class="sidebar-link block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 mb-1">
+                Exports
+              </a>
+            </div>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Sidebar Overlay for mobile -->
+      <div id="sidebarOverlay" class="fixed inset-0 z-40 bg-black bg-opacity-50 hidden lg:hidden"></div>
+
+      <!-- Main Content Area -->
+      <div class="flex-1 flex flex-col w-full">
+
+        <!-- Header -->
+        <header class="sticky top-0 z-30 h-[var(--header-h)] bg-white dark:bg-slate-900 shadow-sm border-b border-slate-200 dark:border-slate-800">
+          <div class="h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <button id="sidebarToggle" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+              <h1 id="pageTitle" class="text-lg font-semibold">Dashboard</h1>
+            </div>
+          <div class="flex items-center gap-2">
+            <button id="themeToggle" class="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+              <svg class="h-4 w-4 text-slate-700 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+              <svg class="h-4 w-4 text-slate-300 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              <span class="hidden md:inline">Theme</span>
+            </button>
+            <button class="hidden sm:inline-flex items-center gap-2 text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 active:bg-brand-800 px-3 py-1.5 rounded-lg shadow-subtle">
+              <span>New Venture</span>
+            </button>
+            <div id="authArea" class="inline-flex items-center gap-2">
+              <button id="loginBtn" class="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">Sign in</button>
+              <div id="userBox" class="hidden items-center gap-2">
+                <span id="userBadge" class="text-xs px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700"></span>
+                <button id="logoutBtn" class="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">Sign out</button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Page -->
+        <main class="flex-1 overflow-y-auto">
+        <!-- Splash / Welcome -->
+        <section data-view="splash">
+          <div class="backdrop-grid">
+            <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16">
+              <div class="rounded-3xl overflow-hidden border border-slate-200/70 dark:border-slate-700/60 shadow-subtle">
+                <div class="bg-gradient-to-br from-brand-50 to-accent-50 dark:from-slate-900 dark:to-slate-900 p-10 sm:p-14">
+                  <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">CityReach Innovation Labs — Best-of-Breed Venture Studio Platform</h1>
+                  <p class="mt-2 text-slate-600 dark:text-slate-400">One platform for ideation → launch → scale → spin-out, with portfolio visibility, resource allocation, investor reporting, and governance.</p>
+                  <div class="mt-6 flex flex-wrap gap-2 text-xs sm:text-sm">
+                    <a href="#ideas" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Idea Intake</a>
+                    <a href="#ideas" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Screening</a>
+                    <a href="#ideas" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Stage Workflow</a>
+                    <a href="#ventures" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Milestones</a>
+                    <a href="#resources" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Resource Allocation</a>
+                    <a href="#budgets" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Budget & Spend</a>
+                    <a href="#kpis" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">KPIs</a>
+                    <a href="#rounds" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Fundraising</a>
+                    <a href="#cap_tables" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Cap Tables</a>
+                    <a href="#reports" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Investor Reporting</a>
+                    <a href="#talent" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Talent Marketplace</a>
+                    <a href="#playbooks" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Playbooks</a>
+                    <a href="#rules" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">Rules & Alerts</a>
+                    <a href="#models" class="px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800">What-If Models</a>
+                  </div>
+                  <div class="mt-8 flex items-center gap-3">
+                    <a href="#ventures" class="px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700">Explore modules</a>
+                    <a href="#login" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-sm hover:bg-slate-50 dark:hover:bg-slate-800">Sign in</a>
+                    <a href="../docs/frd/ecco-studio-platform-frd_v1.1.md" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-sm hover:bg-slate-50 dark:hover:bg-slate-800">Read the FRD</a>
+                    <a href="../ecco_gcs_json_persistence_spec_v1.2.md" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-sm hover:bg-slate-50 dark:hover:bg-slate-800">Read the Spec</a>
+                  </div>
+                </div>
+                <div class="bg-white dark:bg-slate-900 p-8 grid sm:grid-cols-3 gap-6 text-sm">
+                  <div>
+                    <div class="font-medium">Leadership</div>
+                    <p class="mt-2 text-slate-600 dark:text-slate-400">Portfolio health, next milestones, resource allocation, and risk heatmaps.</p>
+                  </div>
+                  <div>
+                    <div class="font-medium">Venture Leads</div>
+                    <p class="mt-2 text-slate-600 dark:text-slate-400">Roadmap, experiments, KPIs, and fundraising in one workspace.</p>
+                  </div>
+                  <div>
+                    <div class="font-medium">Ops & Finance</div>
+                    <p class="mt-2 text-slate-600 dark:text-slate-400">Utilisation, shared-service SLAs, budgets vs actuals, investor reporting.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- Modules Quick Links -->
+            <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
+              <div class="flex items-end justify-between mb-4">
+                <h2 class="text-sm font-semibold tracking-tight">Modules</h2>
+                <a href="#ventures" class="text-xs text-brand-600 hover:text-brand-700">Explore all →</a>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <a href="#ideas" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Ideas</div><div class="mt-1 text-xs text-slate-500">Intake, screening, stage</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#ventures" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Ventures</div><div class="mt-1 text-xs text-slate-500">Workspace, milestones</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#kpis" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">KPIs</div><div class="mt-1 text-xs text-slate-500">Metrics, trends</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#budgets" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Budgets</div><div class="mt-1 text-xs text-slate-500">Plan vs actuals</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#resources" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Resources</div><div class="mt-1 text-xs text-slate-500">Directory, roles</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#utilisation" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Utilisation</div><div class="mt-1 text-xs text-slate-500">Allocation, capacity</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#experiments" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Experiments</div><div class="mt-1 text-xs text-slate-500">Hypotheses, results</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#rounds" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Rounds</div><div class="mt-1 text-xs text-slate-500">Pipeline, stages</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#cap_tables" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Cap Tables</div><div class="mt-1 text-xs text-slate-500">Ownership, dilution</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#investors" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Investors</div><div class="mt-1 text-xs text-slate-500">CRM, interactions</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#reports" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Reports</div><div class="mt-1 text-xs text-slate-500">Investor updates</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#talent" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Talent</div><div class="mt-1 text-xs text-slate-500">Matching, profiles</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#playbooks" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Playbooks</div><div class="mt-1 text-xs text-slate-500">SOPs, templates</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#rules" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Rules</div><div class="mt-1 text-xs text-slate-500">Triggers, alerts</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#benchmarks" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Benchmarks</div><div class="mt-1 text-xs text-slate-500">Targets, comps</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#models" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Models</div><div class="mt-1 text-xs text-slate-500">What‑if scenarios</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#simulations" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Simulations</div><div class="mt-1 text-xs text-slate-500">Results, comparisons</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#heatmaps" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Heatmaps</div><div class="mt-1 text-xs text-slate-500">Risk vs reward</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#audit" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Audit</div><div class="mt-1 text-xs text-slate-500">Changes, recovery</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#partners" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Partners</div><div class="mt-1 text-xs text-slate-500">JV, milestones</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#services" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Services</div><div class="mt-1 text-xs text-slate-500">Requests, SLAs</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+                <a href="#dataroom" class="group rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 hover:border-brand-200 dark:hover:border-brand-700 hover:shadow-subtle transition">
+                  <div class="flex items-center justify-between">
+                    <div><div class="text-sm font-semibold">Dataroom</div><div class="mt-1 text-xs text-slate-500">Docs, access</div></div>
+                    <span class="text-brand-600 group-hover:translate-x-0.5 transition">→</span>
+                  </div>
+                </a>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- Login -->
+        <section data-view="login" class="hidden">
+          <div class="mx-auto max-w-md px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-8 shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Sign in</h2>
+              <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Local demo only — no backend auth. Choose a role to test RBAC.</p>
+              <form id="loginForm" class="grid gap-4">
+                <div>
+                  <label class="block text-xs font-medium mb-1">Email</label>
+                  <input id="loginEmail" type="email" class="w-full rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm" placeholder="you@example.com" required />
+                </div>
+                <div>
+                  <label class="block text-xs font-medium mb-1">Access Code</label>
+                  <input id="loginCode" type="text" class="w-full rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm" placeholder="demo" required />
+                  <p class="mt-1 text-xs text-slate-500">Use code <span class="font-mono">demo</span> for the shared demo.</p>
+                </div>
+                <div>
+                  <label class="block text-xs font-medium mb-1">Role</label>
+                  <select id="loginRole" class="w-full rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm">
+                    <option>Admin</option>
+                    <option>Leadership</option>
+                    <option>Lead</option>
+                    <option>Contributor</option>
+                    <option>Investor</option>
+                    <option>Advisor</option>
+                  </select>
+                </div>
+                <button type="submit" class="mt-2 w-full px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700">Continue</button>
+              </form>
+              <div class="mt-4 text-xs text-slate-500">Tip: Admin/Contributor can read dev data; Investor/Advisor are read‑only in prod.</div>
+            </div>
+          </div>
+        </section>
+        <!-- Ventures View -->
+        <section data-view="ventures" class="hidden">
+        <div class="backdrop-grid">
+          <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Hero / Summary -->
+            <div class="rounded-2xl bg-white/90 dark:bg-slate-900/80 border border-slate-200/70 dark:border-slate-700/60 shadow-subtle overflow-hidden">
+              <div class="p-6 sm:p-8 bg-gradient-to-r from-brand-50 to-accent-50 dark:from-slate-900 dark:to-slate-900 border-b border-slate-200/70 dark:border-slate-700/60">
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                  <div>
+                    <h1 class="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">Portfolio Overview</h1>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Live KPIs, milestones, budgets, and alerts.</p>
+                  </div>
+                  <div class="inline-flex rounded-lg bg-white/70 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/60 overflow-hidden" id="envSwitch">
+                    <button data-env="dev" class="env-toggle px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Dev</button>
+                    <button data-env="prod" class="env-toggle px-3 py-1.5 text-xs font-medium">Prod</button>
+                  </div>
+                </div>
+              </div>
+              <!-- KPIs -->
+              <div class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4">
+                  <div class="text-xs text-slate-500">Active Ventures</div>
+                  <div class="mt-2 text-2xl font-semibold">12</div>
+                  <div class="mt-1 text-xs text-emerald-600 dark:text-emerald-400">+2 this month</div>
+                </div>
+                <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4">
+                  <div class="text-xs text-slate-500">MRR</div>
+                  <div class="mt-2 text-2xl font-semibold">$82k</div>
+                  <div class="mt-1 text-xs text-emerald-600 dark:text-emerald-400">+8% MoM</div>
+                </div>
+                <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4">
+                  <div class="text-xs text-slate-500">Rounds in Flight</div>
+                  <div class="mt-2 text-2xl font-semibold">5</div>
+                  <div class="mt-1 text-xs text-amber-600 dark:text-amber-400">2 closing in 30d</div>
+                </div>
+                <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4">
+                  <div class="text-xs text-slate-500">Runway (median)</div>
+                  <div class="mt-2 text-2xl font-semibold">13 mo</div>
+                  <div class="mt-1 text-xs text-slate-500">target ≥ 12 mo</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Main Content -->
+        <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Ventures Table -->
+            <div class="lg:col-span-2 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 shadow-subtle">
+              <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-sm font-semibold tracking-tight">Ventures</h2>
+                  <div class="text-xs text-slate-500">filters</div>
+                </div>
+                <div class="mt-3 flex gap-3 items-end flex-wrap text-sm">
+                  <div>
+                    <label class="block text-xs font-medium mb-1">Status</label>
+                    <select id="v-filter-status" class="rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900">
+                      <option value="">All</option>
+                      <option>Idea</option>
+                      <option>Validation</option>
+                      <option>Build</option>
+                      <option>Pilot</option>
+                      <option>Scale</option>
+                      <option>Spin-Out</option>
+                      <option>Active</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-medium mb-1">Lead</label>
+                    <input id="v-filter-lead" type="text" placeholder="e.g. alice" class="rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900" />
+                  </div>
+                  <div>
+                    <label class="block text-xs font-medium mb-1">Next Due (YYYY-MM)</label>
+                    <input id="v-filter-nextdue" type="month" class="rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900" />
+                  </div>
+                  <div class="ml-auto flex gap-2">
+                    <button id="v-filter-apply" class="px-3 py-1.5 rounded-md bg-brand-600 text-white">Apply</button>
+                    <button id="v-filter-clear" class="px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-700">Clear</button>
+                  </div>
+                </div>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                  <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300">
+                    <tr>
+                      <th class="text-left font-medium px-6 py-3">ID</th>
+                      <th class="text-left font-medium px-6 py-3">Lead</th>
+                      <th class="text-left font-medium px-6 py-3">Status</th>
+                      <th class="text-left font-medium px-6 py-3">Next Milestone</th>
+                      <th class="text-right font-medium px-6 py-3">MRR</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ventures-tbody" class="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tr><td class="px-6 py-4 text-sm text-slate-500" colspan="5">Loading…</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Activity / Events -->
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 shadow-subtle">
+              <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <h2 class="text-sm font-semibold tracking-tight">Recent Changes</h2>
+                <span class="text-xs text-slate-500">history events</span>
+              </div>
+              <ul class="divide-y divide-slate-100 dark:divide-slate-800">
+                <li class="px-6 py-4">
+                  <p class="text-sm"><span class="font-medium">V001</span> snapshot updated</p>
+                  <p class="text-xs text-slate-500">2025‑11‑06T10:21:23Z</p>
+                </li>
+                <li class="px-6 py-4">
+                  <p class="text-sm"><span class="font-medium">CT‑V001</span> cap table updated</p>
+                  <p class="text-xs text-slate-500">2025‑11‑06T10:35:00Z</p>
+                </li>
+                <li class="px-6 py-4">
+                  <p class="text-sm"><span class="font-medium">Round‑R12</span> target increased (+$250k)</p>
+                  <p class="text-xs text-slate-500">2025‑11‑06T09:02:11Z</p>
+                </li>
+              </ul>
+          </div>
+          </div>
+        </section>
+        </section>
+
+        <!-- Placeholder Views -->
+        <section data-view="ideas" class="hidden">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Ideas</h2>
+              <div id="ideas-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div>
+            </div>
+          </div>
+        </section>
+        <section data-view="talent" class="hidden">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Talent</h2>
+              <div id="talent-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div>
+            </div>
+          </div>
+        </section>
+        <section data-view="experiments" class="hidden">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Experiments</h2>
+              <div id="experiments-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div>
+            </div>
+          </div>
+        </section>
+        <section data-view="rounds" class="hidden">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Rounds</h2>
+              <div id="rounds-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div>
+            </div>
+          </div>
+        </section>
+        <section data-view="cap_tables" class="hidden">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Cap Tables</h2>
+              <div id="cap_tables-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div>
+            </div>
+          </div>
+        </section>
+        <section data-view="reports" class="hidden">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle">
+              <h2 class="text-xl font-semibold tracking-tight mb-2">Reports</h2>
+              <div id="reports-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Additional Entities (cards) -->
+        <section data-view="resources" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Resources</h2><div id="resources-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="dataroom" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Dataroom</h2><div id="dataroom-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="budgets" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Budgets</h2><div id="budgets-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="kpis" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-4">KPIs</h2><div class="flex items-end gap-3 text-sm"><div><label class="block text-xs font-medium mb-1">Metric</label><select id="kpi-metric" class="rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900"><option value="mrr">MRR</option><option value="users">Users</option><option value="churn">Churn</option><option value="cac">CAC</option><option value="ltv">LTV</option></select></div><button id="kpi-load" class="px-3 py-1.5 rounded-md bg-brand-600 text-white">Load</button></div><div class="mt-6"><div id="kpi-chart" class="w-full overflow-x-auto"></div></div><div class="mt-8"><h3 class="text-sm font-semibold mb-2">Latest</h3><div id="kpis-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></div></section>
+        <section data-view="investors" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Investors</h2><div id="investors-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="partners" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Partners</h2><div id="partners-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="services" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Services</h2><div id="services-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="playbooks" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Playbooks</h2><div id="playbooks-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="rules" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Rules</h2><div id="rules-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="benchmarks" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Benchmarks</h2><div id="benchmarks-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="models" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Models</h2><div id="models-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="simulations" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Simulations</h2><div id="simulations-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        <section data-view="utilisation" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-4">Utilisation</h2><div class="overflow-x-auto"><table class="min-w-full text-sm"><thead><tr class="text-left text-slate-500"><th class="px-4 py-2">Person</th><th class="px-4 py-2">Venture</th><th class="px-4 py-2 text-right">% Alloc</th></tr></thead><tbody id="utilisation-tbody"><tr><td class="px-4 py-3 text-slate-500" colspan="3">No data</td></tr></tbody></table></div></div></div></section>
+        <section data-view="heatmaps" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-4">Portfolio Heatmap</h2><div id="heatmap-grid" class="grid grid-cols-8 gap-2"></div><div class="mt-3 text-xs text-slate-500">Stub data</div></div></div></section>
+        <section data-view="audit" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Audit Logs</h2><div id="audit-list" class="mt-4 grid grid-cols-1 gap-2 text-left"></div></div></div></section>
+        <section data-view="entities" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Legal Entities</h2><div id="entities-list" class="mt-4 text-sm text-slate-500">Coming soon</div></div></div></section>
+        <section data-view="exports" class="hidden"><div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"><div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-12 text-center shadow-subtle"><h2 class="text-xl font-semibold tracking-tight mb-2">Exports</h2><div id="exports-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"></div></div></div></section>
+        </main>
+
+        <footer class="border-t border-slate-200/70 dark:border-slate-800 py-6 text-xs text-slate-500">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <span>© <span id="year"></span> CityReach Innovation Labs</span>
+            <span class="text-slate-400">Portfolio Visibility • Resource Allocation • Investor Reporting</span>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      // Dark mode toggle - runs immediately
+      const root = document.documentElement;
+      const key = 'theme';
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const saved = localStorage.getItem(key);
+      if ((saved === 'dark') || (!saved && prefersDark)) root.classList.add('dark');
+
+      // Wait for DOM to load for everything else
+      document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM loaded, initializing app...');
+
+      document.getElementById('themeToggle')?.addEventListener('click', () => {
+        root.classList.toggle('dark');
+        localStorage.setItem(key, root.classList.contains('dark') ? 'dark' : 'light');
+      });
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // API + UI wiring
+      const API_BASE = `${location.protocol}//${location.hostname}:8085`;
+      let currentEnv = localStorage.getItem('env') || 'dev';
+      const authKey = 'authUser';
+      function getAuth() {
+        try { return JSON.parse(localStorage.getItem(authKey) || 'null'); } catch { return null; }
+      }
+      function isAuthed() { return !!getAuth(); }
+      function rolesHeader() {
+        const auth = getAuth();
+        return auth?.role ? auth.role : 'Admin';
+      }
+
+      function entityFor(view) {
+        switch (view) {
+          case 'ideas': return 'idea';
+          case 'ventures': return 'venture';
+          case 'talent': return 'talent';
+          case 'experiments': return 'experiment';
+          case 'rounds': return 'round';
+          case 'cap_tables': return 'cap_table';
+          case 'reports': return 'report';
+          case 'resources': return 'resource';
+          case 'budgets': return 'budget';
+          case 'kpis': return 'kpi';
+          case 'investors': return 'investor';
+          case 'partners': return 'partner';
+          case 'services': return 'service';
+          case 'playbooks': return 'playbook';
+          case 'rules': return 'rule';
+          case 'benchmarks': return 'benchmark';
+          case 'models': return 'model';
+          case 'simulations': return 'simulation';
+          case 'dataroom': return 'dataroom';
+          default: return view;
+        }
+      }
+
+      async function fetchList(view) {
+        const entity = entityFor(view);
+        const doFetch = async () => {
+          const url = `${API_BASE}/v1/${entity}?env=${encodeURIComponent(currentEnv)}`;
+          const res = await fetch(url, { headers: { 'x-roles': rolesHeader() } });
+          if (!res.ok) throw new Error(`${res.status}`);
+          const json = await res.json();
+          return Array.isArray(json.items) ? json.items : [];
+        };
+        try {
+          return await doFetch();
+        } catch (e) {
+          console.warn('fetchList failed', view, e);
+          // Fallback: if current env isn't dev, switch to dev once
+          if (currentEnv !== 'dev') {
+            currentEnv = 'dev';
+            localStorage.setItem('env', 'dev');
+            document.querySelectorAll('#envSwitch .env-toggle')
+              .forEach((b) => b.classList.remove('bg-brand-600','text-white'));
+            document.querySelector('#envSwitch .env-toggle[data-env="dev"]')
+              ?.classList.add('bg-brand-600','text-white');
+            try { return await doFetch(); } catch {}
+          }
+          return [];
+        }
+      }
+
+      function renderCards(containerId, items) {
+        const el = document.getElementById(containerId);
+        if (!el) return;
+        if (!items.length) {
+          el.innerHTML = '<div class="text-sm text-slate-500">No data</div>';
+          return;
+        }
+        el.innerHTML = items.map(r => `
+          <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4">
+            <div class="text-sm font-medium">${r.id}</div>
+            <div class="text-xs text-slate-500">${r.title || r.status || ''}</div>
+          </div>
+        `).join('');
+      }
+
+      function renderVenturesTable(items) {
+        const tbody = document.getElementById('ventures-tbody');
+        if (!tbody) return;
+        if (!items.length) {
+          tbody.innerHTML = '<tr><td class="px-6 py-4 text-sm text-slate-500" colspan="5">No data</td></tr>';
+          return;
+        }
+        tbody.innerHTML = items.slice(0, 25).map(r => `
+          <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/50">
+            <td class="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">${r.id}</td>
+            <td class="px-6 py-3">${r.lead || ''}</td>
+            <td class="px-6 py-3"><span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium ring-1 ring-inset ${r.status ? 'bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-300 ring-brand-200/70 dark:ring-brand-800/60' : 'bg-slate-50 text-slate-600'}">${r.status || ''}</span></td>
+            <td class="px-6 py-3">${r.asOf || ''}</td>
+            <td class="px-6 py-3 text-right"></td>
+          </tr>
+        `).join('');
+      }
+
+      function slug(s) {
+        return String(s || '').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+      }
+
+      async function fetchVenturesByFilters() {
+        const statusEl = document.getElementById('v-filter-status');
+        const leadEl = document.getElementById('v-filter-lead');
+        const nextDueEl = document.getElementById('v-filter-nextdue');
+        const status = statusEl && 'value' in statusEl ? statusEl.value : '';
+        const lead = leadEl && 'value' in leadEl ? leadEl.value : '';
+        const nextDue = nextDueEl && 'value' in nextDueEl ? nextDueEl.value : '';
+
+        // Preference order: status -> lead -> nextDue; fall back to list
+        try {
+          if (status) {
+            const res = await fetch(`${API_BASE}/v1/index/ventures/by-status/${encodeURIComponent(slug(status))}?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+            const json = await res.json();
+            if (Array.isArray(json.items) && json.items.length) return json.items;
+          }
+          if (lead) {
+            const res = await fetch(`${API_BASE}/v1/index/ventures/by-lead/${encodeURIComponent(slug(lead))}?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+            const json = await res.json();
+            if (Array.isArray(json.items) && json.items.length) return json.items;
+          }
+          if (nextDue) {
+            const ym = nextDue.length >= 7 ? nextDue.slice(0,7) : nextDue;
+            const res = await fetch(`${API_BASE}/v1/index/ventures/by-next-due/${encodeURIComponent(ym)}?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+            const json = await res.json();
+            if (Array.isArray(json.items) && json.items.length) return json.items;
+          }
+        } catch {}
+        return fetchList('ventures');
+      }
+
+      async function renderUtilisation(items) {
+        const tbody = document.getElementById('utilisation-tbody');
+        if (!tbody) return;
+        if (!items || !items.length) { tbody.innerHTML = '<tr><td class="px-4 py-3 text-slate-500" colspan="3">No data</td></tr>'; return; }
+        tbody.innerHTML = items.map(r => `
+          <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/50">
+            <td class="px-4 py-2">${r.person}</td>
+            <td class="px-4 py-2">${r.venture}</td>
+            <td class="px-4 py-2 text-right">${r.pct}%</td>
+          </tr>
+        `).join('');
+      }
+
+      async function renderHeatmap(points) {
+        const grid = document.getElementById('heatmap-grid');
+        if (!grid) return;
+        if (!points || !points.length) { grid.innerHTML = '<div class="text-sm text-slate-500">No data</div>'; return; }
+        grid.innerHTML = points.map(p => `<div class="h-8 rounded bg-brand-600/10 dark:bg-brand-400/20" title="${p.id} (${p.value})" style="grid-column: ${p.x}; opacity: ${Math.min(1, 0.3 + p.value/10)}"></div>`).join('');
+      }
+
+      function renderKpiChart(metric, series) {
+        const mount = document.getElementById('kpi-chart');
+        if (!mount) return;
+        if (!series || !series.length) { mount.innerHTML = '<div class="text-sm text-slate-500">No data</div>'; return; }
+        const w = 640, h = 160, pad = 24;
+        const values = series.map(p => Number(p.value) || 0);
+        const min = Math.min(...values), max = Math.max(...values);
+        const x = (i) => pad + (i * (w - 2*pad)) / (series.length - 1);
+        const y = (v) => {
+          if (max === min) return h/2;
+          const r = (v - min) / (max - min);
+          return (h - pad) - r * (h - 2*pad);
+        };
+        let d = '';
+        series.forEach((p, i) => {
+          const xi = x(i), yi = y(Number(p.value));
+          d += (i === 0 ? 'M' : 'L') + xi + ' ' + yi + ' ';
+        });
+        const circles = series.map((p,i)=>`<circle cx="${x(i)}" cy="${y(Number(p.value))}" r="2" fill="#6366f1" />`).join('');
+        const svg = `
+<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}">
+  <rect x="0" y="0" width="${w}" height="${h}" fill="none" />
+  <path d="${d}" fill="none" stroke="#6366f1" stroke-width="2" />
+  ${circles}
+  <text x="${pad}" y="${pad}" font-size="10" fill="currentColor">${metric.toUpperCase()} (min ${min}, max ${max})</text>
+</svg>`;
+        mount.innerHTML = svg;
+      }
+
+      async function loadKpiSeries(metric) {
+        try {
+          const res = await fetch(`${API_BASE}/v1/kpis/${encodeURIComponent(metric)}/series?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+          if (!res.ok) throw new Error(String(res.status));
+          const json = await res.json();
+          renderKpiChart(metric, json.series || []);
+        } catch {
+          renderKpiChart(metric, []);
+        }
+      }
+
+      async function loadView(view) {
+        // Pre-show placeholder for ventures table
+        if (view === 'ventures') {
+          document.getElementById('ventures-tbody').innerHTML = '<tr><td class="px-6 py-4 text-sm text-slate-500" colspan="5">Loading…</td></tr>';
+        }
+        switch (view) {
+          case 'ventures': {
+            const items = await fetchVenturesByFilters();
+            renderVenturesTable(items);
+            break;
+          }
+          case 'utilisation': {
+            try {
+              const res = await fetch(`${API_BASE}/v1/ops/utilisation?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+              const json = await res.json();
+              renderUtilisation(json.items || []);
+            } catch { renderUtilisation([]); }
+            break;
+          }
+          case 'heatmaps': {
+            try {
+              const res = await fetch(`${API_BASE}/v1/portfolio/heatmap?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+              const json = await res.json();
+              renderHeatmap(json.points || []);
+            } catch { renderHeatmap([]); }
+            break;
+          }
+          case 'audit': {
+            try {
+              const res = await fetch(`${API_BASE}/v1/audit/logs?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+              const json = await res.json();
+              renderCards('audit-list', json.items || []);
+            } catch { renderCards('audit-list', []); }
+            break;
+          }
+          case 'exports': {
+            try {
+              const res = await fetch(`${API_BASE}/v1/exports?env=${encodeURIComponent(currentEnv)}`, { headers: { 'x-roles': rolesHeader() } });
+              const json = await res.json();
+              renderCards('exports-list', json.items || []);
+            } catch { renderCards('exports-list', []); }
+            break;
+          }
+          case 'dataroom':
+          case 'ideas':
+          case 'talent':
+          case 'experiments':
+          case 'rounds':
+          case 'cap_tables':
+          case 'reports':
+          case 'resources':
+          case 'budgets':
+          case 'kpis':
+          case 'investors':
+          case 'partners':
+          case 'services':
+          case 'playbooks':
+          case 'rules':
+          case 'benchmarks':
+          case 'models':
+          case 'simulations': {
+            const items = await fetchList(view);
+            renderCards(`${view}-list`, items);
+            if (view === 'kpis') {
+              const sel = document.getElementById('kpi-metric');
+              const metric = sel && 'value' in sel ? sel.value : 'mrr';
+              loadKpiSeries(metric);
+            }
+            break;
+          }
+          // 'entities' page is static placeholder for now
+        }
+      }
+
+      // Sidebar toggle functionality
+      const sidebar = document.getElementById('sidebar');
+      const sidebarToggle = document.getElementById('sidebarToggle');
+      const sidebarClose = document.getElementById('sidebarClose');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+      function openSidebar() {
+        sidebar?.classList.remove('-translate-x-full');
+        sidebarOverlay?.classList.remove('hidden');
+        console.log('Opening sidebar');
+      }
+
+      function closeSidebar() {
+        sidebar?.classList.add('-translate-x-full');
+        sidebarOverlay?.classList.add('hidden');
+        console.log('Closing sidebar');
+      }
+
+      function toggleSidebar() {
+        if (sidebar?.classList.contains('-translate-x-full')) {
+          openSidebar();
+        } else {
+          closeSidebar();
+        }
+      }
+
+      // Sidebar event listeners
+      sidebarToggle?.addEventListener('click', toggleSidebar);
+      sidebarClose?.addEventListener('click', closeSidebar);
+      sidebarOverlay?.addEventListener('click', closeSidebar);
+
+      // Lightweight hash-based view switcher
+      function setView(view) {
+        console.log('Setting view to:', view);
+
+        // Guard: require auth for main views
+        if (!isAuthed() && !['splash','login'].includes(view)) {
+          console.log('Not authenticated, redirecting to splash');
+          view = 'splash';
+        }
+
+        const sections = document.querySelectorAll('[data-view]');
+        console.log('Found', sections.length, 'sections with data-view attribute');
+
+        // Check if the requested view exists
+        const targetSection = document.querySelector(`[data-view="${view}"]`);
+        if (!targetSection && view !== '') {
+          console.warn(`View "${view}" not found. Available views:`,
+            Array.from(sections).map(s => s.getAttribute('data-view')));
+          // Fallback to splash or ventures based on auth status
+          view = isAuthed() ? 'ventures' : 'splash';
+          console.log('Falling back to:', view);
+        }
+
+        sections.forEach((el) => {
+          const viewName = el.getAttribute('data-view');
+          const shouldShow = viewName === view;
+          el.classList.toggle('hidden', !shouldShow);
+          if (shouldShow) {
+            console.log('Showing section:', viewName);
+          }
+        });
+
+        // Update active states for all navigation links
+        document.querySelectorAll('a[data-view]').forEach((a) => {
+          const isActive = a.getAttribute('data-view') === view;
+          if (isActive) {
+            a.classList.add('bg-brand-100', 'text-brand-700', 'dark:bg-brand-900/30', 'dark:text-brand-300');
+            a.classList.remove('text-slate-700', 'dark:text-slate-300');
+          } else {
+            a.classList.remove('bg-brand-100', 'text-brand-700', 'dark:bg-brand-900/30', 'dark:text-brand-300');
+            a.classList.add('text-slate-700', 'dark:text-slate-300');
+          }
+        });
+
+        // Update page title
+        const pageTitle = document.getElementById('pageTitle');
+        if (pageTitle) {
+          const titles = {
+            'ventures': 'Ventures',
+            'ideas': 'Ideas',
+            'experiments': 'Experiments',
+            'kpis': 'KPIs',
+            'reports': 'Reports',
+            'resources': 'Resources',
+            'budgets': 'Budgets',
+            'talent': 'Talent Pool',
+            'splash': 'Welcome',
+            'login': 'Sign In'
+          };
+          pageTitle.textContent = titles[view] || view.charAt(0).toUpperCase() + view.slice(1);
+        }
+
+        if (location.hash.replace('#','') !== view) location.hash = view;
+        // Ensure we start at top of content
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Load data for the view
+        loadView(view);
+      }
+      window.addEventListener('hashchange', () => setView(location.hash.replace('#','') || (isAuthed() ? 'ventures' : 'splash')));
+
+      // Add click handlers using event delegation
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('a[data-view]');
+        if (link) {
+          e.preventDefault();
+          e.stopPropagation();
+          const view = link.getAttribute('data-view');
+          console.log('Navigation clicked:', view);
+
+          if (view) {
+            setView(view);
+            // Close sidebar on mobile after navigation
+            if (window.innerWidth < 1024) {
+              closeSidebar();
+            }
+          }
+        }
+      });
+
+      // Log all navigation links found
+      const links = document.querySelectorAll('a[data-view]');
+      console.log('Found', links.length, 'navigation links at initialization');
+
+      // Debug helper - list all views
+      links.forEach(link => {
+        console.log('Available view:', link.getAttribute('data-view'));
+      });
+
+      // Env switch buttons
+      document.querySelectorAll('#envSwitch .env-toggle').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          currentEnv = btn.getAttribute('data-env') || 'dev';
+          localStorage.setItem('env', currentEnv);
+          // Update button styling
+          document.querySelectorAll('#envSwitch .env-toggle').forEach((b) => b.classList.remove('bg-brand-600','text-white'));
+          btn.classList.add('bg-brand-600','text-white');
+          // Reload current view
+          setView(location.hash.replace('#','') || 'ventures');
+        });
+      });
+      // Initialize env button state
+      document.querySelector(`#envSwitch .env-toggle[data-env="${currentEnv}"]`)?.classList.add('bg-brand-600','text-white');
+      // Auth UI wiring
+      function updateAuthUI() {
+        const authed = isAuthed();
+        const userBox = document.getElementById('userBox');
+        const loginBtn = document.getElementById('loginBtn');
+        const badge = document.getElementById('userBadge');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+
+        if (authed) {
+          const a = getAuth();
+          userBox?.classList.remove('hidden');
+          loginBtn?.classList.add('hidden');
+          if (badge) badge.textContent = `${a.email} • ${a.role}`;
+          // Show sidebar toggle when logged in
+          sidebarToggle?.classList.remove('hidden');
+          // On desktop, show sidebar by default when logged in
+          if (window.innerWidth >= 1024) {
+            sidebar?.classList.remove('-translate-x-full');
+          }
+        } else {
+          userBox?.classList.add('hidden');
+          loginBtn?.classList.remove('hidden');
+          // Hide sidebar and toggle when logged out
+          sidebarToggle?.classList.add('hidden');
+          sidebar?.classList.add('-translate-x-full');
+        }
+      }
+      document.getElementById('loginBtn')?.addEventListener('click', () => setView('login'));
+      document.getElementById('logoutBtn')?.addEventListener('click', () => {
+        localStorage.removeItem(authKey);
+        updateAuthUI();
+        setView('splash');
+      });
+      document.getElementById('loginForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const emailEl = document.getElementById('loginEmail');
+        const roleEl = document.getElementById('loginRole');
+        const codeEl = document.getElementById('loginCode');
+        const email = emailEl && 'value' in emailEl ? emailEl.value : '';
+        const role = roleEl && 'value' in roleEl ? roleEl.value : 'Investor';
+        const code = codeEl && 'value' in codeEl ? codeEl.value : '';
+        const DEMO_CODE = (window && window.DEMO_ACCESS_CODE) || 'demo';
+        if (code !== DEMO_CODE) {
+          alert('Invalid access code');
+          return;
+        }
+        localStorage.setItem(authKey, JSON.stringify({ email, role }));
+        // Force default env to dev on login
+        currentEnv = 'dev';
+        localStorage.setItem('env', 'dev');
+        // Update env toggle styling to reflect dev
+        document.querySelectorAll('#envSwitch .env-toggle').forEach((b) => b.classList.remove('bg-brand-600','text-white'));
+        document.querySelector('#envSwitch .env-toggle[data-env="dev"]')?.classList.add('bg-brand-600','text-white');
+        updateAuthUI();
+        setView('ventures');
+      });
+
+      // Deep link auto-login: #login?code=...&email=...&role=...
+      function parseHashQuery() {
+        const h = location.hash || '';
+        const q = h.includes('?') ? h.split('?')[1] : '';
+        const params = new URLSearchParams(q);
+        return Object.fromEntries(params.entries());
+      }
+      (function handleInviteLink(){
+        const p = parseHashQuery();
+        if (location.hash.startsWith('#login') && (p.code || p.email || p.role)) {
+          const email = p.email || '';
+          const role = p.role || 'Investor';
+          const code = p.code || '';
+          const DEMO_CODE = (window && window.DEMO_ACCESS_CODE) || 'demo';
+          if (code === DEMO_CODE) {
+            localStorage.setItem(authKey, JSON.stringify({ email, role }));
+            // Force default env to dev on invite link
+            currentEnv = 'dev';
+            localStorage.setItem('env', 'dev');
+            document.querySelectorAll('#envSwitch .env-toggle').forEach((b) => b.classList.remove('bg-brand-600','text-white'));
+            document.querySelector('#envSwitch .env-toggle[data-env="dev"]')?.classList.add('bg-brand-600','text-white');
+            updateAuthUI();
+            setView('ventures');
+          }
+        }
+      })();
+      updateAuthUI();
+      // Ventures filters listeners
+      document.getElementById('v-filter-apply')?.addEventListener('click', () => setView('ventures'));
+      document.getElementById('v-filter-clear')?.addEventListener('click', () => {
+        const ids = ['v-filter-status','v-filter-lead','v-filter-nextdue'];
+        ids.forEach(id => { const el = document.getElementById(id); if (el && 'value' in el) el.value = ''; });
+        setView('ventures');
+      });
+      // KPI metric loader
+      document.getElementById('kpi-load')?.addEventListener('click', () => {
+        const sel = document.getElementById('kpi-metric');
+        const metric = sel && 'value' in sel ? sel.value : 'mrr';
+        loadKpiSeries(metric);
+      });
+      // Initialize the app
+      console.log('Initializing app, authenticated:', isAuthed());
+      const initialView = location.hash.replace('#','') || (isAuthed() ? 'ventures' : 'splash');
+      console.log('Setting initial view to:', initialView);
+      setView(initialView);
+
+      }); // End DOMContentLoaded
+    </script>
+  </body>
+  </html>

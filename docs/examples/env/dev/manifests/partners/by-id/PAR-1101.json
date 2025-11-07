@@ -1,0 +1,8 @@
+{
+  "ptr": "env/dev/snapshots/partners/PAR-1101.json",
+  "id": "PAR-1101",
+  "entity": "partner",
+  "title": "Contoso Partners",
+  "status": "active",
+  "updated_at": "2024-10-11T10:00:00Z"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "R-001",
+  "entity": "round",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "updated_at": "2025-02-05T11:00:00Z",
+  "ptr": "env/dev/snapshots/rounds/R-001.json",
+  "title": "Seed+ Extension",
+  "ventureId": "V-101",
+  "stage": "Seed+",
+  "status": "Closing",
+  "target_amount": 8000000,
+  "committed_amount": 6400000,
+  "owner": "Maya Patel",
+  "probability": 0.7,
+  "close_date": "2025-03-15"
+}

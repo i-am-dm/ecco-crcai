@@ -1,0 +1,19 @@
+{
+  "id": "EXP-401",
+  "entity": "experiment",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "title": "Onboarding Coach",
+  "status": "Running",
+  "idea_id": "IDEA-003",
+  "venture_id": "V-103",
+  "owner": "sasha@ecco.studio",
+  "hypothesis": "Adding an AI coach inside the product will lift weekly actives.",
+  "primary_metric": "Active WAU",
+  "goal": "+5% vs control",
+  "start_date": "2025-11-01T00:00:00Z",
+  "confidence": "Medium",
+  "impact_score": 6,
+  "tags": ["activation", "ai"],
+  "updated_at": "2025-11-05T16:10:00Z"
+}

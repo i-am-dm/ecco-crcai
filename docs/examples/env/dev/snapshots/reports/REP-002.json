@@ -1,0 +1,44 @@
+{
+  "id": "REP-002",
+  "entity": "report",
+  "env": "dev",
+  "schema_version": "1.0.0",
+  "created_at": "2025-02-01T08:00:00Z",
+  "updated_at": "2025-02-05T08:30:00Z",
+  "title": "Nova Carbon January Investor Memo",
+  "venture_id": "V-102",
+  "period": "2025-01",
+  "audience": ["INV-001", "INV-210", "INV-305"],
+  "summary": "Pilot cement plant hit 96% uptime; airline SAF partnership moving to contract.",
+  "kpi_highlights": [
+    { "label": "Monthly Revenue", "value": 180000, "delta_percent": 22 },
+    { "label": "Carbon Removed (tons)", "value": 420, "delta_percent": 15 },
+    { "label": "Runway (months)", "value": 13, "delta_percent": -1 }
+  ],
+  "milestones": [
+    "Closed $600K SAF offtake LOI",
+    "Commissioned kiln #2 in Texas",
+    "Hired VP Sales (ex-Rivian)"
+  ],
+  "risks": [
+    "Need Class II EPA approval by April",
+    "New catalyst batch has longer lead time"
+  ],
+  "requests": [
+    {
+      "type": "Customer Intro",
+      "details": "Industrial partners with >100k tons annual cement consumption"
+    },
+    {
+      "type": "Hiring",
+      "details": "Process engineer with kiln experience"
+    }
+  ],
+  "attachments": [
+    {
+      "title": "Pilot Metrics – Jan",
+      "url": "https://example.com/reports/nova-carbon-jan.pdf",
+      "type": "application/pdf"
+    }
+  ]
+}
