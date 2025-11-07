@@ -4,9 +4,18 @@ import { config } from '@/config';
 import { useAuthStore } from '@/stores/authStore';
 import { useUIStore } from '@/stores/uiStore';
 
-// Create the API client
+function absoluteBase(base: string): string {
+  // Support relative bases like "/api" by prefixing with current origin
+  if (typeof window !== 'undefined' && base.startsWith('/')) {
+    const origin = window.location.origin.replace(/\/$/, '');
+    return origin + base;
+  }
+  return base;
+}
+
+// Create the API client with an absolute base URL
 const api = createClient<paths>({
-  baseUrl: config.apiUrl,
+  baseUrl: absoluteBase(config.apiUrl),
 });
 
 // Auth middleware - adds JWT token to requests
@@ -160,7 +169,7 @@ export const apiHelpers = {
 
 // Raw GET helper for ad-hoc endpoints not in the OpenAPI types
 export async function rawGet(path: string): Promise<any> {
-  const url = new URL(path, config.apiUrl);
+  const url = new URL(path, absoluteBase(config.apiUrl));
   // Add env if missing
   if (!url.searchParams.has('env')) {
     const env = useUIStore.getState().env;
@@ -173,7 +182,7 @@ export async function rawGet(path: string): Promise<any> {
 }
 
 export async function rawPost(path: string, body: Record<string, any>): Promise<any> {
-  const url = new URL(path, config.apiUrl);
+  const url = new URL(path, absoluteBase(config.apiUrl));
   if (!url.searchParams.has('env')) {
     const env = useUIStore.getState().env;
     url.searchParams.set('env', env);

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@ecco/platform-libs": "workspace:*",
+    "@google-cloud/storage": "^7.11.0",
     "jose": "^5.2.4"
   },
   "devDependencies": {

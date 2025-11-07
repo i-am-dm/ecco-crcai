@@ -52,7 +52,7 @@ brand: {
   200: '#bae6fd',  // Borders
   300: '#7dd3fc',  // Subtle accents
   400: '#38bdf8',  // Interactive elements
-  500: '#0ea5e9',  // Primary CTA, logo (BRAND COLOR)
+  500: '#b91c1c',  // Primary CTA, logo (BRAND COLOR)
   600: '#0284c7',  // Primary hover
   700: '#0369a1',  // Primary active
   800: '#075985',  // Dark mode primary
@@ -67,7 +67,7 @@ accent: {
   200: '#a7f3d0',  // Success borders
   300: '#6ee7b7',  // Success accents
   400: '#34d399',  // Success interactive
-  500: '#10b981',  // Success primary (ACCENT COLOR)
+  500: '#dc2626',  // Success primary (ACCENT COLOR)
   600: '#059669',  // Success hover
   700: '#047857',  // Success active
   800: '#065f46',  // Success dark
@@ -80,7 +80,7 @@ accent: {
 ```typescript
 // Status Colors (using Tailwind defaults for consistency)
 colors: {
-  success: '#10b981',   // Green - completed, active, positive
+  success: '#dc2626',   // Green - completed, active, positive
   warning: '#f59e0b',   // Amber - caution, pending, attention
   error: '#ef4444',     // Red - failed, critical, danger
   info: '#3b82f6',      // Blue - informational
@@ -106,12 +106,12 @@ colors: {
 ```css
 /* Primary Gradient - Hero elements, CTAs */
 .gradient-primary {
-  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+  background: linear-gradient(135deg, #b91c1c 0%, #433f3a 100%);
 }
 
 /* Success Gradient - Positive metrics, wins */
 .gradient-success {
-  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  background: linear-gradient(135deg, #dc2626 0%, #34d399 100%);
 }
 
 /* Mesh Gradient - Large backgrounds */
@@ -123,7 +123,7 @@ colors: {
 
 /* Text Gradient - Logos, headings */
 .gradient-text {
-  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+  background: linear-gradient(135deg, #b91c1c 0%, #433f3a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -132,14 +132,14 @@ colors: {
 
 ### Color Usage Guidelines
 
-**Primary Brand Blue (brand-500: #0ea5e9)**
+**Primary Brand Blue (brand-500: #b91c1c)**
 - Primary CTAs (Create Venture, Save, Submit)
 - Active navigation items
 - Links and interactive elements
 - Logo and brand elements
 - Data visualizations (primary series)
 
-**Accent Green (accent-500: #10b981)**
+**Accent Green (accent-500: #dc2626)**
 - Success states and confirmations
 - Positive metrics (revenue up, milestones met)
 - Completed tasks
@@ -2069,8 +2069,8 @@ For advanced theming, use CSS variables:
 
 ```css
 :root {
-  --color-brand-primary: #0ea5e9;
-  --color-accent-primary: #10b981;
+  --color-brand-primary: #b91c1c;
+  --color-accent-primary: #dc2626;
   --header-height: 64px;
   --sidebar-width: 288px;
 }

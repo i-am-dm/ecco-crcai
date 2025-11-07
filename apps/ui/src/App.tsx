@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { queryClient } from '@/lib/queryClient';
@@ -28,10 +28,21 @@ import { InvestorReportsPage } from '@/routes/investor-reports';
 import { DataRoomsPage } from '@/routes/datarooms';
 import { VentureShowPagePublic } from '@/routes/ventures/show/[id]';
 import { ExperimentsPage } from '@/routes/experiments';
+import { LandingPage } from '@/routes/landing';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
+  const location = useLocation();
+
+  if (isAuthenticated) {
+    return <>{children}</>;
+  }
+
+  if (location.pathname === '/' || location.pathname === '') {
+    return <LandingPage />;
+  }
+
+  return <Navigate to="/login" replace state={{ from: location }} />;
 }
 
 function App() {

@@ -1,4 +1,4 @@
-project_id = "crcai-477403"
+project_id = "crc-ai"
 region     = "us-central1"
 location   = "US"
 bucket_name = "ecco-studio-platform-data-dev"

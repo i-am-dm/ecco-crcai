@@ -39,6 +39,12 @@ resource "google_storage_bucket" "data" {
   uniform_bucket_level_access = true
   public_access_prevention    = "enforced"
 
+  labels = {
+    project     = "crc-ai"
+    managed_by  = "terraform"
+    environment = terraform.workspace
+  }
+
   versioning {
     enabled = true
   }
@@ -302,7 +308,7 @@ locals {
           format("resource.name.matches(\"projects/_/buckets/%s/objects/env/(dev|stg|prod)/indices/.*\")", google_storage_bucket.data.name)
         ])
       }
-      needs_secret_access = false
+      needs_secret_access = true
     }
 
     search_feed = {
@@ -419,16 +425,27 @@ resource "google_cloud_run_service" "handler" {
   project  = var.project_id
   location = var.region
 
+  metadata {
+    labels = {
+      project     = "crc-ai"
+      managed_by  = "terraform"
+      environment = terraform.workspace
+    }
+  }
+
   template {
     metadata {
       annotations = {
         "run.googleapis.com/ingress"       = "all"
         "autoscaling.knative.dev/minScale" = "0"
         "run.googleapis.com/client-name"   = "terraform"
+        "run.googleapis.com/startup-cpu-boost" = tostring(var.startup_cpu_boost)
       }
     }
     spec {
-      service_account_name = google_service_account.handler[each.key].email
+      container_concurrency = var.container_concurrency
+      timeout_seconds       = var.timeout_seconds
+      service_account_name  = google_service_account.handler[each.key].email
       containers {
         image = each.value.image
         dynamic "env" {
@@ -436,6 +453,31 @@ resource "google_cloud_run_service" "handler" {
           content {
             name  = env.value.name
             value = env.value.value
+          }
+        }
+        # Optional JWT config from Secret Manager (api-edge only)
+        dynamic "env" {
+          for_each = (each.value.service_name == "api-edge" && length(trimspace(var.api_jwt_issuer_secret)) > 0) ? [1] : []
+          content {
+            name = "API_JWT_ISSUER"
+            value_from {
+              secret_key_ref {
+                name = var.api_jwt_issuer_secret
+                key  = "latest"
+              }
+            }
+          }
+        }
+        dynamic "env" {
+          for_each = (each.value.service_name == "api-edge" && length(trimspace(var.api_jwt_audience_secret)) > 0) ? [1] : []
+          content {
+            name = "API_JWT_AUDIENCE"
+            value_from {
+              secret_key_ref {
+                name = var.api_jwt_audience_secret
+                key  = "latest"
+              }
+            }
           }
         }
       }

@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, type Auth } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuthStore } from '@/stores/authStore';
@@ -133,6 +133,16 @@ export function LoginPage() {
               Development mode: Firebase not configured. Enter any email to continue.
             </div>
           )}
+        </div>
+
+        <div className="mt-6 text-center">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-accent-600 transition-colors"
+          >
+            <span aria-hidden="true">←</span>
+            Back to CityReach Innovation Labs
+          </Link>
         </div>
       </div>
     </div>
