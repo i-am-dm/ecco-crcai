@@ -10,7 +10,9 @@ interface KPIChartProps {
   height?: number;
 }
 
-export function KPIChart({ data, metric, format, color = '#0ea5e9', height = 300 }: KPIChartProps) {
+const DEFAULT_KPI_COLOR = '#b91c1c'; // accent burgundy
+
+export function KPIChart({ data, metric, format, color = DEFAULT_KPI_COLOR, height = 300 }: KPIChartProps) {
   const formatter = getFormatter(format);
 
   // Transform data for Recharts

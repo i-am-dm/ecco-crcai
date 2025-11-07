@@ -11,8 +11,14 @@ const DOC_TYPE_VALUES: ResearchDocType[] = [
 ];
 
 const DOC_TYPE_META: Record<ResearchDocType, { label: string; badge: string }> = {
-  market: { label: 'Market Research', badge: 'bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-200' },
-  customer: { label: 'Customer Insight', badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200' },
+  market: {
+    label: 'Market Research',
+    badge: 'bg-brand-100 text-brand-700 dark:bg-brand-900/40 dark:text-brand-200',
+  },
+  customer: {
+    label: 'Customer Insight',
+    badge: 'bg-accent-100 text-accent-700 dark:bg-accent-900/40 dark:text-accent-200',
+  },
   product: { label: 'Product / Tech', badge: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200' },
   financial: { label: 'Financial Model', badge: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200' },
   experiment: { label: 'Experiment', badge: 'bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/40 dark:text-fuchsia-200' },

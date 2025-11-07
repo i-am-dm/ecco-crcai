@@ -176,18 +176,18 @@ export function KPIsPage() {
                 format={metricInfo?.format || 'number'}
                 color={
                   metricInfo?.color === 'accent'
-                    ? '#10b981'
+                    ? '#b91c1c'
                     : metricInfo?.color === 'brand'
-                    ? '#0ea5e9'
+                    ? '#433f3a'
                     : metricInfo?.color === 'amber'
-                    ? '#f59e0b'
+                    ? '#f97316'
                     : metricInfo?.color === 'purple'
-                    ? '#a855f7'
+                    ? '#7c3aed'
                     : metricInfo?.color === 'emerald'
-                    ? '#10b981'
+                    ? '#16a34a'
                     : metricInfo?.color === 'red'
-                    ? '#ef4444'
-                    : '#3b82f6'
+                    ? '#dc2626'
+                    : '#433f3a'
                 }
                 height={400}
               />
