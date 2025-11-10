@@ -6,6 +6,9 @@
 # OS cruft
 .DS_Store
 
+# CI artifacts
+.artifacts/
+
 # Dependencies & build outputs
 node_modules/
 dist/
