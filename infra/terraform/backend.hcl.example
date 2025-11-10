@@ -1,0 +1,6 @@
+bucket = "YOUR_TF_STATE_BUCKET"
+prefix = "ecco-crcai/infra"
+
+# Usage:
+# terraform init -reconfigure -backend-config=backend.hcl
+

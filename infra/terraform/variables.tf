@@ -168,6 +168,12 @@ variable "ecco_studio_image" {
   default     = ""
 }
 
+variable "ecco_studio_service_name" {
+  type        = string
+  description = "Cloud Run v2 service name for the unified ecco-studio deployment."
+  default     = "ecco-studio"
+}
+
 variable "storage_backend" {
   type        = string
   description = "Storage backend for ecco-studio (gcs or fs)."

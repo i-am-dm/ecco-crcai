@@ -1,0 +1,231 @@
+name: Deploy (Cloud Run + Terraform)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment"
+        type: choice
+        default: dev
+        options: [dev, stg, prod]
+      apply_terraform:
+        description: "Apply Terraform after image push"
+        type: boolean
+        default: false
+      deploy_handlers:
+        description: "Also build/push handler services and deploy via Terraform"
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths:
+      - 'services/**'
+      - 'libs/**'
+      - 'apps/ui/**'
+      - 'Dockerfile'
+      - 'Dockerfile.dev'
+      - '.github/workflows/deploy.yml'
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  NODE_VERSION: '20'
+  GCP_REGION: ${{ secrets.GCP_REGION && secrets.GCP_REGION || 'us-central1' }}
+  GAR_REPOSITORY: ${{ secrets.GAR_REPOSITORY && secrets.GAR_REPOSITORY || 'services' }}
+  ECCO_STUDIO_SERVICE_NAME: ${{ secrets.ECCO_STUDIO_SERVICE_NAME && secrets.ECCO_STUDIO_SERVICE_NAME || 'ecco-studio' }}
+
+jobs:
+  build-push-and-apply:
+    name: Build, Push Images, Terraform Apply
+    runs-on: ubuntu-latest
+    environment: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || 'dev' }}
+    concurrency:
+      group: deploy-${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || 'dev' }}
+      cancel-in-progress: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Enable corepack (pnpm)
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all workspaces
+        run: pnpm -r --if-present run build
+
+      - name: Auth to Google Cloud (OIDC)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          version: '>= 467.0.0'
+
+      - name: Setup Terraform
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.apply_terraform == 'true' }}
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+
+      - name: Configure Docker auth
+        run: gcloud auth configure-docker ${{ env.GCP_REGION }}-docker.pkg.dev -q
+
+      - name: Build and push handler service images
+        id: buildpush
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.deploy_handlers == 'true' }}
+        env:
+          PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          set -euo pipefail
+          HOST="${GCP_REGION}-docker.pkg.dev/${PROJECT_ID}/${GAR_REPOSITORY}"
+          mkdir -p .artifacts
+          TFVARS_IMAGE_FILE=.artifacts/images.auto.tfvars
+          : > "$TFVARS_IMAGE_FILE"
+
+          build_and_push() {
+            local dir="$1"; local varname="$2"; local imagename="$3";
+            if [ -d "$dir" ]; then
+              local tag="$HOST/$imagename:${GITHUB_SHA}"
+              echo "Building $dir → $tag"
+              docker build "$dir" -t "$tag"
+              docker push "$tag"
+              local digest
+              digest=$(gcloud artifacts docker images describe "$tag" --format='value(image_summary.digest)')
+              echo "$varname=\"$HOST/$imagename@$digest\"" >> "$TFVARS_IMAGE_FILE"
+            fi
+          }
+
+          build_and_push services/api-edge           api_edge_image         api-edge
+          build_and_push services/snapshot-builder   snapshot_builder_image snapshot-builder
+          build_and_push services/manifest-writer    manifest_writer_image  manifest-writer
+          build_and_push services/index-writer       index_writer_image     index-writer
+          build_and_push services/rules-engine       rules_engine_image     rules-engine
+          build_and_push services/search-feed        search_feed_image      search-feed
+          build_and_push services/manifest-compactor manifest_compactor_image manifest-compactor
+
+          echo "Generated image vars:" && cat "$TFVARS_IMAGE_FILE"
+
+      - name: Build and push unified ecco-studio image
+        id: buildpush_unified
+        env:
+          PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          set -euo pipefail
+          HOST="${GCP_REGION}-docker.pkg.dev/${PROJECT_ID}/${GAR_REPOSITORY}"
+          # Ensure artifacts directory and tfvars file exist when handler builds are skipped
+          mkdir -p .artifacts
+          [ -f .artifacts/images.auto.tfvars ] || : > .artifacts/images.auto.tfvars
+          if [ -f Dockerfile ]; then
+            TAG="$HOST/ecco-studio:${GITHUB_SHA}"
+            echo "Building unified ecco-studio → $TAG"
+            docker build . -t "$TAG"
+            docker push "$TAG"
+            DIGEST=$(gcloud artifacts docker images describe "$TAG" --format='value(image_summary.digest)')
+            echo "ecco_studio_image=\"$HOST/ecco-studio@$DIGEST\"" >> .artifacts/images.auto.tfvars
+            echo "digest=$DIGEST" >> $GITHUB_OUTPUT
+            echo "Unified image digest: $DIGEST"
+          else
+            echo "No root Dockerfile found; skipping unified image."
+          fi
+
+      - name: Deploy ecco-studio (gcloud)
+        if: always()
+        env:
+          PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          set -euo pipefail
+          HOST="${GCP_REGION}-docker.pkg.dev/${PROJECT_ID}/${GAR_REPOSITORY}"
+          if [ -n "${{ steps.buildpush_unified.outputs.digest }}" ]; then
+            IMG="$HOST/ecco-studio@${{ steps.buildpush_unified.outputs.digest }}"
+            echo "Deploying ${ECCO_STUDIO_SERVICE_NAME} with $IMG"
+            gcloud run deploy "${ECCO_STUDIO_SERVICE_NAME}" \
+              --image "$IMG" \
+              --region "${GCP_REGION}" \
+              --platform managed \
+              --quiet
+          else
+            echo "No unified image digest found; skipping gcloud deploy."
+          fi
+
+      - name: Configure backend (optional)
+        id: backend
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.apply_terraform == 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "${{ secrets.TF_BACKEND_BUCKET }}" ]; then
+            cat > infra/terraform/backend.hcl <<EOF
+            bucket  = "${{ secrets.TF_BACKEND_BUCKET }}"
+            prefix  = "${{ secrets.TF_BACKEND_PREFIX || 'ecco-crcai' }}"
+            EOF
+            echo "configured=true" >> $GITHUB_OUTPUT
+          else
+            echo "No TF_BACKEND_BUCKET provided; using local backend."
+            echo "configured=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Terraform apply (Cloud Run, IAM, Pub/Sub)
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.apply_terraform == 'true' }}
+        env:
+          GOOGLE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
+          TF_VAR_api_jwt_issuer_secret: ${{ secrets.API_JWT_ISSUER_SECRET_NAME }}
+          TF_VAR_api_jwt_audience_secret: ${{ secrets.API_JWT_AUDIENCE_SECRET_NAME }}
+        run: |
+          set -euo pipefail
+          cd infra/terraform
+          terraform --version || true
+          if [ "${{ steps.backend.outputs.configured }}" = "true" ]; then
+            terraform init -input=false -reconfigure -backend-config=backend.hcl
+          else
+            terraform init -input=false
+          fi
+          ENV_FILE="dev.tfvars"
+          case "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || 'dev' }}" in
+            dev) ENV_FILE="dev.tfvars";;
+            stg) ENV_FILE="stg.tfvars";;
+            prod) ENV_FILE="prod.tfvars";;
+          esac
+          # Merge env tfvars with generated image digests
+          cp "../.."/.artifacts/images.auto.tfvars ./
+          # Ensure ecco_studio_image is set so the counted resource exists during import
+          if [ -f images.auto.tfvars ]; then
+            IMG_VAR=$(sed -n 's/^ecco_studio_image="\(.*\)"/\1/p' images.auto.tfvars || true)
+            if [ -n "$IMG_VAR" ]; then export TF_VAR_ecco_studio_image="$IMG_VAR"; fi
+          fi
+          # Import existing Cloud Run service to TF state if present
+          # Import existing ecco-studio service (if it already exists)
+          if gcloud run services describe "${ECCO_STUDIO_SERVICE_NAME}" --region "${GCP_REGION}" >/dev/null 2>&1; then
+            ID="projects/${{ secrets.GCP_PROJECT_ID }}/locations/${GCP_REGION}/services/${ECCO_STUDIO_SERVICE_NAME}"
+            echo "Importing Cloud Run v2 service state: $ID"
+            terraform import 'google_cloud_run_v2_service.ecco_studio[0]' "$ID" || true
+          else
+            echo "Cloud Run service ${ECCO_STUDIO_SERVICE_NAME} not found; skipping import."
+          fi
+          echo "Using env vars file: $ENV_FILE"
+          terraform apply -auto-approve \
+            -var "project_id=${{ secrets.GCP_PROJECT_ID }}" \
+            -var "ecco_studio_service_name=${ECCO_STUDIO_SERVICE_NAME}" \
+            -var-file="$ENV_FILE" \
+            -var-file="images.auto.tfvars"
+
+      - name: Show Cloud Run URL (ecco-studio)
+        if: always()
+        run: |
+          set -euo pipefail
+          URL=$(gcloud run services describe "${ECCO_STUDIO_SERVICE_NAME}" --region "${GCP_REGION}" --format='value(status.url)' || echo '')
+          echo "${ECCO_STUDIO_SERVICE_NAME} URL: $URL"
+          echo "Ecco Studio URL: $URL" >> $GITHUB_STEP_SUMMARY

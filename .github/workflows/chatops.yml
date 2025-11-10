@@ -1,0 +1,72 @@
+name: ChatOps
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+  actions: write
+
+jobs:
+  dispatch-deploy:
+    name: Dispatch Deploy Workflow
+    if: |
+      startsWith(github.event.comment.body, '/deploy')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Parse command and dispatch
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const authorOk = ['MEMBER','OWNER','COLLABORATOR'].includes(context.payload.comment.author_association);
+            if (!authorOk) {
+              core.setFailed('Not authorized to run /deploy');
+              return;
+            }
+            const body = context.payload.comment.body.trim();
+            // Syntax: /deploy env=dev|stg|prod
+            const env = (body.match(/env=(dev|stg|prod)/i)?.[1] || 'dev').toLowerCase();
+            const handlers = (body.match(/handlers=(true|false)/i)?.[1] || 'false').toLowerCase();
+            core.info(`Dispatching deploy for env=${env}`);
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deploy.yml',
+              ref: 'main',
+              inputs: { environment: env, apply_terraform: 'false', deploy_handlers: handlers }
+            });
+            core.summary.addRaw(`Triggered deploy.yml for env=${env}`);
+            await core.summary.write();
+
+  dispatch-plan:
+    name: Dispatch Terraform Plan
+    if: |
+      startsWith(github.event.comment.body, '/plan')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Parse command and dispatch
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const authorOk = ['MEMBER','OWNER','COLLABORATOR'].includes(context.payload.comment.author_association);
+            if (!authorOk) {
+              core.setFailed('Not authorized to run /plan');
+              return;
+            }
+            const body = context.payload.comment.body.trim();
+            // Syntax: /plan env=dev|stg|prod
+            const match = body.match(/env=(dev|stg|prod)/i);
+            const env = match ? match[1].toLowerCase() : 'dev';
+            core.info(`Dispatching plan for env=${env}`);
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'terraform.yml',
+              ref: 'main',
+              inputs: { environment: env }
+            });
+            core.summary.addRaw(`Triggered terraform.yml plan for env=${env}`);
+            await core.summary.write();

@@ -1,0 +1,126 @@
+name: Terraform (Plan/Validate)
+
+on:
+  pull_request:
+    paths:
+      - 'infra/terraform/**'
+      - '.github/workflows/terraform.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment for plan'
+        required: false
+        default: dev
+        type: choice
+        options: [dev, stg, prod]
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  GCP_REGION: ${{ secrets.GCP_REGION && secrets.GCP_REGION || 'us-central1' }}
+  GAR_REPOSITORY: ${{ secrets.GAR_REPOSITORY && secrets.GAR_REPOSITORY || 'services' }}
+  ECCO_STUDIO_SERVICE_NAME: ${{ secrets.ECCO_STUDIO_SERVICE_NAME && secrets.ECCO_STUDIO_SERVICE_NAME || 'ecco-studio' }}
+
+jobs:
+  validate:
+    name: Validate (PR safe)
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+
+      - name: Terraform fmt/validate (no cloud auth)
+        run: |
+          set -euo pipefail
+          cd infra/terraform
+          terraform fmt -check
+          terraform init -backend=false -input=false
+          terraform validate
+
+  plan:
+    name: Plan (${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || 'dev' }})
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Auth to Google Cloud (OIDC)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          version: '>= 467.0.0'
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+
+      - name: Generate image vars from live Cloud Run
+        shell: bash
+        env:
+          PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          set -euo pipefail
+          mkdir -p .artifacts
+          : > .artifacts/images.auto.tfvars
+          # Read current image of unified service for accurate plan
+          if gcloud run services describe "${ECCO_STUDIO_SERVICE_NAME}" --region "${GCP_REGION}" >/dev/null 2>&1; then
+            IMG=$(gcloud run services describe "${ECCO_STUDIO_SERVICE_NAME}" --region "${GCP_REGION}" --format="value(template.containers[0].image)" || true)
+            if [ -n "$IMG" ]; then echo "ecco_studio_image=\"$IMG\"" >> .artifacts/images.auto.tfvars; fi
+          fi
+
+      - name: Configure backend (optional)
+        id: backend
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "${{ secrets.TF_BACKEND_BUCKET }}" ]; then
+            cat > infra/terraform/backend.hcl <<EOF
+            bucket  = "${{ secrets.TF_BACKEND_BUCKET }}"
+            prefix  = "${{ secrets.TF_BACKEND_PREFIX || 'ecco-crcai' }}"
+            EOF
+            echo "configured=true" >> $GITHUB_OUTPUT
+          else
+            echo "No TF_BACKEND_BUCKET provided; using local backend."
+            echo "configured=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Terraform Init/Validate/Plan
+        run: |
+          set -euo pipefail
+          cd infra/terraform
+          if [ "${{ steps.backend.outputs.configured }}" = "true" ]; then
+            terraform init -input=false -reconfigure -backend-config=backend.hcl
+          else
+            terraform init -input=false
+          fi
+          terraform fmt -check
+          terraform validate
+          ENV_FILE="dev.tfvars"
+          case "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || 'dev' }}" in
+            dev) ENV_FILE="dev.tfvars";;
+            stg) ENV_FILE="stg.tfvars";;
+            prod) ENV_FILE="prod.tfvars";;
+          esac
+          # Include generated image digests to keep plan aligned with live
+          cp "../.."/.artifacts/images.auto.tfvars ./ || :
+          terraform plan -input=false -no-color \
+            -var "project_id=${{ secrets.GCP_PROJECT_ID }}" \
+            -var "ecco_studio_service_name=${ECCO_STUDIO_SERVICE_NAME}" \
+            -var-file="$ENV_FILE" \
+            -var-file="images.auto.tfvars"
