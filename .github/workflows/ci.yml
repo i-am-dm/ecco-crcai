@@ -57,8 +57,13 @@ jobs:
         run: |
           set -euo pipefail
           for d in services/*; do
+            name=$(basename "$d")
+            # Skip api-edge which requires pre-built artifacts from monorepo
+            if [ "$name" = "api-edge" ]; then
+              echo "Skipping $name (requires pre-built artifacts)"
+              continue
+            fi
             if [ -f "$d/Dockerfile" ]; then
-              name=$(basename "$d")
               echo "Building $name ..."
               docker build "$d" -t test/$name:ci
             fi
