@@ -14,7 +14,8 @@
     "@ecco/platform-libs": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.5.0"
+    "typescript": "^5.5.0",
+    "@types/node": "^20.11.30"
   }
 }
 
