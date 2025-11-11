@@ -78,7 +78,7 @@ async function collectManifests(storage: Storage, bucket: string, prefix: string
       }
       records.push({ manifest, path: file.name });
     }
-    pageToken = nextQuery?.pageToken;
+    pageToken = (nextQuery as any)?.pageToken;
   } while (pageToken);
   return records;
 }

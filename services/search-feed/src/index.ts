@@ -22,7 +22,7 @@ async function resolveTarget(): Promise<string | null> {
     const normalized = target.replace(/^sm:\/\//, "");
     const path = normalized.includes("/secrets/") ? normalized : `projects/${project}/secrets/${normalized}/versions/latest`;
     const [version] = await secretClient.accessSecretVersion({ name: path });
-    const payload = version.payload?.data?.toString("utf8");
+    const payload = version.payload?.data ? Buffer.from(version.payload.data).toString("utf8") : undefined;
     return payload || null;
   }
   return target;
