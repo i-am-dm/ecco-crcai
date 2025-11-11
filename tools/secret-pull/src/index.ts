@@ -54,7 +54,7 @@ async function accessSecret(client: SecretManagerServiceClient, project: string 
         throw new Error("No project specified for bare secret name");
       })();
   const [version] = await client.accessSecretVersion({ name: resource });
-  const payload = version.payload?.data?.toString("utf8");
+  const payload = version.payload?.data ? Buffer.from(version.payload.data).toString("utf8") : undefined;
   if (!payload) throw new Error(`Secret ${resource} has no payload`);
   return payload.trim();
 }
