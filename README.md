@@ -182,8 +182,8 @@ Usage
 
 ## CI/CD
 
-- GitHub Actions: `.github/workflows/sync-todos.yml` parses `TODO.md` to open/update GitHub issues
-- Provide container images for handlers/jobs to enable Terraform deployment of services
+- GitHub Actions: see `docs/ci-cd.md` for the full pipeline (CI, Terraform plan, Cloud Run deploy, ChatOps `/deploy`).
+- Images are built from `services/*` and pushed to Artifact Registry; Terraform wires Cloud Run + Pub/Sub + IAM using the image digests.
 
 
 ## Common Commands

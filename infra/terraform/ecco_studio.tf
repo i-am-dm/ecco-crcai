@@ -56,7 +56,7 @@ resource "google_storage_bucket_iam_member" "ecco_studio_bucket_list" {
 
 resource "google_cloud_run_v2_service" "ecco_studio" {
   count    = local.create_ecco_studio ? 1 : 0
-  name     = "ecco-studio"
+  name     = var.ecco_studio_service_name
   project  = var.project_id
   location = var.region
 
