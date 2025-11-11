@@ -1,0 +1,71 @@
+name: Verify GCP OIDC & Cloud Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment label (summary only)'
+        required: false
+        default: dev
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  GCP_REGION: ${{ secrets.GCP_REGION && secrets.GCP_REGION || 'us-central1' }}
+  GAR_REPOSITORY: ${{ secrets.GAR_REPOSITORY && secrets.GAR_REPOSITORY || 'services' }}
+  ECCO_STUDIO_SERVICE_NAME: ${{ secrets.ECCO_STUDIO_SERVICE_NAME && secrets.ECCO_STUDIO_SERVICE_NAME || 'ecco-studio' }}
+
+jobs:
+  verify:
+    name: Verify secrets, OIDC, and resources
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check required secrets presence
+        run: |
+          set -euo pipefail
+          missing=0
+          check() { [ -n "$2" ] && echo "✔ $1: set" || { echo "✖ $1: MISSING"; missing=1; }; }
+          check GCP_PROJECT_ID "${{ secrets.GCP_PROJECT_ID }}"
+          check GCP_WORKLOAD_IDENTITY_PROVIDER "${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}"
+          check GCP_SERVICE_ACCOUNT_EMAIL "${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}"
+          check GCP_REGION "${{ secrets.GCP_REGION }}"
+          check GAR_REPOSITORY "${{ secrets.GAR_REPOSITORY }}"
+          check ECCO_STUDIO_SERVICE_NAME "${{ secrets.ECCO_STUDIO_SERVICE_NAME }}"
+          echo "Environment: ${{ github.event.inputs.environment }}"
+          if [ $missing -eq 1 ]; then echo "One or more required secrets are missing"; exit 1; fi
+
+      - name: Auth to Google Cloud (OIDC)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          version: '>= 467.0.0'
+
+      - name: Show active identity and project info
+        run: |
+          gcloud auth list
+          gcloud config list --format 'text'
+          gcloud projects describe "${{ secrets.GCP_PROJECT_ID }}" --format='value(projectNumber,projectId,name)'
+
+      - name: Verify Cloud Run service exists and print URL
+        run: |
+          set -euo pipefail
+          URL=$(gcloud run services describe "${ECCO_STUDIO_SERVICE_NAME}" --region "${GCP_REGION}" --format='value(status.url)')
+          echo "Cloud Run URL: $URL"
+          echo "Cloud Run URL: $URL" >> $GITHUB_STEP_SUMMARY
+
+      - name: Verify Artifact Registry repository
+        run: |
+          gcloud artifacts repositories describe "${GAR_REPOSITORY}" --location "${GCP_REGION}" --format='value(name,format,description)'
+
+      - name: Verify service account exists
+        run: |
+          gcloud iam service-accounts describe "${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}" --format='value(email,uniqueId)'
+
