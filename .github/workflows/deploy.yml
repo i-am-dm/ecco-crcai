@@ -193,11 +193,11 @@ jobs:
           else
             terraform init -input=false
           fi
-          ENV_FILE="dev.tfvars"
+          ENV_FILE="environments/dev.tfvars"
           case "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || 'dev' }}" in
-            dev) ENV_FILE="dev.tfvars";;
-            stg) ENV_FILE="stg.tfvars";;
-            prod) ENV_FILE="prod.tfvars";;
+            dev) ENV_FILE="environments/dev.tfvars";;
+            stg) ENV_FILE="environments/stg.tfvars";;
+            prod) ENV_FILE="environments/prod.tfvars";;
           esac
           # Merge env tfvars with generated image digests
           cp "../.."/.artifacts/images.auto.tfvars ./
