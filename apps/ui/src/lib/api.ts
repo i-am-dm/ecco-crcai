@@ -4,13 +4,108 @@ import { config } from '@/config';
 import { useAuthStore } from '@/stores/authStore';
 import { useUIStore } from '@/stores/uiStore';
 
-function absoluteBase(base: string): string {
-  // Support relative bases like "/api" by prefixing with current origin
-  if (typeof window !== 'undefined' && base.startsWith('/')) {
-    const origin = window.location.origin.replace(/\/$/, '');
-    return origin + base;
+type MinimalLocation = Pick<Location, 'origin' | 'host' | 'protocol'>;
+
+const ABSOLUTE_URL_PATTERN = /^[a-z][a-z\d+\-.]*:\/\//i;
+
+function ensureApiPath(relative: string): string {
+  const trimmed = relative.replace(/^\/+/, '');
+  if (!trimmed || trimmed === 'api') {
+    return 'api';
   }
-  return base;
+  if (trimmed.startsWith('api/')) {
+    return trimmed;
+  }
+  return `api/${trimmed}`;
+}
+
+function parseWithPlaceholder(value: string): { pathname: string; search: string; hash: string } | undefined {
+  try {
+    const prefixed = value.startsWith('/') ? value : `/${value}`;
+    const url = new URL(prefixed, 'http://placeholder/');
+    return { pathname: url.pathname, search: url.search, hash: url.hash };
+  } catch {
+    return undefined;
+  }
+}
+
+export function absoluteBase(base: string, loc?: MinimalLocation): string {
+  const raw = typeof base === 'string' ? base : '';
+  const trimmed = raw.trim();
+  const location = loc ?? (typeof window !== 'undefined' ? window.location : undefined);
+
+  if (!location) {
+    if (!trimmed) {
+      return '/api';
+    }
+    if (ABSOLUTE_URL_PATTERN.test(trimmed) || trimmed.startsWith('//')) {
+      return trimmed;
+    }
+    const looksLikeHost = /^[^/]+$/.test(trimmed) && (trimmed.includes('.') || trimmed.includes(':'));
+    if (looksLikeHost) {
+      return trimmed;
+    }
+    const placeholder = parseWithPlaceholder(trimmed);
+    if (!placeholder) {
+      return '/api';
+    }
+    const relative = placeholder.pathname.replace(/^\/+/, '');
+    const normalizedPath = `/${ensureApiPath(relative)}`;
+    return `${normalizedPath}${placeholder.search}${placeholder.hash}`;
+  }
+
+  const origin = location.origin.replace(/\/$/, '');
+
+  if (!trimmed) {
+    return `${origin}/api`;
+  }
+
+  let candidate: URL | undefined;
+
+  try {
+    if (ABSOLUTE_URL_PATTERN.test(trimmed)) {
+      candidate = new URL(trimmed);
+    } else if (trimmed.startsWith('//')) {
+      candidate = new URL(`${location.protocol}${trimmed}`);
+    } else {
+      const hostMatch = trimmed.match(/^([^/]+)(\/.*)?$/);
+      const appearsHostPrefixed =
+        !!hostMatch && (hostMatch[1].includes('.') || hostMatch[1].includes(':')) && hostMatch[2];
+
+      if (appearsHostPrefixed) {
+        candidate = new URL(`${location.protocol}//${trimmed}`);
+      } else if (/^[^/]+$/.test(trimmed) && (trimmed === location.host || trimmed.includes('.') || trimmed.includes(':'))) {
+        candidate = new URL(`${location.protocol}//${trimmed}`);
+      } else {
+        const prefixed = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
+        candidate = new URL(prefixed, `${origin}/`);
+      }
+    }
+  } catch {
+    candidate = undefined;
+  }
+
+  if (!candidate) {
+    return `${origin}/api`;
+  }
+
+  if (candidate.origin === origin || candidate.host === location.host) {
+    const relative = candidate.pathname.replace(/^\/+/, '');
+    const normalizedPath = `/${ensureApiPath(relative)}`;
+    return `${origin}${normalizedPath}${candidate.search}${candidate.hash}`;
+  }
+
+  const result = candidate.toString();
+  if (
+    !trimmed.endsWith('/') &&
+    result.endsWith('/') &&
+    candidate.pathname === '/' &&
+    !candidate.search &&
+    !candidate.hash
+  ) {
+    return result.slice(0, -1);
+  }
+  return result;
 }
 
 // Create the API client with an absolute base URL
@@ -146,7 +241,9 @@ export const apiHelpers = {
     }
 
     const token = useAuthStore.getState().token;
-    const res = await fetch(`${config.apiUrl}/v1/internal/history`, {
+    const baseUrl = absoluteBase(config.apiUrl);
+    const historyUrl = new URL('v1/internal/history', baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`);
+    const res = await fetch(historyUrl.toString(), {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -169,7 +266,8 @@ export const apiHelpers = {
 
 // Raw GET helper for ad-hoc endpoints not in the OpenAPI types
 export async function rawGet(path: string): Promise<any> {
-  const url = new URL(path, absoluteBase(config.apiUrl));
+  const baseUrl = absoluteBase(config.apiUrl);
+  const url = new URL(path.startsWith('/') ? path.slice(1) : path, baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`);
   // Add env if missing
   if (!url.searchParams.has('env')) {
     const env = useUIStore.getState().env;
@@ -182,7 +280,8 @@ export async function rawGet(path: string): Promise<any> {
 }
 
 export async function rawPost(path: string, body: Record<string, any>): Promise<any> {
-  const url = new URL(path, absoluteBase(config.apiUrl));
+  const baseUrl = absoluteBase(config.apiUrl);
+  const url = new URL(path.startsWith('/') ? path.slice(1) : path, baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`);
   if (!url.searchParams.has('env')) {
     const env = useUIStore.getState().env;
     url.searchParams.set('env', env);
