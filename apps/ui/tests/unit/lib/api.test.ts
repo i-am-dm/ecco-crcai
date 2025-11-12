@@ -1,7 +1,52 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import api, { apiHelpers } from '@/lib/api';
+import api, { apiHelpers, absoluteBase } from '@/lib/api';
 import { useAuthStore } from '@/stores/authStore';
 import { useUIStore } from '@/stores/uiStore';
+
+describe('absoluteBase', () => {
+  const mockLocation = {
+    origin: 'https://app.example.com',
+    host: 'app.example.com',
+    protocol: 'https:',
+  } as any;
+
+  it('prefixes /api when base is empty', () => {
+    expect(absoluteBase('', mockLocation)).toBe('https://app.example.com/api');
+  });
+
+  it('prefixes /api for same-origin bare host', () => {
+    expect(absoluteBase('app.example.com', mockLocation)).toBe('https://app.example.com/api');
+  });
+
+  it('handles same-origin URLs without paths', () => {
+    expect(absoluteBase('https://app.example.com', mockLocation)).toBe('https://app.example.com/api');
+  });
+
+  it('adds /api to same-origin hosts with paths', () => {
+    expect(absoluteBase('app.example.com/v1', mockLocation)).toBe('https://app.example.com/api/v1');
+  });
+
+  it('normalizes relative paths missing a leading slash', () => {
+    expect(absoluteBase('api', mockLocation)).toBe('https://app.example.com/api');
+  });
+
+  it('preserves query and hash when normalizing relative paths', () => {
+    expect(absoluteBase('api?foo=bar#frag', mockLocation)).toBe('https://app.example.com/api?foo=bar#frag');
+  });
+
+  it('preserves non-origin URLs', () => {
+    expect(absoluteBase('https://api.example.com', mockLocation)).toBe('https://api.example.com');
+  });
+
+  it('supports query strings when location is unavailable', () => {
+    vi.stubGlobal('window', undefined as unknown as Window & typeof globalThis);
+    try {
+      expect(absoluteBase('api?foo=bar#frag')).toBe('/api?foo=bar#frag');
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+});
 
 describe('apiHelpers', () => {
   beforeEach(() => {
