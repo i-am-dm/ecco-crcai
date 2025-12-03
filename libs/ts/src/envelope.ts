@@ -20,6 +20,7 @@ export interface EnvelopeBase {
     | "playbook"
     | "playbook_run"
     | "comment"
+    | "showcase"
     | "show_page"
     | "rule"
     | "benchmark"

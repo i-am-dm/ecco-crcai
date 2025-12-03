@@ -23,6 +23,7 @@ const ENTITY_PATH_SEGMENTS: Record<Entity, string> = {
   cap_table: "cap_tables",
   playbook: "playbooks",
   playbook_run: "playbook_runs",
+  showcase: "showcases",
   show_page: "show_pages",
   comment: "comments",
   rule: "rules",

@@ -148,6 +148,10 @@
                 <a href="#ventures" data-view="ventures" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                   <span>Ventures</span>
+                <a href="#showcases" data-view="showcases" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 17l-5 2 1.5-4.5L4 10h5l3-6 3 6h5l-4.5 4.5L17 19z" /></svg>
+                  <span>Showcases</span>
+                </a>
                 </a>
                 <a href="#ideas" data-view="ideas" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
@@ -671,6 +675,83 @@
         </section>
         </section>
 
+
+        <section data-view="showcases" class="hidden">
+          <div class="backdrop-grid">
+            <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+              <div class="rounded-2xl bg-white/90 dark:bg-slate-900/80 border border-slate-200/70 dark:border-slate-700/60 shadow-subtle overflow-hidden">
+                <div class="p-6 sm:p-8 bg-gradient-to-r from-brand-50 to-accent-50 dark:from-slate-900 dark:to-slate-900 border-b border-slate-200/70 dark:border-slate-700/60">
+                  <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+                    <div class="space-y-2">
+                      <p class="text-xs uppercase tracking-[0.2em] text-brand-700 dark:text-brand-200 font-semibold">Showcase Marketplace</p>
+                      <h1 class="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">Upcoming residencies, tours, and sponsor-ready nights</h1>
+                      <p class="text-sm text-slate-600 dark:text-slate-400">Mobile-first discovery powered by GCS indices + Cloud Run that scales to zero when idle.</p>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3 text-sm">
+                      <div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 px-4 py-3 shadow-soft">
+                        <div class="text-xs text-slate-500">Live listings</div>
+                        <div class="text-lg font-semibold" id="showcase-kpi-live">—</div>
+                      </div>
+                      <div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 px-4 py-3 shadow-soft">
+                        <div class="text-xs text-slate-500">Verified hosts</div>
+                        <div class="text-lg font-semibold" id="showcase-kpi-verified">—</div>
+                      </div>
+                      <div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 px-4 py-3 shadow-soft">
+                        <div class="text-xs text-slate-500">Avg. hold SLA</div>
+                        <div class="text-lg font-semibold" id="showcase-kpi-sla">—</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-6 space-y-6">
+                  <div>
+                    <div class="flex items-center justify-between mb-3">
+                      <h2 class="text-sm font-semibold tracking-tight">Featured rails</h2>
+                      <span class="text-xs text-slate-500">Priority bookings + verified hosts</span>
+                    </div>
+                    <div id="showcase-featured" class="flex gap-4 overflow-x-auto pb-2"></div>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
+                    <div>
+                      <label class="block text-xs font-medium mb-1">Date</label>
+                      <input id="showcase-filter-date" type="date" class="w-full rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900" />
+                    </div>
+                    <div>
+                      <label class="block text-xs font-medium mb-1">Venue</label>
+                      <input id="showcase-filter-venue" type="text" placeholder="e.g. uptown" class="w-full rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900" />
+                    </div>
+                    <div>
+                      <label class="block text-xs font-medium mb-1">Status</label>
+                      <select id="showcase-filter-status" class="w-full rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900">
+                        <option value="">Any</option>
+                        <option value="live">Live</option>
+                        <option value="paused">Paused</option>
+                        <option value="draft">Draft</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-medium mb-1">Performer</label>
+                      <input id="showcase-filter-performer" type="text" placeholder="e.g. nova" class="w-full rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900" />
+                    </div>
+                    <div class="md:col-span-4 flex justify-end gap-2">
+                      <button id="showcase-filter-clear" class="px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-700">Clear</button>
+                      <button id="showcase-filter-apply" class="px-3 py-1.5 rounded-md bg-brand-600 text-white">Apply filters</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-700/60 p-6 shadow-subtle">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="text-sm font-semibold tracking-tight">Upcoming showcases</h2>
+                <span class="text-xs text-slate-500">Sorted by date and feature priority</span>
+              </div>
+              <div id="showcase-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+            </div>
+          </section>
+        </section>
         <!-- Placeholder Views -->
         <section data-view="ideas" class="hidden">
           <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
@@ -816,10 +897,68 @@
         return auth?.role ? auth.role : 'Admin';
       }
 
+      const showcaseSamples = [
+        {
+          id: 'SC-101',
+          title: 'Harlem Nights Residency',
+          subtitle: 'Nova Blue + friends',
+          status: 'Live',
+          listing_status: 'Live',
+          start_at: '2025-12-06T02:00:00Z',
+          end_at: '2025-12-06T05:00:00Z',
+          venue: { name: 'Uptown Theater', city: 'New York', state: 'NY', capacity: 1200 },
+          performers: [
+            { name: 'Nova Blue', role: 'Headliner' },
+            { name: 'DJ Helix', role: 'Support' }
+          ],
+          tickets: { currency: 'USD', min_price: 45, max_price: 125, url: 'https://tickets.example.com/harlem-nights' },
+          capacity: { total: 1200, sold: 800, available: 320 },
+          feature_priority: 1,
+          verification: { badge: 'Verified Host' }
+        },
+        {
+          id: 'SC-207',
+          title: 'Sunset Solstice Festival',
+          subtitle: 'Genre-crossing beach stage',
+          status: 'Live',
+          listing_status: 'Live',
+          start_at: '2025-11-22T20:00:00Z',
+          end_at: '2025-11-23T04:00:00Z',
+          venue: { name: 'Pacific Dunes Pavilion', city: 'Los Angeles', state: 'CA', capacity: 1800 },
+          performers: [
+            { name: 'Lumen State', role: 'Headliner' },
+            { name: 'Maru', role: 'Support' }
+          ],
+          tickets: { currency: 'USD', min_price: 75, max_price: 180, url: 'https://tickets.example.com/solstice' },
+          capacity: { total: 1800, sold: 1320, available: 420 },
+          feature_priority: 0,
+          verification: { badge: 'Verified Host' }
+        },
+        {
+          id: 'SC-305',
+          title: 'Emerging Voices Showcase',
+          subtitle: 'Curated by Studio CRC',
+          status: 'Paused',
+          listing_status: 'Paused',
+          start_at: '2026-01-12T23:30:00Z',
+          end_at: '2026-01-13T02:30:00Z',
+          venue: { name: 'Harbor Light House', city: 'Seattle', state: 'WA', capacity: 900 },
+          performers: [
+            { name: 'Ari Sloane', role: 'Headliner' },
+            { name: 'River & Co.', role: 'Support' }
+          ],
+          tickets: { currency: 'USD', min_price: 35, max_price: 85, url: 'https://tickets.example.com/voices' },
+          capacity: { total: 900, sold: 220, available: 680 },
+          feature_priority: 3,
+          verification: { badge: 'In Review' }
+        }
+      ];
+
       function entityFor(view) {
         switch (view) {
           case 'ideas': return 'idea';
           case 'ventures': return 'venture';
+          case 'showcases': return 'showcase';
           case 'talent': return 'talent';
           case 'experiments': return 'experiment';
           case 'rounds': return 'round';
@@ -904,6 +1043,130 @@
 
       function slug(s) {
         return String(s || '').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+      }
+
+      function showcasePriceBand(show) {
+        const t = show?.tickets || {};
+        const currency = t.currency || 'USD';
+        const fmt = new Intl.NumberFormat(undefined, { style: 'currency', currency, maximumFractionDigits: 0 });
+        if (typeof t.min_price === 'number' && typeof t.max_price === 'number') {
+          return `${fmt.format(t.min_price)} - ${fmt.format(t.max_price)}`;
+        }
+        if (typeof t.min_price === 'number') return fmt.format(t.min_price);
+        if (typeof t.max_price === 'number') return fmt.format(t.max_price);
+        return '';
+      }
+
+      function showcaseCapacityText(show) {
+        const cap = show?.capacity || {};
+        const total = Number(cap.total || 0);
+        const sold = Number(cap.sold || 0);
+        if (total <= 0) return '';
+        const pct = Math.round((sold / total) * 100);
+        const available = Number.isFinite(cap.available) ? cap.available : Math.max(total - sold, 0);
+        return `${sold}/${total} sold • ${available} available • ${pct}%`;
+      }
+
+      function renderShowcaseCards(items) {
+        const grid = document.getElementById('showcase-grid');
+        if (!grid) return;
+        if (!items.length) {
+          grid.innerHTML = '<div class="text-sm text-slate-500">No showcases match these filters.</div>';
+          return;
+        }
+        grid.innerHTML = items.map(show => {
+          const start = show.start_at ? new Date(show.start_at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'TBD';
+          const venue = show.venue?.name || 'Venue TBC';
+          const city = show.venue?.city ? ` • ${show.venue.city}` : '';
+          const statusSlug = slug(show.status || show.listing_status || '');
+          const price = showcasePriceBand(show);
+          const capacity = showcaseCapacityText(show);
+          const badge = show.verification?.badge;
+          return `
+            <div class="rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-4 flex flex-col gap-3 shadow-soft">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="text-xs uppercase tracking-wide text-slate-500">${start}</div>
+                  <div class="text-base font-semibold text-slate-900 dark:text-slate-100">${show.title || show.id}</div>
+                  <div class="text-xs text-slate-500">${venue}${city}</div>
+                </div>
+                <span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium ring-1 ring-inset ${statusSlug === 'live' ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 ring-emerald-200/70 dark:ring-emerald-800/60' : 'bg-slate-50 text-slate-600 dark:bg-slate-800/60 dark:text-slate-200'}">${show.status || show.listing_status || 'draft'}</span>
+              </div>
+              <div class="flex flex-wrap gap-2 text-xs text-slate-600 dark:text-slate-300">
+                ${price ? `<span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 bg-slate-50 dark:bg-slate-800/60">${price}</span>` : ''}
+                ${capacity ? `<span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 bg-slate-50 dark:bg-slate-800/60">${capacity}</span>` : ''}
+                ${badge ? `<span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-200">${badge}</span>` : ''}
+              </div>
+              <div class="flex items-center justify-between text-xs text-slate-500">
+                <div class="flex -space-x-2">
+                  ${(show.performers || []).slice(0,3).map(p => `<span class="inline-flex items-center justify-center h-7 w-7 rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-200 ring-2 ring-white dark:ring-slate-900">${(p.name || '?').slice(0,2).toUpperCase()}</span>`).join('')}
+                </div>
+                <a class="text-brand-600 hover:underline" href="#showcases/${encodeURIComponent(show.id)}">View</a>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function renderShowcaseFeatured(items) {
+        const rail = document.getElementById('showcase-featured');
+        if (!rail) return;
+        if (!items || !items.length) {
+          rail.innerHTML = '<div class="text-sm text-slate-500">No featured showcases yet.</div>';
+          return;
+        }
+        const sorted = [...items].sort((a, b) => (a.feature_priority ?? 99) - (b.feature_priority ?? 99)).slice(0, 4);
+        rail.innerHTML = sorted.map(show => {
+          const start = show.start_at ? new Date(show.start_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'TBD';
+          const venue = show.venue?.name || 'Venue TBC';
+          return `
+            <div class="min-w-[220px] rounded-xl border border-slate-200/70 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/80 p-4 shadow-soft">
+              <div class="text-xs text-slate-500 mb-1">${start}</div>
+              <div class="text-sm font-semibold text-slate-900 dark:text-slate-100">${show.title || show.id}</div>
+              <div class="text-xs text-slate-500">${venue}</div>
+              <div class="mt-2 text-xs text-brand-700 dark:text-brand-200">${(show.performers || []).slice(0,2).map(p => p.name).join(' • ')}</div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function applyShowcaseFilters(items) {
+        const dateEl = document.getElementById('showcase-filter-date');
+        const venueEl = document.getElementById('showcase-filter-venue');
+        const statusEl = document.getElementById('showcase-filter-status');
+        const perfEl = document.getElementById('showcase-filter-performer');
+        const dateVal = dateEl && 'value' in dateEl ? dateEl.value : '';
+        const venueVal = venueEl && 'value' in venueEl ? venueEl.value : '';
+        const statusVal = statusEl && 'value' in statusEl ? statusEl.value : '';
+        const perfVal = perfEl && 'value' in perfEl ? perfEl.value : '';
+        return items.filter((show) => {
+          const startDate = show.start_at || '';
+          if (dateVal && !startDate.startsWith(dateVal)) return false;
+          if (venueVal) {
+            const venue = `${show.venue?.name || ''} ${show.venue?.city || ''}`.toLowerCase();
+            if (!venue.includes(venueVal.toLowerCase())) return false;
+          }
+          if (statusVal) {
+            const statusSlug = slug(show.status || show.listing_status || '');
+            if (statusSlug !== slug(statusVal)) return false;
+          }
+          if (perfVal) {
+            const hasPerformer = (show.performers || []).some((p) => slug(p.name || '')?.includes(slug(perfVal)));
+            if (!hasPerformer) return false;
+          }
+          return true;
+        });
+      }
+
+      function updateShowcaseKpis(items) {
+        const live = items.filter((s) => slug(s.status || s.listing_status) === 'live').length;
+        const verified = items.filter((s) => (s.verification?.badge || '').toLowerCase().includes('verified')).length;
+        const sla = document.getElementById('showcase-kpi-sla');
+        const liveEl = document.getElementById('showcase-kpi-live');
+        const verifiedEl = document.getElementById('showcase-kpi-verified');
+        if (liveEl) liveEl.textContent = String(live || '—');
+        if (verifiedEl) verifiedEl.textContent = verified ? String(verified) : '—';
+        if (sla) sla.textContent = items.length ? '48h target' : '—';
       }
 
       async function fetchVenturesByFilters() {
@@ -1066,6 +1329,15 @@
             loadDashboardKpis().catch(()=>{});
             const items = await fetchVenturesByFilters();
             renderVenturesTable(items);
+            break;
+          }
+          case 'showcases': {
+            let items = [];
+            try { items = await fetchList('showcases'); } catch {}
+            const source = items.length ? items : showcaseSamples;
+            updateShowcaseKpis(source);
+            renderShowcaseFeatured(source);
+            renderShowcaseCards(applyShowcaseFilters(source));
             break;
           }
           case 'utilisation': {
@@ -1428,6 +1700,12 @@
         const ids = ['v-filter-status','v-filter-lead','v-filter-nextdue'];
         ids.forEach(id => { const el = document.getElementById(id); if (el && 'value' in el) el.value = ''; });
         setView('ventures');
+      });
+      document.getElementById('showcase-filter-apply')?.addEventListener('click', () => setView('showcases'));
+      document.getElementById('showcase-filter-clear')?.addEventListener('click', () => {
+        const ids = ['showcase-filter-date','showcase-filter-venue','showcase-filter-status','showcase-filter-performer'];
+        ids.forEach(id => { const el = document.getElementById(id); if (el && 'value' in el) el.value = ''; });
+        setView('showcases');
       });
       // KPI metric loader
       document.getElementById('kpi-load')?.addEventListener('click', () => {
