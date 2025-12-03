@@ -45,6 +45,9 @@ export function buildIndexPointers(snapshot: any): PointerPlan[] {
     case "comment":
       addCommentPointers(snapshot, basePointer, plans);
       break;
+    case "showcase":
+      addShowcasePointers(snapshot, basePointer, plans);
+      break;
     default:
       break;
   }
@@ -196,6 +199,79 @@ function addCommentPointers(snapshot: any, pointer: ManifestRecord, plans: Point
       path,
       pointer: { ...pointer, ideaId },
       cleanup: { prefix: `env/${env}/indices/comments/by-idea/${ideaId}/`, id },
+    });
+  }
+}
+
+function addShowcasePointers(snapshot: any, pointer: ManifestRecord, plans: PointerPlan[]) {
+  const env = pointer.env;
+  const id = pointer.id;
+
+  const startAt = snapshot.start_at || snapshot.startAt;
+  if (typeof startAt === "string" && startAt.trim().length >= 10) {
+    const dateKey = startAt.slice(0, 10);
+    const path = `env/${env}/indices/showcases/by-date/${dateKey}/${id}.json`;
+    plans.push({
+      path,
+      pointer: { ...pointer, start_at: startAt },
+      cleanup: { prefix: `env/${env}/indices/showcases/by-date/`, id },
+    });
+  }
+
+  const listingStatus = snapshot.listing_status || snapshot.status;
+  if (typeof listingStatus === "string" && listingStatus.trim()) {
+    const statusSlug = slugify(listingStatus);
+    const path = `env/${env}/indices/showcases/by-status/${statusSlug}/${id}.json`;
+    plans.push({
+      path,
+      pointer: { ...pointer, status: listingStatus },
+      cleanup: { prefix: `env/${env}/indices/showcases/by-status/`, id },
+    });
+  }
+
+  const venueName =
+    (snapshot.venue && typeof snapshot.venue.slug === "string" && snapshot.venue.slug.trim() && snapshot.venue.slug) ||
+    (snapshot.venue && typeof snapshot.venue.name === "string" && snapshot.venue.name.trim() && snapshot.venue.name);
+  if (venueName) {
+    const venueSlug = slugify(venueName);
+    const path = `env/${env}/indices/showcases/by-venue/${venueSlug}/${id}.json`;
+    plans.push({
+      path,
+      pointer: { ...pointer, venue: snapshot.venue },
+      cleanup: { prefix: `env/${env}/indices/showcases/by-venue/`, id },
+    });
+  }
+
+  if (Array.isArray(snapshot.performers)) {
+    const seen = new Set<string>();
+    for (const perf of snapshot.performers) {
+      const name =
+        (perf && typeof perf.slug === "string" && perf.slug.trim() && perf.slug) ||
+        (perf && typeof perf.name === "string" && perf.name.trim() && perf.name);
+      if (!name) continue;
+      const perfSlug = slugify(name);
+      if (seen.has(perfSlug)) continue;
+      seen.add(perfSlug);
+      const path = `env/${env}/indices/showcases/by-performer/${perfSlug}/${id}.json`;
+      plans.push({
+        path,
+        pointer: { ...pointer, performer: perf?.name || name },
+        cleanup: { prefix: `env/${env}/indices/showcases/by-performer/${perfSlug}/`, id },
+      });
+    }
+  }
+
+  const featurePriority = snapshot.feature_priority;
+  if (typeof featurePriority === "number" || typeof featurePriority === "string") {
+    const normalized =
+      typeof featurePriority === "number"
+        ? String(Math.max(0, featurePriority)).padStart(2, "0")
+        : slugify(String(featurePriority));
+    const path = `env/${env}/indices/showcases/by-featured/${normalized}/${id}.json`;
+    plans.push({
+      path,
+      pointer: { ...pointer, feature_priority: featurePriority },
+      cleanup: { prefix: `env/${env}/indices/showcases/by-featured/`, id },
     });
   }
 }

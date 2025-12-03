@@ -124,6 +124,13 @@ export function manifestFromSnapshot(snapshot: any): ManifestRecord {
   if (typeof ideaId === "string") record.ideaId = ideaId;
   if (typeof stage === "string") record.stage = stage;
   if (typeof asOf === "string") record.asOf = asOf;
+  const listingStatus = (snapshot as any).listing_status;
+  if (!record.status && typeof listingStatus === "string") {
+    record.status = listingStatus;
+  }
+  if (typeof listingStatus === "string") {
+    (record as any).listing_status = listingStatus;
+  }
 
   // Common optional fields for cross-entity listings
   const fn = (snapshot as any).function;
@@ -143,6 +150,34 @@ export function manifestFromSnapshot(snapshot: any): ManifestRecord {
     copyStringVariants(record, snapshot as Record<string, unknown>, ["ventureId", "venture_id"]);
     if (typeof (snapshot as any).published === "boolean") {
       (record as any).published = (snapshot as any).published;
+    }
+  } else if (entity === "showcase") {
+    const startAt = (snapshot as any).start_at || (snapshot as any).startAt;
+    const endAt = (snapshot as any).end_at || (snapshot as any).endAt;
+    if (typeof startAt === "string") (record as any).start_at = startAt;
+    if (typeof endAt === "string") (record as any).end_at = endAt;
+    const venue = (snapshot as any).venue;
+    if (venue && typeof venue === "object") {
+      (record as any).venue = venue;
+    }
+    if (Array.isArray((snapshot as any).performers)) {
+      (record as any).performers = (snapshot as any).performers;
+    }
+    const tickets = (snapshot as any).tickets;
+    if (tickets && typeof tickets === "object") {
+      (record as any).tickets = tickets;
+    }
+    const capacity = (snapshot as any).capacity;
+    if (capacity && typeof capacity === "object") {
+      (record as any).capacity = capacity;
+    }
+    const featurePriority = (snapshot as any).feature_priority;
+    if (typeof featurePriority === "number") {
+      (record as any).feature_priority = featurePriority;
+    }
+    const verification = (snapshot as any).verification;
+    if (verification && typeof verification === "object") {
+      (record as any).verification = verification;
     }
   }
 

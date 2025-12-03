@@ -60,6 +60,40 @@ test("buildIndexPointers for comment by idea", () => {
   assert.equal(plans[0].pointer.ideaId, "IDEA-123");
 });
 
+const showcaseSnapshot = {
+  id: "SC-101",
+  entity: "showcase",
+  env: "dev",
+  schema_version: "v1.0.0",
+  created_at: "2025-10-01T12:00:00Z",
+  updated_at: "2025-10-15T09:00:00Z",
+  title: "Harlem Nights Residency",
+  status: "Live",
+  listing_status: "Live",
+  start_at: "2025-12-06T02:00:00Z",
+  end_at: "2025-12-06T05:00:00Z",
+  venue: { name: "Uptown Theater", slug: "uptown-theater", city: "New York" },
+  performers: [
+    { name: "Nova Blue", role: "Headliner", slug: "nova-blue" },
+    { name: "DJ Helix", role: "Support" },
+  ],
+  feature_priority: 1,
+};
+
+test("buildIndexPointers for showcase covers calendar, venue, performers, and featured", () => {
+  const plans = buildIndexPointers(showcaseSnapshot);
+  assert.equal(plans.length, 6);
+  const paths = plans.map((p) => p.path).sort();
+  assert.deepEqual(paths, [
+    "env/dev/indices/showcases/by-date/2025-12-06/SC-101.json",
+    "env/dev/indices/showcases/by-featured/01/SC-101.json",
+    "env/dev/indices/showcases/by-performer/dj-helix/SC-101.json",
+    "env/dev/indices/showcases/by-performer/nova-blue/SC-101.json",
+    "env/dev/indices/showcases/by-status/live/SC-101.json",
+    "env/dev/indices/showcases/by-venue/uptown-theater/SC-101.json",
+  ]);
+});
+
 const ideaSnapshot = {
   id: "IDEA-001",
   entity: "idea",

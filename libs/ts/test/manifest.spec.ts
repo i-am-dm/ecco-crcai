@@ -66,6 +66,36 @@ test("manifestFromSnapshot copies idea-specific fields and aliases", () => {
   assert.deepEqual(manifest.stage_history, ideaSnapshot.stage_history);
 });
 
+test("manifestFromSnapshot preserves showcase schedule and venue context", () => {
+  const showcaseSnapshot = {
+    id: "SC-101",
+    entity: "showcase",
+    env: "dev",
+    schema_version: "v1.0.0",
+    created_at: "2025-10-01T12:00:00Z",
+    updated_at: "2025-10-15T09:00:00Z",
+    title: "Harlem Nights Residency",
+    status: "Live",
+    start_at: "2025-12-06T02:00:00Z",
+    end_at: "2025-12-06T05:00:00Z",
+    venue: { name: "Uptown Theater", slug: "uptown-theater" },
+    performers: [
+      { name: "Nova Blue", role: "Headliner", slug: "nova-blue" },
+      { name: "DJ Helix", role: "Support" },
+    ],
+    tickets: { url: "https://tickets.example.com/harlem-nights" },
+    feature_priority: 2,
+  };
+
+  const manifest = manifestFromSnapshot(showcaseSnapshot);
+  assert.equal(manifest.ptr, "env/dev/snapshots/showcases/SC-101.json");
+  assert.equal((manifest as any).start_at, "2025-12-06T02:00:00Z");
+  assert.equal((manifest as any).end_at, "2025-12-06T05:00:00Z");
+  assert.equal((manifest as any).venue?.name, "Uptown Theater");
+  assert.equal((manifest as any).feature_priority, 2);
+  assert.equal((manifest as any).tickets?.url, "https://tickets.example.com/harlem-nights");
+});
+
 test("makeManifestPerIdPath builds path", () => {
   assert.equal(makeManifestPerIdPath("prod", "venture", "V001"), "env/prod/manifests/ventures/by-id/V001.json");
 });

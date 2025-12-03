@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Showcase",
+  "type": "object",
+  "required": [
+    "id",
+    "entity",
+    "env",
+    "schema_version",
+    "created_at",
+    "updated_at",
+    "title",
+    "status",
+    "start_at",
+    "end_at",
+    "venue"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "entity": { "const": "showcase" },
+    "env": { "enum": ["dev", "stg", "prod"] },
+    "schema_version": { "enum": ["v1.0.0"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "title": { "type": "string", "minLength": 3, "maxLength": 200 },
+    "subtitle": { "type": "string", "maxLength": 200 },
+    "description": { "type": "string", "maxLength": 4000 },
+    "status": {
+      "type": "string",
+      "enum": ["Draft", "Live", "Paused", "Closed"]
+    },
+    "listing_status": { "type": "string" },
+    "start_at": { "type": "string", "format": "date-time" },
+    "end_at": { "type": "string", "format": "date-time" },
+    "timezone": { "type": "string" },
+    "venue": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 2 },
+        "slug": { "type": "string" },
+        "address": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "country": { "type": "string" },
+        "capacity": { "type": "number", "minimum": 0 },
+        "geo": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+            "lng": { "type": "number", "minimum": -180, "maximum": 180 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "performers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string", "minLength": 2 },
+          "slug": { "type": "string" },
+          "role": { "type": "string" },
+          "genre": { "type": "string" },
+          "is_headliner": { "type": "boolean" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "capacity": {
+      "type": "object",
+      "properties": {
+        "total": { "type": "number", "minimum": 0 },
+        "available": { "type": "number", "minimum": 0 },
+        "sold": { "type": "number", "minimum": 0 },
+        "holds": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "tickets": {
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "currency": { "type": "string", "minLength": 3, "maxLength": 3 },
+        "min_price": { "type": "number", "minimum": 0 },
+        "max_price": { "type": "number", "minimum": 0 },
+        "fees": {
+          "type": "object",
+          "properties": {
+            "service": { "type": "number", "minimum": 0 },
+            "processing": { "type": "number", "minimum": 0 }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "booking_window": {
+      "type": "object",
+      "properties": {
+        "opens_at": { "type": "string", "format": "date-time" },
+        "closes_at": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "feature_priority": { "type": "number", "minimum": 0 },
+    "commercial_terms": {
+      "type": "object",
+      "properties": {
+        "rev_share_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "flat_fee_usd": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "verification": {
+      "type": "object",
+      "properties": {
+        "badge": { "type": "string" },
+        "last_audited_at": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": true
+    },
+    "availability": {
+      "type": "object",
+      "properties": {
+        "holds_expire_at": { "type": "string", "format": "date-time" },
+        "crew_confirmed": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "assets": {
+      "type": "object",
+      "properties": {
+        "poster_url": { "type": "string", "format": "uri" },
+        "stage_plot_url": { "type": "string", "format": "uri" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
